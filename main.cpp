@@ -6,15 +6,8 @@ static cairo_surface_t *surface = NULL;
 GtkWidget *drawing_area;
 GtkWidget *window_widget;
 
-GtkButton *line;
-
 GtkBuilder *gtkBuilder;
-GtkWidget *add_line_dialog;
-
-GtkEntry *fieldx1Line;
-GtkEntry *fieldy1Line;
-GtkEntry *fieldx2Line;
-GtkEntry *fieldy2Line;
+GtkWidget *add_dialog;
 
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
@@ -77,49 +70,25 @@ extern "C" G_MODULE_EXPORT void zoom_out() {
 
 }
 
-extern "C" G_MODULE_EXPORT void new_dot() {
-
-}
-
 /* Adicionar nova linha */
- extern "C" G_MODULE_EXPORT void new_line(){
-  gtk_widget_show_all(add_line_dialog);
+ extern "C" G_MODULE_EXPORT void new_element(){
+  gtk_widget_show_all(add_dialog);
 } 
-
-extern "C" G_MODULE_EXPORT void new_polygon() {
-
-}
-
-extern "C" G_MODULE_EXPORT void confirm_position() {
-
-}
-
-extern "C" G_MODULE_EXPORT void cancel_position() {
-
-}
-
-extern "C" G_MODULE_EXPORT void confirm_pair_number() {
-
-}
-
-extern "C" G_MODULE_EXPORT void cancel_pair_number() {
-
-}
 
 extern "C" G_MODULE_EXPORT void add_line_button() {
   cairo_t *cr;
   cr = cairo_create (surface);
   
-  int x1 = atoi((char*)gtk_entry_get_text(fieldx1Line));
-  int y1 = atoi((char*)gtk_entry_get_text(fieldy1Line));
+  // int x1 = atoi((char*)gtk_entry_get_text(fieldx1Line));
+  // int y1 = atoi((char*)gtk_entry_get_text(fieldy1Line));
 
-  int x2 = atoi((char*)gtk_entry_get_text(fieldx2Line));
-  int y2 = atoi((char*)gtk_entry_get_text(fieldy2Line));
+  // int x2 = atoi((char*)gtk_entry_get_text(fieldx2Line));
+  // int y2 = atoi((char*)gtk_entry_get_text(fieldy2Line));
 
-  cairo_move_to(cr, x1, y1);
-  cairo_line_to(cr, x2, y2);
-  cairo_stroke(cr);
-  gtk_widget_queue_draw (window_widget);
+  // cairo_move_to(cr, x1, y1);
+  // cairo_line_to(cr, x2, y2);
+  // cairo_stroke(cr);
+  // gtk_widget_queue_draw (window_widget);
 }
 
 
@@ -131,13 +100,7 @@ void initializeGTKComponentes() {
 
   window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "main_window") );
   drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
-  line = GTK_BUTTON( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "line_button"));
-  add_line_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "add_line_window"));
-
-  fieldx1Line = GTK_ENTRY (gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "entryx1"));
-  fieldy1Line = GTK_ENTRY (gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "entryy1"));
-  fieldx2Line = GTK_ENTRY (gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "entryx2"));
-  fieldy2Line = GTK_ENTRY (gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "entryy2"));
+  add_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "add_window"));
 
 }
 
@@ -148,7 +111,6 @@ int main(int argc, char *argv[]){
   initializeGTKComponentes(); 
   g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);
   g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
-   g_signal_connect (line,"configure-event", G_CALLBACK (configure_event_cb), NULL);
   gtk_builder_connect_signals(gtkBuilder, NULL);
   gtk_widget_show_all(window_widget);
   gtk_main ();
