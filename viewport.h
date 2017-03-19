@@ -9,6 +9,10 @@ public:
 		float denominador = wXmax - wXmin;
 		float diferencaViewport = xMax - xMin;
 
+		printf("%s%f\n", "Numerador x: ", numerador);
+		printf("%s%f\n", "Denominador x: ", denominador);
+		printf("%s%f\n", "Diferença viewport x: ", diferencaViewport);
+
 		return (numerador / denominador) * diferencaViewport; 
 	}
 
@@ -17,6 +21,9 @@ public:
 		float denominador = wYmax - wYmin;
 		float diferencaViewport = yMax - yMin;
 
+		printf("%s%f\n", "Numerador y: ", numerador);
+		printf("%s%f\n", "Denominador y: ", denominador);
+		printf("%s%f\n", "Diferença viewport y: ", diferencaViewport);
 		return (1 - (numerador / denominador))* diferencaViewport; 
 	}
 

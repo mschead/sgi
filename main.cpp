@@ -4,10 +4,14 @@
 #include <stdio.h>
 #include <string.h>
 #include "viewport.h"
+#include "window.h"
+#include "displayfile.h"
 
-// Window window;
+using namespace std;
+
+Window window;
 Viewport viewport;
-
+Displayfile displayFile;
 
 static cairo_surface_t *surface = NULL;
 GtkWidget *drawing_area;
@@ -17,6 +21,8 @@ GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
 
 GtkNotebook *notebook;
+
+GtkEntry *entry_object_name;
 
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
@@ -63,6 +69,34 @@ static gboolean draw_cb (GtkWidget *widget, cairo_t   *cr,  gpointer   data){
 
 /* Mover window para esquerda */
 extern "C" G_MODULE_EXPORT void left_window() {
+  cairo_t *cr;
+  cr = cairo_create (surface);
+
+  window.setXmin(-10);
+  window.setXmax(-10);
+  
+  Object object = displayFile.getObject();
+
+  vector<Coordenada*> coordenadas = object.getPoints();
+  Coordenada* c1 = coordenadas.at(0);
+  Coordenada* c2 = coordenadas.at(1);
+
+
+  int x1 = viewport.obterXdaViewport(c1->getX(), window.getXmin(), window.getXmax());
+  int y1 = viewport.obterYdaViewport(c1->getY(), window.getYmin(), window.getYmax());
+
+  int x2 = viewport.obterXdaViewport(c2->getX(), window.getXmin(), window.getXmax());
+  int y2 = viewport.obterYdaViewport(c2->getY(), window.getYmin(), window.getYmax());
+
+
+  clear_surface();
+  cairo_move_to(cr, x1, y1);
+  cairo_line_to(cr, x2, y2);
+
+  // printf("%d\n", x1);
+  // printf("%d\n", y1);
+  // printf("%d\n", x2);
+  // printf("%d\n", y2);
 
 }
 
@@ -102,9 +136,15 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
   char* label = getCurrentLabel();
   printf("%s\n",label);
 
+  char* name = (char*) gtk_entry_get_text(entry_object_name);
+
   if (strcmp(label, "Point") == 0) {
     int x = atoi((char*)gtk_entry_get_text(entry_x_point));
     int y = atoi((char*)gtk_entry_get_text(entry_y_point));
+
+    x = viewport.obterXdaViewport(x, window.getXmin(), window.getXmax());
+    y = viewport.obterYdaViewport(y, window.getYmin(), window.getYmax());
+
     cairo_arc(cr, x, y, 1, 0, 2*3.1415);
 
   } else if (strcmp(label, "Line") == 0) {
@@ -114,12 +154,15 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     int x2 = atoi((char*)gtk_entry_get_text(entry_x2_line));
     int y2 = atoi((char*)gtk_entry_get_text(entry_y2_line));
 
-    x1 = viewport.obterXdaViewport(x1, 0, 300);
-    y1 = viewport.obterYdaViewport(y1, 0, 300);
+    x1 = viewport.obterXdaViewport(x1, window.getXmin(), window.getXmax());
+    y1 = viewport.obterYdaViewport(y1, window.getYmin(), window.getYmax());
 
-    x2 = viewport.obterXdaViewport(x2, 0, 300);
-    y2 = viewport.obterYdaViewport(y2, 0, 300);
+    x2 = viewport.obterXdaViewport(x2, window.getXmin(), window.getXmax());
+    y2 = viewport.obterYdaViewport(y2, window.getYmin(), window.getYmax());
 
+    vector<Coordenada*> points{new Coordenada(x1, y1), new Coordenada(x2, y2)};
+    Object object = Object(name, Tipo::reta, points);
+    displayFile.addNewObject(object);
 
     cairo_move_to(cr, x1, y1);
     cairo_line_to(cr, x2, y2);
@@ -127,12 +170,6 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
   } else if (strcmp(label, "Polygon") == 0) {
 
   }
-
-    // cr = gdk_cairo_create(gtk_widget_get_window(drawingArea));
-  // gtk_widget_set_size_request(drawing_area, 300, 300);
-  // gdk_cairo_set_source_window(cr, gtk_widget_get_window(drawing_area), 183, 29);
-
-  // gtk_widget_set_size_request(windowTransformations, 300, 300);
 
   cairo_stroke(cr);
   gtk_widget_queue_draw (window_widget);
@@ -154,6 +191,8 @@ void initializeGTKComponentes() {
 
   notebook = GTK_NOTEBOOK ( gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "add_notebook"));
 
+  entry_object_name = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_object_name"));
+
   entry_x1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x1_line"));
   entry_y1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y1_line"));
   entry_x2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x2_line"));
@@ -167,6 +206,8 @@ void initializeGTKComponentes() {
 
 int main(int argc, char *argv[]){
   gtk_init(&argc, &argv);
+  window = Window(0, 0, 300, 300);
+
 
   initializeGTKComponentes(); 
   g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);

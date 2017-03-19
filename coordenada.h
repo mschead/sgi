@@ -1,13 +1,21 @@
 class Coordenada {
 	
 public:
-	Coordenada(float x, float y) {
+	Coordenada(int x, int y) {
 		this->x = x;
 		this->y = y;
 	}
 
+	int getX() {
+		return x;
+	}
+
+	int getY() {
+		return y;
+	}
+
 private:
-	float x;
-	float y;
+	int x;
+	int y;
 
 };
