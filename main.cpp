@@ -1,6 +1,13 @@
 #include <gtk/gtk.h>
 #include <iostream>
 #include <vector>
+#include <stdio.h>
+#include <string.h>
+#include "viewport.h"
+
+// Window window;
+Viewport viewport;
+
 
 static cairo_surface_t *surface = NULL;
 GtkWidget *drawing_area;
@@ -8,6 +15,16 @@ GtkWidget *window_widget;
 
 GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
+
+GtkNotebook *notebook;
+
+GtkEntry *entry_x_point;
+GtkEntry *entry_y_point;
+
+GtkEntry *entry_x1_line;
+GtkEntry *entry_y1_line;
+GtkEntry *entry_x2_line;
+GtkEntry *entry_y2_line;
 
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
@@ -70,26 +87,58 @@ extern "C" G_MODULE_EXPORT void zoom_out() {
 
 }
 
-/* Adicionar nova linha */
  extern "C" G_MODULE_EXPORT void new_element(){
   gtk_widget_show_all(add_dialog);
 } 
 
-extern "C" G_MODULE_EXPORT void add_line_button() {
+char* getCurrentLabel(){
+  return (char*) gtk_notebook_get_tab_label_text(notebook, gtk_notebook_get_nth_page(notebook, gtk_notebook_get_current_page(notebook)));
+}
+
+extern "C" G_MODULE_EXPORT void add_confirm_event() {
   cairo_t *cr;
   cr = cairo_create (surface);
-  
-  // int x1 = atoi((char*)gtk_entry_get_text(fieldx1Line));
-  // int y1 = atoi((char*)gtk_entry_get_text(fieldy1Line));
 
-  // int x2 = atoi((char*)gtk_entry_get_text(fieldx2Line));
-  // int y2 = atoi((char*)gtk_entry_get_text(fieldy2Line));
+  char* label = getCurrentLabel();
+  printf("%s\n",label);
 
-  // cairo_move_to(cr, x1, y1);
-  // cairo_line_to(cr, x2, y2);
-  // cairo_stroke(cr);
-  // gtk_widget_queue_draw (window_widget);
+  if (strcmp(label, "Point") == 0) {
+    int x = atoi((char*)gtk_entry_get_text(entry_x_point));
+    int y = atoi((char*)gtk_entry_get_text(entry_y_point));
+    cairo_arc(cr, x, y, 1, 0, 2*3.1415);
+
+  } else if (strcmp(label, "Line") == 0) {
+    int x1 = atoi((char*)gtk_entry_get_text(entry_x1_line));
+    int y1 = atoi((char*)gtk_entry_get_text(entry_y1_line));
+
+    int x2 = atoi((char*)gtk_entry_get_text(entry_x2_line));
+    int y2 = atoi((char*)gtk_entry_get_text(entry_y2_line));
+
+    x1 = viewport.obterXdaViewport(x1, 0, 300);
+    y1 = viewport.obterYdaViewport(y1, 0, 300);
+
+    x2 = viewport.obterXdaViewport(x2, 0, 300);
+    y2 = viewport.obterYdaViewport(y2, 0, 300);
+
+
+    cairo_move_to(cr, x1, y1);
+    cairo_line_to(cr, x2, y2);
+    
+  } else if (strcmp(label, "Polygon") == 0) {
+
+  }
+
+    // cr = gdk_cairo_create(gtk_widget_get_window(drawingArea));
+  // gtk_widget_set_size_request(drawing_area, 300, 300);
+  // gdk_cairo_set_source_window(cr, gtk_widget_get_window(drawing_area), 183, 29);
+
+  // gtk_widget_set_size_request(windowTransformations, 300, 300);
+
+  cairo_stroke(cr);
+  gtk_widget_queue_draw (window_widget);
+  gtk_widget_hide(add_dialog);
 }
+
 
 
 
@@ -101,6 +150,17 @@ void initializeGTKComponentes() {
   window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "main_window") );
   drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
   add_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "add_window"));
+
+
+  notebook = GTK_NOTEBOOK ( gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "add_notebook"));
+
+  entry_x1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x1_line"));
+  entry_y1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y1_line"));
+  entry_x2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x2_line"));
+  entry_y2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y2_line"));
+
+  entry_x_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_point"));
+  entry_y_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_point"));
 
 }
 

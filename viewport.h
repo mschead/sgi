@@ -9,7 +9,7 @@ public:
 		float denominador = wXmax - wXmin;
 		float diferencaViewport = xMax - xMin;
 
-		return numerador / denominador * diferencaViewport; 
+		return (numerador / denominador) * diferencaViewport; 
 	}
 
 	float obterYdaViewport(float wY, float wYmin, float wYmax) {
@@ -21,6 +21,6 @@ public:
 	}
 
 private:
-	int xMin, yMin, xMax, yMax;
+	int xMin = 0, yMin = 0, xMax = 300, yMax = 300;
 
 };
