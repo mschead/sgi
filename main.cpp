@@ -290,21 +290,21 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     int x_inicial, y_inicial, x_final, y_final;
     int n = 0;
     int totalSide = polygonPoint;
-    int x_init = xPolygon.front();;
-    int y_init = yPolygon.front();;
+    int x_init = xPolygon.back();
+    int y_init = yPolygon.back();
 
     for(n=0; n<totalSide; n++){
-      x_inicial = xPolygon.back();
-      xPolygon.pop_back();
-      y_inicial = yPolygon.back();
-      yPolygon.pop_back();
-  	if(n==totalSide-1){
-   	  x_final = x_init;
-  	   y_final = y_init;
-    }else{
-      x_final = xPolygon.back();
-  	  y_final = yPolygon.back();
-  	}
+     x_inicial = xPolygon.back();
+     xPolygon.pop_back();
+     y_inicial = yPolygon.back();
+     yPolygon.pop_back();
+	if(n==totalSide-1){
+ 		x_final = x_init;
+		y_final = y_init;
+        }else{
+        	x_final = xPolygon.back();
+		y_final = yPolygon.back();
+	}
 
     x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
     y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
@@ -327,9 +327,6 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
   gtk_widget_queue_draw (window_widget);
   gtk_widget_hide(add_dialog);
 }
-
-
-
 
 
 void initializeGTKComponentes() {
