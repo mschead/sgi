@@ -7,15 +7,23 @@ class Displayfile {
 	
 public:
 
-	void addNewObject(Object object) {
+	void addNewObject(Object* object) {
 		displayFile.push_back(object);
 	}
 
-	Object getObject() {
+	Object* getObject() {
 		return displayFile.front();
 	}
 
+	list<Object*> getObjects() {
+		return displayFile;
+	}
+
+	int getSize() {
+		return displayFile.size();
+	}
+
 private:
-	list<Object> displayFile;
+	list<Object*> displayFile;
 
 };

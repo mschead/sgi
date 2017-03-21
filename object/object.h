@@ -1,15 +1,16 @@
+#ifndef _OBJECT_H_
+#define _OBJECT_H_
+
 #include <vector>
 #include "../coordenada.h"
-#include "../tipo.h"
 
 using namespace std;
 
 class Object {
 
 public:
-	Object(char* nome, Tipo tipo, vector<Coordenada*> coordenadas) {
+	Object(char* nome, vector<Coordenada*> coordenadas) {
 		this->nome = nome;
-		this->tipo = tipo;
 		this->coordenadas = coordenadas;
 	}
 
@@ -17,11 +18,12 @@ public:
 		return coordenadas;
 	}
 
-	// virtual void draw() = 0;
+	virtual void draw(Viewport viewport, Window window, cairo_t *cr) = 0;
 
-private:
+protected:
 	char* nome;
-	Tipo tipo;
 	vector<Coordenada*> coordenadas;
 	
 };
+
+#endif
