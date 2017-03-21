@@ -14,6 +14,11 @@ public:
 		return y;
 	}
 
+	void setCoordenada(int* coordenada) {
+		x = coordenada[0];
+		y = coordenada[1];
+	}
+
 private:
 	int x;
 	int y;

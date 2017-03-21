@@ -7,6 +7,7 @@
 #include "window.h"
 #include "object/line.h"
 #include "object/point.h"
+#include "object/polygon.h"
 #include "displayfile.h"
 
 using namespace std;
@@ -21,6 +22,7 @@ GtkWidget *window_widget;
 
 GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
+GtkWidget *edit_dialog;
 
 GtkWidget *console;
 GtkNotebook *notebook;
@@ -40,6 +42,12 @@ GtkEntry *entry_x1_line;
 GtkEntry *entry_y1_line;
 GtkEntry *entry_x2_line;
 GtkEntry *entry_y2_line;
+
+GtkEntry *entry_x_translate;
+GtkEntry *entry_y_translate;
+
+GtkEntry *entry_x_scale;
+GtkEntry *entry_y_scale;
 
 GtkEntry *zoom_factor;
 GtkEntry *step_factor;
@@ -185,9 +193,57 @@ extern "C" G_MODULE_EXPORT void zoom_out() {
   gtk_widget_queue_draw (window_widget);
 }
 
- extern "C" G_MODULE_EXPORT void new_element(){
+extern "C" G_MODULE_EXPORT void new_element(){
   gtk_widget_show_all(add_dialog);
 } 
+
+extern "C" G_MODULE_EXPORT void edit_element(){
+  gtk_widget_show_all(edit_dialog);
+} 
+
+
+
+
+extern "C" G_MODULE_EXPORT void rotate_object(){
+}
+
+extern "C" G_MODULE_EXPORT void scale_object(){
+  int entryX = atoi((char*)gtk_entry_get_text(entry_x_scale));
+  int entryY = atoi((char*)gtk_entry_get_text(entry_y_scale));
+
+  displayFile.getObject()->scale(entryX, entryY);
+
+  cairo_t *cr = cairo_create (surface);
+  clear_surface();
+  
+  for (Object* object : displayFile.getObjects()) {
+    object->draw(viewport, window, cr);
+  }
+
+  gtk_widget_queue_draw (window_widget);
+
+}
+
+extern "C" G_MODULE_EXPORT void translate_object() {
+  int entryX = atoi((char*)gtk_entry_get_text(entry_x_translate));
+  int entryY = atoi((char*)gtk_entry_get_text(entry_y_translate));
+
+  displayFile.getObject()->translate(entryX, entryY);
+
+  cairo_t *cr = cairo_create (surface);
+  clear_surface();
+  
+  for (Object* object : displayFile.getObjects()) {
+    object->draw(viewport, window, cr);
+  }
+
+  gtk_widget_queue_draw (window_widget);
+
+}
+
+
+
+
 
 char* getCurrentLabel(){
   return (char*) gtk_notebook_get_tab_label_text(notebook, gtk_notebook_get_nth_page(notebook, gtk_notebook_get_current_page(notebook)));
@@ -232,25 +288,23 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     
   } else if (strcmp(label, "Polygon") == 0) {
     int x_inicial, y_inicial, x_final, y_final;
-    int n =0;
+    int n = 0;
     int totalSide = polygonPoint;
-    int x_init;
-    int y_init;
-    x_init = xPolygon.front();
-    y_init = yPolygon.front();
+    int x_init = xPolygon.front();;
+    int y_init = yPolygon.front();;
 
     for(n=0; n<totalSide; n++){
-     x_inicial = xPolygon.back();
-     xPolygon.pop_back();
-     y_inicial = yPolygon.back();
-     yPolygon.pop_back();
-	if(n==totalSide-1){
- 	x_final = x_init;
-	y_final = y_init;
-        }else{
-        x_final = xPolygon.back();
-	y_final = yPolygon.back();
-	}
+      x_inicial = xPolygon.back();
+      xPolygon.pop_back();
+      y_inicial = yPolygon.back();
+      yPolygon.pop_back();
+  	if(n==totalSide-1){
+   	  x_final = x_init;
+  	   y_final = y_init;
+    }else{
+      x_final = xPolygon.back();
+  	  y_final = yPolygon.back();
+  	}
 
     x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
     y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
@@ -260,12 +314,12 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 
     vector<Coordenada*> points{new Coordenada(x_inicial, y_inicial), new Coordenada(x_final, y_final)};
 
-    Object object = Object(name, Tipo::reta, points);
+    Polygon* object = new Polygon(name, points);
     displayFile.addNewObject(object);
 
     cairo_move_to(cr, x_inicial, y_inicial);
     cairo_line_to(cr, x_final, y_final);
-    polygonPoint =0;
+    polygonPoint = 0;
     }
   }
 
@@ -280,11 +334,12 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 
 void initializeGTKComponentes() {
   gtkBuilder = gtk_builder_new();
-  gtk_builder_add_from_file(gtkBuilder, "sgi.glade", NULL);
+  gtk_builder_add_from_file(gtkBuilder, "sgi_test.glade", NULL);
 
   window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "main_window") );
   drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
   add_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "add_window"));
+  edit_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "edit_window"));
 
   console = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "console"));
   notebook = GTK_NOTEBOOK ( gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "add_notebook"));
@@ -299,10 +354,16 @@ void initializeGTKComponentes() {
   entry_x_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_point"));
   entry_y_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_point"));
 
+  entry_x_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_translate"));
+  entry_y_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_translate"));
+
+  entry_x_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_scale"));
+  entry_y_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_scale"));
+
   zoom_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "zoom_factor"));
   step_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "step_factor"));
   
-    polygon_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_x"));
+  polygon_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_x"));
   polygon_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_y"));
 
 }
