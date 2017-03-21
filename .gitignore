@@ -1,4 +1,3 @@
 *.gch
-Makefile
-run.sh
 exec
+sgi.glade~

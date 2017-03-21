@@ -17,6 +17,8 @@ public:
 		return coordenadas;
 	}
 
+	// virtual void draw() = 0;
+
 private:
 	char* nome;
 	Tipo tipo;

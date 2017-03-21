@@ -81,23 +81,21 @@ extern "C" G_MODULE_EXPORT void left_window() {
   Coordenada* c1 = coordenadas.at(0);
   Coordenada* c2 = coordenadas.at(1);
 
-
   int x1 = viewport.obterXdaViewport(c1->getX(), window.getXmin(), window.getXmax());
   int y1 = viewport.obterYdaViewport(c1->getY(), window.getYmin(), window.getYmax());
 
   int x2 = viewport.obterXdaViewport(c2->getX(), window.getXmin(), window.getXmax());
   int y2 = viewport.obterYdaViewport(c2->getY(), window.getYmin(), window.getYmax());
 
+  // int x = viewport.obterXdaViewport(c1->getX(), window.getXmin(), window.getXmax());
+  // int y = viewport.obterYdaViewport(c1->getY(), window.getYmin(), window.getYmax());
 
-  clear_surface();
+    // cairo_arc(cr, x, y, 1, 0, 2*3.1415);
   cairo_move_to(cr, x1, y1);
   cairo_line_to(cr, x2, y2);
-
-  // printf("%d\n", x1);
-  // printf("%d\n", y1);
-  // printf("%d\n", x2);
-  // printf("%d\n", y2);
-
+  clear_surface();
+  cairo_stroke(cr);
+  gtk_widget_queue_draw (window_widget);
 }
 
 /* Mover window para direita */
@@ -141,9 +139,16 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
   if (strcmp(label, "Point") == 0) {
     int x = atoi((char*)gtk_entry_get_text(entry_x_point));
     int y = atoi((char*)gtk_entry_get_text(entry_y_point));
+    
+    vector<Coordenada*> points;
+    points.push_back(new Coordenada(x, y));
+    Object object = Object(name, Tipo::reta, points);
+    displayFile.addNewObject(object);
+
 
     x = viewport.obterXdaViewport(x, window.getXmin(), window.getXmax());
     y = viewport.obterYdaViewport(y, window.getYmin(), window.getYmax());
+
 
     cairo_arc(cr, x, y, 1, 0, 2*3.1415);
 
@@ -154,15 +159,18 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     int x2 = atoi((char*)gtk_entry_get_text(entry_x2_line));
     int y2 = atoi((char*)gtk_entry_get_text(entry_y2_line));
 
+    vector<Coordenada*> points;
+    points.push_back(new Coordenada(x1, y1));
+    points.push_back(new Coordenada(x2, y2));
+    Object object = Object(name, Tipo::reta, points);
+    displayFile.addNewObject(object);
+
+
     x1 = viewport.obterXdaViewport(x1, window.getXmin(), window.getXmax());
     y1 = viewport.obterYdaViewport(y1, window.getYmin(), window.getYmax());
 
     x2 = viewport.obterXdaViewport(x2, window.getXmin(), window.getXmax());
     y2 = viewport.obterYdaViewport(y2, window.getYmin(), window.getYmax());
-
-    vector<Coordenada*> points{new Coordenada(x1, y1), new Coordenada(x2, y2)};
-    Object object = Object(name, Tipo::reta, points);
-    displayFile.addNewObject(object);
 
     cairo_move_to(cr, x1, y1);
     cairo_line_to(cr, x2, y2);
