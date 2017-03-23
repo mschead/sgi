@@ -78,6 +78,32 @@ public:
 
 	}
 
+	void rotate(int ang) {
+		Coordenada pontoMedio = this->pontoMedio();
+
+		Matrix m1, m2, m3, result1, result2;
+
+		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY());
+		m2.setRotate(ang);
+		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
+		
+		m1.multiplyMatrices(m1, m2, result1);
+
+		m1.printMatrix3x3(result1);
+
+
+		m1.multiplyMatrices(result1, m3, result2);
+
+		m1.printMatrix3x3(result2);
+
+		for (Coordenada* coordenada : coordenadas) {
+			int result3[3] = {0, 0, 0};
+			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			m1.multiplyPointToMatrix(point, result2, result3);
+			coordenada->setCoordenada(result3);
+		}
+
+	}
 
 protected:
 	char* nome;

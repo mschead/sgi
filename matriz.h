@@ -1,3 +1,6 @@
+#include <math.h>
+#define PI 3.14159265
+
 class Matrix {
 
 public:
@@ -26,6 +29,14 @@ public:
 		identity[0][0] = entryX;
 		identity[1][1] = entryY;
 	}
+
+	void setRotate(int ang) {
+		identity[0][0] = cos (ang * 180 / 2 * PI);
+		identity[0][1] = -1 * sin (ang * 180 / 2 * PI);
+		identity[1][0] = sin (ang * 180 / 2 * PI);
+		identity[1][1] = cos (ang * 180 / 2 * PI);
+	}
+
 
 	void multiplyPointToMatrix(int point[3], Matrix transform, int result[3]) {
 		for (int j = 0; j < 3; j++) {

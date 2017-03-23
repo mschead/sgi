@@ -29,6 +29,8 @@ GtkNotebook *notebook;
 
 GtkEntry *entry_object_name;
 
+GtkEntry* entry_angle;
+
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
 GtkEntry *polygon_x;
@@ -206,6 +208,19 @@ extern "C" G_MODULE_EXPORT void edit_element(){
 
 
 extern "C" G_MODULE_EXPORT void rotate_object(){
+  int angle = atoi((char*)gtk_entry_get_text(entry_angle));
+
+  displayFile.getObject()->rotate(angle);
+
+  cairo_t *cr = cairo_create (surface);
+  clear_surface();
+  
+  for (Object* object : displayFile.getObjects()) {
+    object->draw(viewport, window, cr);
+  }
+
+  gtk_widget_queue_draw (window_widget);
+
 }
 
 extern "C" G_MODULE_EXPORT void scale_object(){
@@ -344,6 +359,8 @@ void initializeGTKComponentes() {
 
   entry_x_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_scale"));
   entry_y_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_scale"));
+
+  entry_angle = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_angle"));
 
   zoom_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "zoom_factor"));
   step_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "step_factor"));

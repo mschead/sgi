@@ -38,6 +38,7 @@ public:
 			cairo_line_to(cr, x_final, y_final);
 			cairo_stroke(cr);
 		}
+	}
 
 
 };
