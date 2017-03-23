@@ -38,8 +38,6 @@ GtkListStore *pointsPolygon;
 
 vector<Coordenada*> polygonCoordinate;
 
-int polygonPoint = 0;
-
 GtkEntry *entry_x1_line;
 GtkEntry *entry_y1_line;
 GtkEntry *entry_x2_line;
@@ -91,6 +89,7 @@ static gboolean draw_cb (GtkWidget *widget, cairo_t   *cr,  gpointer   data){
 /* Limpar canvas */
 extern "C" G_MODULE_EXPORT void clear_event(){
   clear_surface ();
+  displayFile.deleteAll();
 
   gtk_widget_queue_draw (window_widget);
 }
@@ -273,8 +272,6 @@ extern "C" G_MODULE_EXPORT void add_point_event() {
   
   // gtk_entry_set_text(polygon_x, "");
   // gtk_entry_set_text(polygon_y, "");
-
-  polygonPoint++;
 }
 
 extern "C" G_MODULE_EXPORT void add_confirm_event() {

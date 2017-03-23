@@ -490,7 +490,7 @@
           </object>
           <packing>
             <property name="x">89</property>
-            <property name="y">253</property>
+            <property name="y">250</property>
           </packing>
         </child>
         <child>
@@ -504,8 +504,8 @@
             <signal name="clicked" handler="zoom_in" swapped="no"/>
           </object>
           <packing>
-            <property name="x">55</property>
-            <property name="y">253</property>
+            <property name="x">50</property>
+            <property name="y">250</property>
           </packing>
         </child>
         <child>
@@ -571,27 +571,27 @@
         <child>
           <object class="GtkEntry" id="step_factor">
             <property name="width_request">166</property>
-            <property name="height_request">80</property>
+            <property name="height_request">25</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="placeholder_text" translatable="yes">factor</property>
           </object>
           <packing>
             <property name="x">10</property>
-            <property name="y">270</property>
+            <property name="y">290</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="zoom_factor">
-            <property name="width_request">166</property>
-            <property name="height_request">80</property>
+            <property name="width_request">50</property>
+            <property name="height_request">25</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="placeholder_text" translatable="yes">zoom</property>
           </object>
           <packing>
             <property name="x">9</property>
-            <property name="y">190</property>
+            <property name="y">215</property>
           </packing>
         </child>
         <child>
