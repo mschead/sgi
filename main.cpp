@@ -259,9 +259,6 @@ extern "C" G_MODULE_EXPORT void add_point_event() {
   printf("%s", ", ");
   printf("%d\n", y);
 
-  xPolygon.push_back(x);
-  yPolygon.push_back(y);
-
   polygonCoordinate.push_back(new Coordenada(x, y));
 
   // console = gtk_text_view_new();
