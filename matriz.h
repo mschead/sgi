@@ -1,61 +1,54 @@
-class MatrizUtil {
+class Matrix {
 
 public:
-	MatrizUtil() {
-		translate[0][0] = 1;
-		translate[1][0] = 0;
-		translate[2][0] = 0;
+	Matrix() {
+		identity[0][0] = 1;
+		identity[1][0] = 0;
+		identity[2][0] = 0;
 
-		translate[0][1] = 0;
-		translate[1][1] = 1;
-		translate[2][1] = 0;
+		identity[0][1] = 0;
+		identity[1][1] = 1;
+		identity[2][1] = 0;
 
-		translate[0][2] = 0;
-		translate[1][2] = 0;
-		translate[2][2] = 1;
+		identity[0][2] = 0;
+		identity[1][2] = 0;
+		identity[2][2] = 1;
 	}
+
 
 
 	void setTranslate(int entryX, int entryY) {
-		translate[2][0] = entryX;
-		translate[2][1] = entryY;
-		// return translate;
+		identity[2][0] = entryX;
+		identity[2][1] = entryY;
 	}
 
-	int** getTranslate(int entryX, int entryY) {
-		int **t = new int*[3];
-		for (int i = 0; i < 3; i++) {
-			t[i] = new int[3];
-		}
-
-		
-		t[2][0] = entryX;
-		t[2][1] = entryY;
-		return t;
+	void setScale(int entryX, int entryY) {
+		identity[0][0] = entryX;
+		identity[1][1] = entryY;
 	}
 
-	void multiplyPointToMatrix(int point[3], int result[3]) {
+	void multiplyPointToMatrix(int point[3], Matrix transform, int result[3]) {
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < 3; i ++) {
-				result[j] += point[i] * translate[i][j];
+				result[j] += point[i] * transform.identity[i][j];
 			}
 		}
 	}
 
-	void multiplyMatrices(int a[][3], int b[][3], int result[][3]) {
+	void multiplyMatrices(Matrix a, Matrix b, Matrix &result) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				for(int k = 0; k < 3; k++) {
-					result[i][j] +=  a[i][k] *  b[k][j];
+					result.identity[i][j] +=  a.identity[i][k] *  b.identity[k][j];
 				}
 			}
 		}
 	}
 
-	void printMatrix3x3(int** a/*[][3]*/) {
+	void printMatrix3x3(Matrix a) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				printf("%d\t", a[i][j]);
+				printf("%d\t", a.identity[i][j]);
 			}
 			printf("\n");
 		}
@@ -67,12 +60,7 @@ public:
 		}
 	}
 
-
-
 private:	
-	int translate[3][3];
-	int scale[3][3];
-	// int** rotate;
-
+	int identity[3][3];
 
 };

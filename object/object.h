@@ -38,15 +38,13 @@ public:
 	}
 
 	void translate(int entryX, int entryY) {
-		MatrizUtil m;
+		Matrix m;
 		m.setTranslate(entryX, entryY);
-
-		//m.printMatrix3x3(m.getTranslate(entryX, entryY));
 
 		for (Coordenada* coordenada : coordenadas) {
 			int result[3] = {0, 0, 0};
 			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
-			m.multiplyPointToMatrix(point, result);
+			m.multiplyPointToMatrix(point, m, result);
 			coordenada->setCoordenada(result);
 		}
 
@@ -56,63 +54,28 @@ public:
 	void scale(int entryX, int entryY) {
 		Coordenada pontoMedio = this->pontoMedio();
 
-		// int translate[3][3];
+		Matrix m1, m2, m3, result1, result2;
+
+		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY());
+		m2.setScale(entryX, entryY);
+		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
 		
-		// translate[0][0] = 1;
-		// translate[1][0] = 0;
-		// translate[2][0] = -1 * pontoMedio.getX();
+		m1.multiplyMatrices(m1, m2, result1);
 
-		// translate[0][1] = 0;
-  //   	translate[1][1] = 1;
-		// translate[2][1] = -1 * pontoMedio.getY();
+		m1.printMatrix3x3(result1);
 
-		// translate[0][2] = 0;
-		// translate[1][2] = 0;
-		// translate[2][2] = 1;
 
-		// int scale[3][3];
-		
-		// scale[0][0] = entryX;
-		// scale[1][0] = 0;
-		// scale[2][0] = 0;
+		m1.multiplyMatrices(result1, m3, result2);
 
-		// scale[0][1] = 0;
-  //   	scale[1][1] = entryY;
-		// scale[2][1] = 0;
+		m1.printMatrix3x3(result2);
 
-		// scale[0][2] = 0;
-		// scale[1][2] = 0;
-		// scale[2][2] = 1;
+		for (Coordenada* coordenada : coordenadas) {
+			int result3[3] = {0, 0, 0};
+			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			m1.multiplyPointToMatrix(point, result2, result3);
+			coordenada->setCoordenada(result3);
+		}
 
-		// int translate2[3][3];
-		
-		// translate2[0][0] = 1;
-		// translate2[1][0] = 0;
-		// translate2[2][0] = pontoMedio.getX();
-
-		// translate2[0][1] = 0;
-  //   	translate2[1][1] = 1;
-		// translate2[2][1] = pontoMedio.getY();
-
-		// translate2[0][2] = 0;
-		// translate2[1][2] = 0;
-		// translate2[2][2] = 1;
-
-		// int result[3][3] = {(0,0,0), (0,0,0), (0,0,0)};
-		// int result2[3][3] = {(0,0,0), (0,0,0), (0,0,0)};
-
-		// multiplyMatrices(translate, scale, result);
-		// multiplyMatrices(result, translate2, result2);
-
-		// print_matrix(result2);
-
-		// for (Coordenada* coordenada : coordenadas) {
-		// 	int point[3];
-		// 	point[0] = coordenada->getX();
-		// 	point[1] = coordenada->getY();
-		// 	point[2] = 1;
-		// 	coordenada->setCoordenada(multiplyPointToMatrix(point, result2));
-		// }
 	}
 
 
