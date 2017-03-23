@@ -34,9 +34,9 @@ GtkEntry *entry_y_point;
 GtkEntry *polygon_x;
 GtkEntry *polygon_y;
 
-std::vector<int> xPolygon;
-std::vector<int>  yPolygon;
-int polygonPoint = 0;
+GtkListStore *pointsPolygon;
+
+vector<Coordenada*> polygonCoordinate;
 
 GtkEntry *entry_x1_line;
 GtkEntry *entry_y1_line;
@@ -89,6 +89,7 @@ static gboolean draw_cb (GtkWidget *widget, cairo_t   *cr,  gpointer   data){
 /* Limpar canvas */
 extern "C" G_MODULE_EXPORT void clear_event(){
   clear_surface ();
+  displayFile.deleteAll();
 
   gtk_widget_queue_draw (window_widget);
 }
@@ -250,10 +251,27 @@ char* getCurrentLabel(){
 }
 
 extern "C" G_MODULE_EXPORT void add_point_event() {
-  xPolygon.push_back(atoi((char*)gtk_entry_get_text(polygon_x)));
-  yPolygon.push_back(atoi((char*)gtk_entry_get_text(polygon_y)));
+  int x = atoi((char*)gtk_entry_get_text(polygon_x));
+  int y = atoi((char*)gtk_entry_get_text(polygon_y));
 
-  polygonPoint++;
+  printf("%d", x);
+  printf("%s", ", ");
+  printf("%d\n", y);
+
+  polygonCoordinate.push_back(new Coordenada(x, y));
+
+  // console = gtk_text_view_new();
+  // GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(console));
+
+  // gtk_text_buffer_set_text(buffer, "OLAR", -1);
+
+
+  // GtkTreeIter tree_add;
+  // gtk_list_store_append(pointsPolygon, &tree_add);
+  // gtk_list_store_set(pointsPolygon, &tree_add, 0, (char*)gtk_entry_get_text(polygon_x), 1, (char*)gtk_entry_get_text(polygon_y), -1);
+  
+  // gtk_entry_set_text(polygon_x, "");
+  // gtk_entry_set_text(polygon_y, "");
 }
 
 extern "C" G_MODULE_EXPORT void add_confirm_event() {
@@ -287,40 +305,10 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     line->draw(viewport, window, cr);
     
   } else if (strcmp(label, "Polygon") == 0) {
-    int x_inicial, y_inicial, x_final, y_final;
-    int n = 0;
-    int totalSide = polygonPoint;
-    int x_init = xPolygon.back();
-    int y_init = yPolygon.back();
-
-    for(n=0; n<totalSide; n++){
-     x_inicial = xPolygon.back();
-     xPolygon.pop_back();
-     y_inicial = yPolygon.back();
-     yPolygon.pop_back();
-	if(n==totalSide-1){
- 		x_final = x_init;
-		y_final = y_init;
-        }else{
-        	x_final = xPolygon.back();
-		y_final = yPolygon.back();
-	}
-
-    x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
-    y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
-
-    x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
-    y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
-
-    vector<Coordenada*> points{new Coordenada(x_inicial, y_inicial), new Coordenada(x_final, y_final)};
-
-    Polygon* object = new Polygon(name, points);
-    displayFile.addNewObject(object);
-
-    cairo_move_to(cr, x_inicial, y_inicial);
-    cairo_line_to(cr, x_final, y_final);
-    polygonPoint = 0;
-    }
+    Polygon* polygon = new Polygon(name, polygonCoordinate);
+    displayFile.addNewObject(polygon);
+    polygon->draw(viewport, window, cr);
+    polygonCoordinate.clear();
   }
 
   cairo_stroke(cr);
@@ -338,7 +326,7 @@ void initializeGTKComponentes() {
   add_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "add_window"));
   edit_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "edit_window"));
 
-  console = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "console"));
+  //console = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "console"));
   notebook = GTK_NOTEBOOK ( gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "add_notebook"));
 
   entry_object_name = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_object_name"));
@@ -379,3 +367,4 @@ int main(int argc, char *argv[]){
   gtk_main ();
   return 0;
 }
+

@@ -23,6 +23,10 @@ public:
 		return displayFile.size();
 	}
 
+        void deleteAll() {
+		displayFile.clear();
+	}
+
 private:
 	list<Object*> displayFile;
 
