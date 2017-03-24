@@ -25,20 +25,29 @@ public:
 		identity[2][1] = entryY;
 	}
 
-	void setScale(int entryX, int entryY) {
+	void setScale(float entryX, float entryY) {
 		identity[0][0] = entryX;
 		identity[1][1] = entryY;
 	}
 
 	void setRotate(int ang) {
-		identity[0][0] = cos (ang * 180 / 2 * PI);
-		identity[0][1] = -1 * sin (ang * 180 / 2 * PI);
-		identity[1][0] = sin (ang * 180 / 2 * PI);
-		identity[1][1] = cos (ang * 180 / 2 * PI);
+		float angleRad = ang * PI / 180;
+
+		identity[0][0] = cos (angleRad);
+		identity[0][1] = -1 * sin (angleRad);
+		identity[1][0] = sin (angleRad);
+		identity[1][1] = cos (angleRad);
 	}
 
+	void setZero() {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				identity[i][j] = 0;
+			}
+		}
+	}
 
-	void multiplyPointToMatrix(int point[3], Matrix transform, int result[3]) {
+	void multiplyPointToMatrix(float point[3], Matrix transform, float result[3]) {
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < 3; i ++) {
 				result[j] += point[i] * transform.identity[i][j];
@@ -59,7 +68,7 @@ public:
 	void printMatrix3x3(Matrix a) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				printf("%d\t", a.identity[i][j]);
+				printf("%f\t", a.identity[i][j]);
 			}
 			printf("\n");
 		}
@@ -72,6 +81,6 @@ public:
 	}
 
 private:	
-	int identity[3][3];
+	float identity[3][3];
 
 };

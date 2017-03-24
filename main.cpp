@@ -51,6 +51,10 @@ GtkEntry *entry_y_translate;
 GtkEntry *entry_x_scale;
 GtkEntry *entry_y_scale;
 
+GtkEntry *entry_x_rotate;
+GtkEntry *entry_y_rotate;
+
+
 GtkEntry *zoom_factor;
 GtkEntry *step_factor;
 
@@ -209,8 +213,14 @@ extern "C" G_MODULE_EXPORT void edit_element(){
 
 extern "C" G_MODULE_EXPORT void rotate_object(){
   int angle = atoi((char*)gtk_entry_get_text(entry_angle));
+  // float entryX = atof((char*)gtk_entry_get_text(entry_x_rotate));
+  // float entryY = atof((char*)gtk_entry_get_text(entry_y_rotate));
 
+  // if (entryX != NULL && entryY != NULL) {
+  //     displayFile.getObject()->rotateUsingCoordinate(angle, entryX, entryY);
+  // } else {
   displayFile.getObject()->rotate(angle);
+  // }
 
   cairo_t *cr = cairo_create (surface);
   clear_surface();
@@ -224,8 +234,8 @@ extern "C" G_MODULE_EXPORT void rotate_object(){
 }
 
 extern "C" G_MODULE_EXPORT void scale_object(){
-  int entryX = atoi((char*)gtk_entry_get_text(entry_x_scale));
-  int entryY = atoi((char*)gtk_entry_get_text(entry_y_scale));
+  float entryX = atof((char*)gtk_entry_get_text(entry_x_scale));
+  float entryY = atof((char*)gtk_entry_get_text(entry_y_scale));
 
   displayFile.getObject()->scale(entryX, entryY);
 
@@ -361,6 +371,9 @@ void initializeGTKComponentes() {
   entry_y_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_scale"));
 
   entry_angle = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_angle"));
+
+  entry_x_rotate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_rotate"));
+  entry_y_rotate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_rotate"));
 
   zoom_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "zoom_factor"));
   step_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "step_factor"));

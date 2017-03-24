@@ -42,8 +42,8 @@ public:
 		m.setTranslate(entryX, entryY);
 
 		for (Coordenada* coordenada : coordenadas) {
-			int result[3] = {0, 0, 0};
-			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			float result[3] = {0, 0, 0};
+			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 			m.multiplyPointToMatrix(point, m, result);
 			coordenada->setCoordenada(result);
 		}
@@ -51,7 +51,7 @@ public:
 	}
 
 
-	void scale(int entryX, int entryY) {
+	void scale(float entryX, float entryY) {
 		Coordenada pontoMedio = this->pontoMedio();
 
 		Matrix m1, m2, m3, result1, result2;
@@ -59,19 +59,19 @@ public:
 		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY());
 		m2.setScale(entryX, entryY);
 		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
+
+		result1.setZero();
+		result2.setZero();
 		
 		m1.multiplyMatrices(m1, m2, result1);
-
-		m1.printMatrix3x3(result1);
-
 
 		m1.multiplyMatrices(result1, m3, result2);
 
 		m1.printMatrix3x3(result2);
 
 		for (Coordenada* coordenada : coordenadas) {
-			int result3[3] = {0, 0, 0};
-			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			float result3[3] = {0, 0, 0};
+			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 			m1.multiplyPointToMatrix(point, result2, result3);
 			coordenada->setCoordenada(result3);
 		}
@@ -87,6 +87,14 @@ public:
 		m2.setRotate(ang);
 		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
 		
+		result1.setZero();
+		result2.setZero();
+
+		// m1.printMatrix3x3(m1);
+		// m1.printMatrix3x3(m2);
+		// m1.printMatrix3x3(m3);
+
+
 		m1.multiplyMatrices(m1, m2, result1);
 
 		m1.printMatrix3x3(result1);
@@ -94,12 +102,52 @@ public:
 
 		m1.multiplyMatrices(result1, m3, result2);
 
-		m1.printMatrix3x3(result2);
+		// m1.printMatrix3x3(result2);
 
 		for (Coordenada* coordenada : coordenadas) {
-			int result3[3] = {0, 0, 0};
-			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			float result3[3] = {0, 0, 0};
+			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 			m1.multiplyPointToMatrix(point, result2, result3);
+			// for (int j = 0; j < 3; j++) {
+			// 	printf("%f\n", result3[j]);
+			// }
+			coordenada->setCoordenada(result3);
+		}
+
+	}
+
+
+	void rotateUsingCoordinate(int ang, float entryX, float entryY) {
+		Matrix m1, m2, m3, result1, result2;
+
+		m1.setTranslate(-1 * entryX, -1 * entryY);
+		m2.setRotate(ang);
+		m3.setTranslate(entryX, entryY);
+		
+		result1.setZero();
+		result2.setZero();
+
+		// m1.printMatrix3x3(m1);
+		// m1.printMatrix3x3(m2);
+		// m1.printMatrix3x3(m3);
+
+
+		m1.multiplyMatrices(m1, m2, result1);
+
+		m1.printMatrix3x3(result1);
+
+
+		m1.multiplyMatrices(result1, m3, result2);
+
+		// m1.printMatrix3x3(result2);
+
+		for (Coordenada* coordenada : coordenadas) {
+			float result3[3] = {0, 0, 0};
+			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			m1.multiplyPointToMatrix(point, result2, result3);
+			// for (int j = 0; j < 3; j++) {
+			// 	printf("%f\n", result3[j]);
+			// }
 			coordenada->setCoordenada(result3);
 		}
 

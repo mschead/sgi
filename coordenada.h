@@ -1,26 +1,26 @@
 class Coordenada {
 	
 public:
-	Coordenada(int x, int y) {
+	Coordenada(float x, float y) {
 		this->x = x;
 		this->y = y;
 	}
 
-	int getX() {
+	float getX() {
 		return x;
 	}
 
-	int getY() {
+	float getY() {
 		return y;
 	}
 
-	void setCoordenada(int* coordenada) {
+	void setCoordenada(float* coordenada) {
 		x = coordenada[0];
 		y = coordenada[1];
 	}
 
 private:
-	int x;
-	int y;
+	float x;
+	float y;
 
 };
