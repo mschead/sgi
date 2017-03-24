@@ -84,20 +84,24 @@ public:
 		Matrix m1, m2, m3, result1, result2;
 
 		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY());
+		printf("%s\n\n","Transladei 1");
 		m2.setRotate(ang);
+		printf("%s\n\n","rotacionei 1");
 		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
+		printf("%s\n\n","Transladei 2");
 		
 		m1.multiplyMatrices(m1, m2, result1);
 
 		m1.printMatrix3x3(result1);
 
-
 		m1.multiplyMatrices(result1, m3, result2);
 
 		m1.printMatrix3x3(result2);
+	
+		printf("%s\n\n","Calculei resultante");
 
 		for (Coordenada* coordenada : coordenadas) {
-			int result3[3] = {0, 0, 0};
+			int result3[3] = {0, 0, 0}; 
 			int point[3] = {coordenada->getX(), coordenada->getY(), 1};
 			m1.multiplyPointToMatrix(point, result2, result3);
 			coordenada->setCoordenada(result3);
