@@ -5,9 +5,9 @@
 #include <string.h>
 #include "viewport.h"
 #include "window.h"
-#include "object/line.h"
-#include "object/point.h"
-#include "object/polygon.h"
+#include "line.h"
+#include "point.h"
+#include "polygon.h"
 #include "displayfile.h"
 
 using namespace std;
@@ -26,6 +26,10 @@ GtkWidget *edit_dialog;
 
 GtkWidget *console;
 GtkNotebook *notebook;
+
+GtkListStore *list_store;
+GtkTreeView *list_objects;
+GtkCellRenderer *renderer;
 
 GtkEntry *entry_object_name;
 
@@ -57,6 +61,10 @@ GtkEntry *entry_y_rotate;
 
 GtkEntry *zoom_factor;
 GtkEntry *step_factor;
+
+
+Object *toEdit;
+
 
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
@@ -205,22 +213,40 @@ extern "C" G_MODULE_EXPORT void new_element(){
 } 
 
 extern "C" G_MODULE_EXPORT void edit_element(){
-  gtk_widget_show_all(edit_dialog);
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+
+  model = gtk_tree_view_get_model(list_objects);
+  if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection(list_objects), &model, &iter )){
+    gchar *value;
+    gtk_tree_model_get (model, &iter, 0, &value, -1);
+
+    char* name = ((char*) value);
+    toEdit = displayFile.getObjectByName(name);
+    printf("%s\n", toEdit->getName());
+
+    gtk_widget_show_all(edit_dialog);
+  }
+  
 } 
-
-
 
 
 extern "C" G_MODULE_EXPORT void rotate_object(){
   int angle = atoi((char*)gtk_entry_get_text(entry_angle));
-  // float entryX = atof((char*)gtk_entry_get_text(entry_x_rotate));
-  // float entryY = atof((char*)gtk_entry_get_text(entry_y_rotate));
+  
+  char* entry_x_s = (char*) gtk_entry_get_text(entry_x_rotate);
+  char* entry_y_s = (char*) gtk_entry_get_text(entry_x_rotate);
 
-  // if (entryX != NULL && entryY != NULL) {
-  //     displayFile.getObject()->rotateUsingCoordinate(angle, entryX, entryY);
-  // } else {
-  displayFile.getObject()->rotate(angle);
-  // }
+  float entryX = atof(entry_x_s);
+  float entryY = atof(entry_y_s);
+
+  printf("%s\n", (char*)gtk_entry_get_text(entry_x_rotate));
+
+  if (strcmp(entry_x_s, "") != 0 && strcmp(entry_y_s, "") != 0) {
+      toEdit->rotateUsingCoordinate(angle, entryX, entryY);
+  } else {
+      toEdit->rotate(angle);
+  }
 
   cairo_t *cr = cairo_create (surface);
   clear_surface();
@@ -237,7 +263,7 @@ extern "C" G_MODULE_EXPORT void scale_object(){
   float entryX = atof((char*)gtk_entry_get_text(entry_x_scale));
   float entryY = atof((char*)gtk_entry_get_text(entry_y_scale));
 
-  displayFile.getObject()->scale(entryX, entryY);
+  toEdit->scale(entryX, entryY);
 
   cairo_t *cr = cairo_create (surface);
   clear_surface();
@@ -254,7 +280,7 @@ extern "C" G_MODULE_EXPORT void translate_object() {
   int entryX = atoi((char*)gtk_entry_get_text(entry_x_translate));
   int entryY = atoi((char*)gtk_entry_get_text(entry_y_translate));
 
-  displayFile.getObject()->translate(entryX, entryY);
+  toEdit->translate(entryX, entryY);
 
   cairo_t *cr = cairo_create (surface);
   clear_surface();
@@ -285,25 +311,16 @@ extern "C" G_MODULE_EXPORT void add_point_event() {
 
   polygonCoordinate.push_back(new Coordenada(x, y));
 
-  // console = gtk_text_view_new();
-  // GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(console));
-
-  // gtk_text_buffer_set_text(buffer, "OLAR", -1);
-
-
-  // GtkTreeIter tree_add;
-  // gtk_list_store_append(pointsPolygon, &tree_add);
-  // gtk_list_store_set(pointsPolygon, &tree_add, 0, (char*)gtk_entry_get_text(polygon_x), 1, (char*)gtk_entry_get_text(polygon_y), -1);
-  
-  // gtk_entry_set_text(polygon_x, "");
-  // gtk_entry_set_text(polygon_y, "");
 }
 
 extern "C" G_MODULE_EXPORT void add_confirm_event() {
   cairo_t *cr = cairo_create (surface);
 
   char* label = getCurrentLabel();
-  char* name = (char*) gtk_entry_get_text(entry_object_name);
+  char* entry_name = (char*) gtk_entry_get_text(entry_object_name);
+  int size = sizeof(entry_name)/sizeof(char);
+  char *name = new char[size];
+  strncpy(name, entry_name, size);
 
   if (strcmp(label, "Point") == 0) {
     int x = atoi((char*)gtk_entry_get_text(entry_x_point));
@@ -335,6 +352,11 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     polygon->draw(viewport, window, cr);
     polygonCoordinate.clear();
   }
+
+  GtkTreeIter iter;
+  gtk_list_store_append(list_store, &iter);
+  gtk_list_store_set(list_store, &iter, 0, name, 1, "teste", -1);
+
 
   cairo_stroke(cr);
   gtk_widget_queue_draw (window_widget);
@@ -380,6 +402,29 @@ void initializeGTKComponentes() {
   
   polygon_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_x"));
   polygon_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_y"));
+
+  list_objects = GTK_TREE_VIEW( gtk_builder_get_object( gtkBuilder, "list_objects" ) );
+
+  list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+  renderer = gtk_cell_renderer_text_new ();
+  gtk_tree_view_insert_column_with_attributes (list_objects,
+                                             -1,
+                                             "Name",  
+                                             renderer,
+                                             "text", 0,
+                                             NULL);
+
+  renderer = gtk_cell_renderer_text_new ();
+  gtk_tree_view_insert_column_with_attributes (list_objects,
+                                             -1,
+                                             "Type",
+                                             renderer,
+                                             "text", 1,
+                                             NULL);
+  gtk_tree_view_set_model (list_objects, GTK_TREE_MODEL (list_store));
+  gtk_tree_view_column_set_min_width ( gtk_tree_view_get_column (list_objects, 0), 100 );
+  gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 0), 0.5 );
+  gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 1), 0.5 );
 
 }
 

@@ -2,8 +2,8 @@
 #define _OBJECT_H_
 
 #include <vector>
-#include "../coordenada.h"
-#include "../matriz.h"
+#include "coordenada.h"
+#include "matriz.h"
 
 using namespace std;
 
@@ -13,6 +13,10 @@ public:
 	Object(char* nome, vector<Coordenada*> coordenadas) {
 		this->nome = nome;
 		this->coordenadas = coordenadas;
+	}
+
+	char* getName() {
+		return nome;
 	}
 
 	vector<Coordenada*> getPoints() {

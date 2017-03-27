@@ -398,7 +398,7 @@
                 <property name="placeholder_text" translatable="yes">angle</property>
               </object>
               <packing>
-                <property name="x">17</property>
+                <property name="x">103</property>
               </packing>
             </child>
             <child>
@@ -412,8 +412,47 @@
                 <signal name="clicked" handler="rotate_object" swapped="no"/>
               </object>
               <packing>
-                <property name="x">48</property>
-                <property name="y">66</property>
+                <property name="x">137</property>
+                <property name="y">81</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry_x_rotate">
+                <property name="width_request">166</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="placeholder_text" translatable="yes">x</property>
+              </object>
+              <packing>
+                <property name="x">16</property>
+                <property name="y">127</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry_y_rotate">
+                <property name="width_request">166</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="placeholder_text" translatable="yes">y</property>
+              </object>
+              <packing>
+                <property name="x">202</property>
+                <property name="y">126</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label1">
+                <property name="width_request">392</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Fill in above if you want to rotate in a arbitrary coordinate</property>
+              </object>
+              <packing>
+                <property name="x">5</property>
+                <property name="y">89</property>
               </packing>
             </child>
           </object>
@@ -490,7 +529,7 @@
           </object>
           <packing>
             <property name="x">89</property>
-            <property name="y">250</property>
+            <property name="y">253</property>
           </packing>
         </child>
         <child>
@@ -504,8 +543,8 @@
             <signal name="clicked" handler="zoom_in" swapped="no"/>
           </object>
           <packing>
-            <property name="x">50</property>
-            <property name="y">250</property>
+            <property name="x">55</property>
+            <property name="y">253</property>
           </packing>
         </child>
         <child>
@@ -571,27 +610,27 @@
         <child>
           <object class="GtkEntry" id="step_factor">
             <property name="width_request">166</property>
-            <property name="height_request">25</property>
+            <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="placeholder_text" translatable="yes">factor</property>
           </object>
           <packing>
             <property name="x">10</property>
-            <property name="y">290</property>
+            <property name="y">270</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="zoom_factor">
-            <property name="width_request">50</property>
-            <property name="height_request">25</property>
+            <property name="width_request">166</property>
+            <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="placeholder_text" translatable="yes">zoom</property>
           </object>
           <packing>
             <property name="x">9</property>
-            <property name="y">215</property>
+            <property name="y">190</property>
           </packing>
         </child>
         <child>
