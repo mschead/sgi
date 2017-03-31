@@ -61,6 +61,7 @@ GtkEntry *entry_y_rotate;
 
 GtkEntry *zoom_factor;
 GtkEntry *step_factor;
+GtkEntry *angle_factor;
 
 
 Object *toEdit;
@@ -108,6 +109,24 @@ extern "C" G_MODULE_EXPORT void clear_event(){
   gtk_widget_queue_draw (window_widget);
 }
 
+extern "C" G_MODULE_EXPORT void rotate_window() {
+  cairo_t *cr = cairo_create (surface);
+  clear_surface();
+
+  printf("%s\n", "CHEGUEI");
+
+  float factor = atoi((char*)gtk_entry_get_text(angle_factor));
+  printf("%f\n", factor);
+  window.setAngle(factor);
+
+  for (Object* object : displayFile.getObjects()) {
+    object->draw(viewport, window, cr);
+  }
+
+  printf("%s\n", "CHEGUEI2");
+  gtk_widget_queue_draw (window_widget);
+}
+
 /* Mover window para esquerda */
 extern "C" G_MODULE_EXPORT void left_window() {
   cairo_t *cr = cairo_create (surface);
@@ -116,6 +135,7 @@ extern "C" G_MODULE_EXPORT void left_window() {
   int factor = atoi((char*)gtk_entry_get_text(step_factor));
   window.setXmin(-1 * factor);
   window.setXmax(-1 * factor);
+  window.refreshCenter();
   
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr);
@@ -130,9 +150,10 @@ extern "C" G_MODULE_EXPORT void right_window() {
   clear_surface();
 
   int factor = atoi((char*)gtk_entry_get_text(step_factor));
-  window.setXmin(1 * factor);
-  window.setXmax(1 * factor);
-  
+  window.setXmin(factor);
+  window.setXmax(factor);
+  window.refreshCenter();
+
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr);
   }
@@ -145,8 +166,9 @@ extern "C" G_MODULE_EXPORT void up_window() {
   clear_surface();
 
   int factor = atoi((char*)gtk_entry_get_text(step_factor));
-  window.setYmin(1 * factor);
-  window.setYmax(1 * factor);
+  window.setYmin(factor);
+  window.setYmax(factor);
+  window.refreshCenter();
   
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr);
@@ -162,7 +184,8 @@ extern "C" G_MODULE_EXPORT void down_window() {
   int factor = atoi((char*)gtk_entry_get_text(step_factor));
   window.setYmin(-1 * factor);
   window.setYmax(-1 * factor);
-  
+  window.refreshCenter();
+
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr);
   }
@@ -294,9 +317,6 @@ extern "C" G_MODULE_EXPORT void translate_object() {
 }
 
 
-
-
-
 char* getCurrentLabel(){
   return (char*) gtk_notebook_get_tab_label_text(notebook, gtk_notebook_get_nth_page(notebook, gtk_notebook_get_current_page(notebook)));
 }
@@ -364,6 +384,8 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 }
 
 
+
+
 void initializeGTKComponentes() {
   gtkBuilder = gtk_builder_new();
   gtk_builder_add_from_file(gtkBuilder, "sgi_test.glade", NULL);
@@ -399,6 +421,7 @@ void initializeGTKComponentes() {
 
   zoom_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "zoom_factor"));
   step_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "step_factor"));
+  angle_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_factor"));
   
   polygon_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_x"));
   polygon_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_y"));

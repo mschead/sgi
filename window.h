@@ -32,6 +32,27 @@ public:
 		return ymax;
 	}
 
+	float getXCenter() {
+		return xCenter;
+	}
+
+	float getYCenter() {
+		return yCenter;
+	}
+
+	void setAngle(float angle) {
+		this->angle += angle;
+	}
+
+	float getAngle() {
+		return angle;
+	}
+
+	void refreshCenter() {
+		xCenter = xmin + xmax / 2;
+		yCenter = ymin + ymax / 2;
+	}
+
 	void setXmin(int xmin) {
 		this->xmin += xmin;
 	}
@@ -47,8 +68,10 @@ public:
 	void setYmax(int ymax) {
 		this->ymax += ymax;
 	}
-	
+
 
 private:
 	int xmin, ymin, xmax, ymax;
+	int xCenter = 150, yCenter = 150;
+	float angle = 0;
 };

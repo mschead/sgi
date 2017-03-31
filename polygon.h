@@ -11,20 +11,21 @@ public:
 	}
 
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
+		drawNormalized(window);
 		int x_inicial, y_inicial, x_final, y_final;
-		int x_init = coordenadas.front()->getX();
-		int y_init = coordenadas.front()->getY();
+		int x_init = normalizedCoordinates.front()->getX();
+		int y_init = normalizedCoordinates.front()->getY();
 
-		for(int n = 0; n < coordenadas.size(); n++){
-			x_inicial = coordenadas.at(n)->getX();			
-			y_inicial = coordenadas.at(n)->getY();
+		for(int n = 0; n < normalizedCoordinates.size(); n++){
+			x_inicial = normalizedCoordinates.at(n)->getX();			
+			y_inicial = normalizedCoordinates.at(n)->getY();
 			
-			if(n == coordenadas.size() - 1){
+			if(n == normalizedCoordinates.size() - 1){
 				x_final = x_init;
 				y_final = y_init;
 			} else {
-				x_final = coordenadas.at(n+1)->getX();
-				y_final = coordenadas.at(n+1)->getY();
+				x_final = normalizedCoordinates.at(n+1)->getX();
+				y_final = normalizedCoordinates.at(n+1)->getY();
 			}
 
 

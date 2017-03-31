@@ -33,6 +33,8 @@ public:
 	void setRotate(int ang) {
 		float angleRad = ang * PI / 180;
 
+		printf("%f\n", angleRad);
+
 		identity[0][0] = cos (angleRad);
 		identity[0][1] = -1 * sin (angleRad);
 		identity[1][0] = sin (angleRad);

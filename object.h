@@ -41,6 +41,46 @@ public:
 		return c;
 	}
 
+	void drawNormalized(Window window) {
+		Matrix translateCenter, rotate, scale, translateBack;
+
+		Matrix result1, result2, result3, result;
+
+		result1.setZero();
+		result2.setZero();
+		result3.setZero();
+		result.setZero();
+
+		translateCenter.setTranslate(-1 * window.getXCenter(), -1 * window.getYCenter());
+		rotate.setRotate(-1 * window.getAngle());
+		scale.setScale(1.0 / window.getXmax(), 1.0 / window.getYmax());
+		translateBack.setTranslate(1.0 / -1 * window.getXCenter(), 1.0 / -1 * window.getYCenter());
+
+		result1.printMatrix3x3(translateCenter);
+		printf("\n");
+		result1.printMatrix3x3(rotate);
+		printf("\n");
+		result1.printMatrix3x3(scale);
+		printf("\n");
+		result1.printMatrix3x3(translateBack);
+
+		result.multiplyMatrices(translateCenter, rotate, result1);
+		result.multiplyMatrices(result1, scale, result2);
+		result.multiplyMatrices(result2, translateBack, result3);
+
+		// result1.printMatrix3x3(result1);
+		// result1.printMatrix3x3(result2);
+		// result1.printMatrix3x3(result3);
+
+		for (Coordenada* coordenada : coordenadas) {
+			float normalizePoint[3] = {0, 0, 0};
+			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			result.multiplyPointToMatrix(point, result3, normalizePoint);
+			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1]));
+		}
+
+	}
+
 	void translate(int entryX, int entryY) {
 		Matrix m;
 		m.setTranslate(entryX, entryY);
@@ -160,6 +200,7 @@ public:
 protected:
 	char* nome;
 	vector<Coordenada*> coordenadas;
+	vector<Coordenada*> normalizedCoordinates;
 	
 };
 
