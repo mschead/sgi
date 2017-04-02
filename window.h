@@ -14,6 +14,8 @@ public:
 		this->ymin = ymin;
 		this->xmax = xmax;
 		this->ymax = ymax;
+		this->xCenter = (xmin + xmax) / 2.0;
+		this->yCenter = (ymin + ymax) / 2.0;
 	}
 
 	float getXmin() {
@@ -72,6 +74,6 @@ public:
 
 private:
 	float xmin, ymin, xmax, ymax;
-	float xCenter = 150, yCenter = 150;
+	float xCenter, yCenter;
 	float angle = 0;
 };

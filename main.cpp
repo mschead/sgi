@@ -113,7 +113,7 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   cairo_t *cr = cairo_create (surface);
   clear_surface();
 
-  float factor = atoi((char*)gtk_entry_get_text(angle_factor));
+  float factor = atof((char*)gtk_entry_get_text(angle_factor));
   window.setAngle(factor);
 
   for (Object* object : displayFile.getObjects()) {
@@ -450,12 +450,14 @@ void initializeGTKComponentes() {
 
 int main(int argc, char *argv[]){
   gtk_init(&argc, &argv);
-  window = Window(0, 0, 300, 300);
+  window = Window(0.0, 0.0, 300.0, 300.0);
 
 
   initializeGTKComponentes(); 
   g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);
   g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
+  g_signal_connect(add_dialog, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+  g_signal_connect(edit_dialog, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
   gtk_builder_connect_signals(gtkBuilder, NULL);
   gtk_widget_show_all(window_widget);
   gtk_main ();
