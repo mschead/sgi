@@ -9,26 +9,26 @@ public:
 	Window() {
 	}
 
-	Window(int xmin, int ymin, int xmax, int ymax) {
+	Window(float xmin, float ymin, float xmax, float ymax) {
 		this->xmin = xmin;
 		this->ymin = ymin;
 		this->xmax = xmax;
 		this->ymax = ymax;
 	}
 
-	int getXmin() {
+	float getXmin() {
 		return xmin;
 	}
 
-	int getYmin() {
+	float getYmin() {
 		return ymin;
 	}
 
-	int getXmax() {
+	float getXmax() {
 		return xmax;
 	}
 
-	int getYmax() {
+	float getYmax() {
 		return ymax;
 	}
 
@@ -49,29 +49,29 @@ public:
 	}
 
 	void refreshCenter() {
-		xCenter = xmin + xmax / 2;
-		yCenter = ymin + ymax / 2;
+		xCenter = (xmin + xmax) / 2.0;
+		yCenter = (ymin + ymax) / 2.0;
 	}
 
-	void setXmin(int xmin) {
+	void setXmin(float xmin) {
 		this->xmin += xmin;
 	}
 
-	void setYmin(int ymin) {
+	void setYmin(float ymin) {
 		this->ymin += ymin;
 	}
 
-	void setXmax(int xmax) {
+	void setXmax(float xmax) {
 		this->xmax += xmax;
 	}
 
-	void setYmax(int ymax) {
+	void setYmax(float ymax) {
 		this->ymax += ymax;
 	}
 
 
 private:
-	int xmin, ymin, xmax, ymax;
-	int xCenter = 150, yCenter = 150;
+	float xmin, ymin, xmax, ymax;
+	float xCenter = 150, yCenter = 150;
 	float angle = 0;
 };

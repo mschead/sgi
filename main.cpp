@@ -113,17 +113,13 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   cairo_t *cr = cairo_create (surface);
   clear_surface();
 
-  printf("%s\n", "CHEGUEI");
-
   float factor = atoi((char*)gtk_entry_get_text(angle_factor));
-  printf("%f\n", factor);
   window.setAngle(factor);
 
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr);
   }
 
-  printf("%s\n", "CHEGUEI2");
   gtk_widget_queue_draw (window_widget);
 }
 
@@ -133,8 +129,8 @@ extern "C" G_MODULE_EXPORT void left_window() {
   clear_surface();
 
   int factor = atoi((char*)gtk_entry_get_text(step_factor));
-  window.setXmin(-1 * factor);
-  window.setXmax(-1 * factor);
+  window.setXmin(-1.0 * factor);
+  window.setXmax(-1.0 * factor);
   window.refreshCenter();
   
   for (Object* object : displayFile.getObjects()) {

@@ -20,7 +20,7 @@ public:
 
 
 
-	void setTranslate(int entryX, int entryY) {
+	void setTranslate(float entryX, float entryY) {
 		identity[2][0] = entryX;
 		identity[2][1] = entryY;
 	}
@@ -32,8 +32,6 @@ public:
 
 	void setRotate(int ang) {
 		float angleRad = ang * PI / 180;
-
-		printf("%f\n", angleRad);
 
 		identity[0][0] = cos (angleRad);
 		identity[0][1] = -1 * sin (angleRad);
