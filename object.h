@@ -53,10 +53,30 @@ public:
 
 		translateCenter.setTranslate(-1 * window.getXCenter(), -1 * window.getYCenter());
 		rotate.setRotate(-1 * window.getAngle());
-		scale.setScale(1.0 / window.getXSize(), 1.0 / window.getYSize());
+		
+		float t1;
+		float t2;
 
-		float f1 = (-1.0 / window.getXCenter());
-		float f2 = (-1.0 / window.getYCenter());
+		if (window.getXSize() == 0 || window.getYSize() == 0) {
+			t1 = 1.0;
+			t2 = 1.0;
+		} else {
+			t1 = 1.0 / window.getXSize();
+			t2 = 1.0 / window.getYSize() ;
+		}
+
+		scale.setScale(t1, t2);
+
+		float f1, f2;
+
+		if (window.getXCenter() == 0 || window.getYCenter() == 0) {
+			f1 = 0.0;
+			f2 = 0.0;
+		} else {
+			f1 = (-1.0 / window.getXCenter());
+			f2 = (-1.0 / window.getYCenter());			
+		}
+
 		// printf("%f\n", f1);
 		// printf("%f\n", f2);
 		translateBack.setTranslate(f1, f2);
@@ -73,12 +93,12 @@ public:
 		result.multiplyMatrices(result1, scale, result2);
 		result.multiplyMatrices(result2, translateBack, result3);
 
-		// printf("\n");
-		// result1.printMatrix3x3(result1);
-		// printf("\n");
-		// result1.printMatrix3x3(result2);
-		// printf("\n");
-		// result1.printMatrix3x3(result3);
+		printf("\n");
+		result1.printMatrix3x3(result1);
+		printf("\n");
+		result1.printMatrix3x3(result2);
+		printf("\n");
+		result1.printMatrix3x3(result3);
 
 		for (Coordenada* coordenada : coordenadas) {
 			float normalizePoint[3] = {0, 0, 0};
@@ -86,6 +106,8 @@ public:
 
 			result.multiplyPointToMatrix(point, result3, normalizePoint);
 
+			printf("%f\n", normalizePoint[0]);
+	  		printf("%f\n", normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1]));
 		}
 
