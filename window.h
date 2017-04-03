@@ -71,6 +71,14 @@ public:
 		this->ymax += ymax;
 	}
 
+	float getXSize() {
+		return this->xmax - this->xmin;
+	}
+
+	float getYSize() {
+		return this->ymax - this->ymin;
+	}
+
 
 private:
 	float xmin, ymin, xmax, ymax;

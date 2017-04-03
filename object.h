@@ -53,7 +53,7 @@ public:
 
 		translateCenter.setTranslate(-1 * window.getXCenter(), -1 * window.getYCenter());
 		rotate.setRotate(-1 * window.getAngle());
-		scale.setScale(1.0 / window.getXmax(), 1.0 / window.getYmax());
+		scale.setScale(1.0 / window.getXSize(), 1.0 / window.getYSize());
 
 		float f1 = (-1.0 / window.getXCenter());
 		float f2 = (-1.0 / window.getYCenter());
