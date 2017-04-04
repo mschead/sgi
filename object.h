@@ -23,7 +23,9 @@ public:
 		return coordenadas;
 	}
 
-	virtual void draw(Viewport viewport, Window window, cairo_t *cr) = 0;
+	virtual void draw (Viewport viewport, Window window, cairo_t *cr) = 0;
+
+	virtual void clipping (Window window, Viewport viewport) = 0;
 
 	Coordenada pontoMedio() {
 		int x = 0;
@@ -93,12 +95,12 @@ public:
 		result.multiplyMatrices(result1, scale, result2);
 		result.multiplyMatrices(result2, translateBack, result3);
 
-		printf("\n");
-		result1.printMatrix3x3(result1);
-		printf("\n");
-		result1.printMatrix3x3(result2);
-		printf("\n");
-		result1.printMatrix3x3(result3);
+		// printf("\n");
+		// result1.printMatrix3x3(result1);
+		// printf("\n");
+		// result1.printMatrix3x3(result2);
+		// printf("\n");
+		// result1.printMatrix3x3(result3);
 
 		for (Coordenada* coordenada : coordenadas) {
 			float normalizePoint[3] = {0, 0, 0};
@@ -106,8 +108,8 @@ public:
 
 			result.multiplyPointToMatrix(point, result3, normalizePoint);
 
-			printf("%f\n", normalizePoint[0]);
-	  		printf("%f\n", normalizePoint[1]);
+			// printf("%f\n", normalizePoint[0]);
+	  // 		printf("%f\n", normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1]));
 		}
 

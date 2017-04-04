@@ -10,6 +10,10 @@ public:
 	Point(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 	}
 
+	void clipping(Window window, Viewport viewport) {
+		
+	}
+
 	void virtual draw(Viewport viewport, Window window, cairo_t *cr) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);

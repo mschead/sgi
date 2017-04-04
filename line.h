@@ -10,9 +10,55 @@ public:
 	Line(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 	}
 
+	void clipping (Window window, Viewport viewport) {
+
+		// w topo, w fundo, w direita, w esquerda
+		int rc1[4] = {0, 0, 0, 0};
+		int rc2[4] = {0, 0, 0, 0};
+
+		// Primeiro ponto
+		Coordenada* c1 = this->normalizedCoordinates.at(0);
+		
+		rc1[0] = c1->getY() <= 1 ? 0 : 1;
+		rc1[1] = c1->getY() >= -1 ? 0 : 1;
+		rc1[2] = c1->getX() <= 1 ? 0 : 1;
+		rc1[3] = c1->getX() >= -1 ? 0 : 1;
+
+		// Segundo ponto
+		Coordenada* c2 = this->normalizedCoordinates.at(1);
+
+		rc2[0] = c2->getY() <= 1 ? 0 : 1;
+		rc2[1] = c2->getY() >= -1 ? 0 : 1;
+		rc2[2] = c2->getX() <= 1 ? 0 : 1;
+		rc2[3] = c2->getX() >= -1 ? 0 : 1;
+
+		// 1 0 1 0
+		// 0 0 1 0
+
+		bool rcComparer = rc1[0] && rc2[0] || rc1[1] && rc2[1] || rc1[2] && rc2[2] || rc1[3] && rc2[3];
+		int sum = rc1[0] + rc1[1] + rc1[2] + rc1[3] + rc2[0] + rc2[1] + rc2[2] + rc2[3]; 
+
+		if (!sum) {
+			printf("%s\n", "TUDO DENTRO");
+		} else if (!rcComparer)
+			printf("%s\n", "CALCULAR PARCIALMENTE");
+
+			
+
+			
+		else {
+			printf("%s\n", "TA FORA");
+		}
+
+
+
+
+	}
+
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
+	  clipping(window, viewport);
 
 	  // for (Coordenada* c : normalizedCoordinates) {
 	  // 	printf("%f\n", c->getX());

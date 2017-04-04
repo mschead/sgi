@@ -10,6 +10,10 @@ public:
 	Polygon(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 	}
 
+	void clipping(Window window, Viewport viewport) {
+		
+	}
+
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
 		normalizedCoordinates.clear();
 		drawNormalized(window);
