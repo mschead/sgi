@@ -14,6 +14,14 @@ public:
 		return y;
 	}
 
+	void setX(float x) {
+		this->x = x;
+	}
+
+	void setY(float y) {
+		this->y = y;
+	}
+
 	void setCoordenada(float* coordenada) {
 		x = coordenada[0];
 		y = coordenada[1];

@@ -3,6 +3,8 @@
 
 #include "object.h"
 
+using namespace std;
+
 class Line : public Object {
 	
 public:
@@ -55,10 +57,67 @@ public:
 
 	}
 
+
+	bool clipping2(Window window, Viewport viewport) {
+		Coordenada* pontoR1 = normalizedCoordinates.at(0);
+		Coordenada* pontoR2 = normalizedCoordinates.at(1);
+
+		float p2 = pontoR2->getX() - pontoR1->getX();
+		float p1 = -1.0 * p2;
+		float p4 = pontoR2->getY() - pontoR1->getY();
+		float p3 = -1.0 * p4;
+
+		float q1 = pontoR1->getX() + 1.0; // - xwmin
+		float q2 = 1.0 - pontoR1->getX();
+		float q3 = pontoR1->getY() + 1.0; // - ymin
+		float q4 = 1.0 - pontoR1->getY();
+
+
+		// parte do teta1
+		float r1 = q1 / p1;
+		float r3 = q3 / p3;
+
+		printf("%f, ", r1);
+		printf("%f\n", r3);
+
+		float teta1 = fmax(0.0, fmax(r1, r3));
+
+		// parte do teta2
+		float r2 = q2 / p2;
+		float r4 = q4 / p4;
+
+		float teta2 = fmin(1.0, fmin(r2, r4));
+
+		printf("%s\n", "verificar teta");
+		printf("%f, ", teta1);
+		printf("%f\n", teta2);
+
+		if (teta1 > teta2) {
+			return false;
+		}
+
+		printf("%s\n", "reta clipada");
+		if (teta1 != 0) {
+			printf("%s\n", "teta1 entrou");
+			pontoR1->setX(pontoR1->getX() + teta1 * p2);
+			pontoR1->setY(pontoR1->getY() + teta1 * p4);
+		}
+
+
+		if (teta2 != 1) {
+			printf("%s\n", "teta2 entrou");
+			pontoR2->setX(pontoR1->getX() + teta2 * p2);
+			pontoR2->setY(pontoR1->getX() + teta2 * p4);
+		}
+
+		return true;
+	}
+
+
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
-	  clipping(window, viewport);
+	  clipping2(window, viewport);
 
 	  // for (Coordenada* c : normalizedCoordinates) {
 	  // 	printf("%f\n", c->getX());
