@@ -450,8 +450,9 @@ void initializeGTKComponentes() {
 
 int main(int argc, char *argv[]){
   gtk_init(&argc, &argv);
-  window = Window(0.0, 0.0, 300.0, 300.0);
-
+  window = Window(0.0, 0.0, 150.0, 150.0);
+  printf("%s\n", "Limite esquerdo window");
+  printf("%f\n", window.getXmin());
 
   initializeGTKComponentes(); 
   g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);

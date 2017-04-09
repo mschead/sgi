@@ -21,6 +21,6 @@ public:
 	}
 
 private:
-	float xMin = 0.0, yMin = 0.0, xMax = 300.0, yMax = 300.0;
+	float xMin = 0.0, yMin = 0.0, xMax = 150.0, yMax = 150.0;
 
 };

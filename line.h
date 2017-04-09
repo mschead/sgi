@@ -11,6 +11,8 @@ public:
 	}
 
 	void clipping (Window window, Viewport viewport) {
+		float coeficienteAngularX;
+		float coeficienteAngularY;
 
 		// w topo, w fundo, w direita, w esquerda
 		int rc1[4] = {0, 0, 0, 0};
@@ -35,17 +37,46 @@ public:
 		// 1 0 1 0
 		// 0 0 1 0
 
+
+
+		coeficienteAngularX = (c1->getY() - c2->getY())/(c1->getX() - c2->getX());
+		coeficienteAngularY = 1/coeficienteAngularX;
+
+		printf("\n%s\n", "Coeficiente angular:");
+		printf("%f\n\n", coeficienteAngularX);
+
 		bool rcComparer = rc1[0] && rc2[0] || rc1[1] && rc2[1] || rc1[2] && rc2[2] || rc1[3] && rc2[3];
 		int sum = rc1[0] + rc1[1] + rc1[2] + rc1[3] + rc2[0] + rc2[1] + rc2[2] + rc2[3]; 
 
 		if (!sum) {
 			printf("%s\n", "TUDO DENTRO");
-		} else if (!rcComparer)
+		} else if (!rcComparer) {
 			printf("%s\n", "CALCULAR PARCIALMENTE");
 
-			
+			if( rc1[0] == 1 || rc2[0] == 1 ){
+				printf("%s\n", "CALCULAR X QUE ALCANCA TOPO");
+			}
 
-			
+			if( rc1[1] == 1 || rc2[1] == 1){
+				printf("%s\n", "CALCULAR X QUE ALCANCA BASE");
+			}
+
+			if( rc1[2] == 1 || rc2[2] == 1 ){
+				printf("%s\n", "CALCULAR Y QUE ALCANCA LADO DIREITO");
+			}
+
+			if( rc1[3] == 1 || rc2[3] == 1){
+				printf("%s\n", "CALCULAR Y QUE ALCANCA LADO ESQUERDO");
+				float leftY;
+
+				printf("%s\n", "Limite esquerda da viewport");
+				printf("%f\n", window.getXmin());
+				printf("%s\n", "Limite base da viewport");
+				printf("%f\n", window.getYmin());
+
+				//leftY = coeficienteAngularX * (window.getXmin() - limiteEsquerdo) + limiteAltura;
+			}
+		}				
 		else {
 			printf("%s\n", "TA FORA");
 		}
