@@ -40,9 +40,13 @@ public:
 		// 0 0 1 0
 
 
-
+		if(c1->getY() == c2->getY() || c1->getX() == c2->getX()){
+		coeficienteAngularX =0;
+		coeficienteAngularY= 0;
+		} else {
 		coeficienteAngularX = (c1->getY() - c2->getY())/(c1->getX() - c2->getX());
 		coeficienteAngularY = 1/coeficienteAngularX;
+		}
 
 		printf("\n%s\n", "Coeficiente angular:");
 		printf("%f\n\n", coeficienteAngularX);
