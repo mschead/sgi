@@ -13,6 +13,8 @@ public:
 	}
 
 	void clipping (Window window, Viewport viewport) {
+		float coeficienteAngularX;
+		float coeficienteAngularY;
 
 		// w topo, w fundo, w direita, w esquerda
 		int rc1[4] = {0, 0, 0, 0};
@@ -37,17 +39,119 @@ public:
 		// 1 0 1 0
 		// 0 0 1 0
 
+
+
+		coeficienteAngularX = (c1->getY() - c2->getY())/(c1->getX() - c2->getX());
+		coeficienteAngularY = 1/coeficienteAngularX;
+
+		printf("\n%s\n", "Coeficiente angular:");
+		printf("%f\n\n", coeficienteAngularX);
+
 		bool rcComparer = rc1[0] && rc2[0] || rc1[1] && rc2[1] || rc1[2] && rc2[2] || rc1[3] && rc2[3];
 		int sum = rc1[0] + rc1[1] + rc1[2] + rc1[3] + rc2[0] + rc2[1] + rc2[2] + rc2[3]; 
 
 		if (!sum) {
 			printf("%s\n", "TUDO DENTRO");
-		} else if (!rcComparer)
+		} else if (!rcComparer) {
 			printf("%s\n", "CALCULAR PARCIALMENTE");
 
-			
+			if( rc1[0] == 1 || rc2[0] == 1 ){
+				printf("%s\n", "CALCULAR X QUE ALCANCA TOPO");
+				float topX;
 
-			
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				topX = coeficienteAngularY * (0.9 - c1->getY()) + c1->getX();
+				
+				if(topX <= 0.9 && topX >= -0.9){
+					if (rc1[0] == 1){
+					c1->setY(0.9);
+					c1->setX(topX);
+					}if (rc2[0] == 1){
+					c2->setY(0.9);
+					c2->setX(topX);
+					}
+				}
+				printf("%s\n", "X de interseccao calculado");
+				printf("%f\n", topX);
+			}
+
+			if( rc1[1] == 1 || rc2[1] == 1){
+				printf("%s\n", "CALCULAR X QUE ALCANCA BASE");
+				float bottonX;
+
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				bottonX = coeficienteAngularY * (-0.9 - c1->getY()) + c1->getX();
+				
+				if(bottonX <= 0.9 && bottonX >= -0.9){
+					if (rc1[1] == 1){
+					c1->setY(-0.9);
+					c1->setX(bottonX);
+					}if (rc2[1] == 1){
+					c2->setY(-0.9);
+					c2->setX(bottonX);
+					}
+				}
+				printf("%s\n", "X de interseccao calculado");
+				printf("%f\n", bottonX);
+			}
+
+			if( rc1[2] == 1 || rc2[2] == 1 ){
+				printf("%s\n", "CALCULAR Y QUE ALCANCA LADO DIREITO");
+				float rightY;
+
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				rightY = coeficienteAngularX * (0.9 - c1->getX()) + c1->getY();
+				
+				if(rightY <= 0.9 && rightY >= -0.9){
+				if (rc1[2] == 1){
+					c1->setY(rightY);
+					c1->setX(0.9);
+					}if (rc2[2] == 1){
+					c2->setY(rightY);
+					c2->setX(0.9);
+					}
+				}
+				printf("%s\n", "Y de interseccao calculado");
+				printf("%f\n", rightY);
+			}
+
+			if( rc1[3] == 1 || rc2[3] == 1){
+				printf("%s\n", "CALCULAR Y QUE ALCANCA LADO ESQUERDO");
+				float leftY;
+
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				leftY = coeficienteAngularX * (-0.9 - c1->getX()) + c1->getY();
+				
+				if(leftY <= 0.9 && leftY >= -0.9){
+					if (rc1[3] == 1){
+					c1->setY(leftY);
+					c1->setX(-0.9);
+					}if (rc2[3] == 1){
+					c2->setY(leftY);
+					c2->setX(-0.9);
+					}
+				}
+				printf("%s\n", "Y de interseccao calculado");
+				printf("%f\n", leftY);
+
+			}
+		}				
 		else {
 			printf("%s\n", "TA FORA");
 		}
@@ -63,14 +167,14 @@ public:
 		Coordenada* pontoR2 = normalizedCoordinates.at(1);
 
 		float p2 = pontoR2->getX() - pontoR1->getX();
-		float p1 = -1.0 * p2;
+		float p1 = -0.9 * p2;
 		float p4 = pontoR2->getY() - pontoR1->getY();
-		float p3 = -1.0 * p4;
+		float p3 = -0.9 * p4;
 
-		float q1 = pontoR1->getX() + 1.0; // - xwmin
-		float q2 = 1.0 - pontoR1->getX();
-		float q3 = pontoR1->getY() + 1.0; // - ymin
-		float q4 = 1.0 - pontoR1->getY();
+		float q1 = pontoR1->getX() + 0.9; // - xwmin
+		float q2 = 0.9 - pontoR1->getX();
+		float q3 = pontoR1->getY() + 0.9; // - ymin
+		float q4 = 0.9 - pontoR1->getY();
 
 
 		// parte do teta1
@@ -86,7 +190,7 @@ public:
 		float r2 = q2 / p2;
 		float r4 = q4 / p4;
 
-		float teta2 = fmin(1.0, fmin(r2, r4));
+		float teta2 = fmin(0.9, fmin(r2, r4));
 
 		printf("%s\n", "verificar teta");
 		printf("%f, ", teta1);
@@ -117,7 +221,7 @@ public:
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
-	  //clipping2(window, viewport);
+	  clipping(window, viewport);
 
 	  // for (Coordenada* c : normalizedCoordinates) {
 	  // 	printf("%f\n", c->getX());
