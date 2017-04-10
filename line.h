@@ -55,26 +55,79 @@ public:
 
 			if( rc1[0] == 1 || rc2[0] == 1 ){
 				printf("%s\n", "CALCULAR X QUE ALCANCA TOPO");
+				float topX;
+
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				topX = coeficienteAngularY * (1 - c1->getY()) + c1->getX();
+				
+				if(topX <= 1 && topX >= -1){
+				c2->setY(1);
+				c2->setX(topX);
+				}
+				printf("%s\n", "X de interseccao calculado");
+				printf("%f\n", topX);
 			}
 
 			if( rc1[1] == 1 || rc2[1] == 1){
 				printf("%s\n", "CALCULAR X QUE ALCANCA BASE");
+				float bottonX;
+
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				bottonX = coeficienteAngularY * (-1 - c1->getY()) + c1->getX();
+				
+				if(bottonX <= 1 && bottonX >= -1){
+				c1->setY(-1);
+				c1->setX(bottonX);
+				}
+				printf("%s\n", "X de interseccao calculado");
+				printf("%f\n", bottonX);
 			}
 
 			if( rc1[2] == 1 || rc2[2] == 1 ){
 				printf("%s\n", "CALCULAR Y QUE ALCANCA LADO DIREITO");
+				float rightY;
+
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				rightY = coeficienteAngularX * (1 - c1->getX()) + c1->getY();
+				
+				if(rightY <= 1 && rightY >= -1){
+				c2->setY(rightY);
+				c2->setX(1);
+				}
+				printf("%s\n", "Y de interseccao calculado");
+				printf("%f\n", rightY);
 			}
 
 			if( rc1[3] == 1 || rc2[3] == 1){
 				printf("%s\n", "CALCULAR Y QUE ALCANCA LADO ESQUERDO");
 				float leftY;
 
-				printf("%s\n", "Limite esquerda da viewport");
-				printf("%f\n", window.getXmin());
-				printf("%s\n", "Limite base da viewport");
-				printf("%f\n", window.getYmin());
+				printf("%s\n", "X em relacao a window");
+				printf("%f\n", c1->getX());
+				printf("%s\n", "Y em relacao a window");
+				printf("%f\n", c1->getY());
+				
+				leftY = coeficienteAngularX * (-1 - c1->getX()) + c1->getY();
+				
+				if(leftY <= 1 && leftY >= -1){
+				c1->setY(leftY);
+				c1->setX(-1);
+				}
+				printf("%s\n", "Y de interseccao calculado");
+				printf("%f\n", leftY);
 
-				//leftY = coeficienteAngularX * (window.getXmin() - limiteEsquerdo) + limiteAltura;
 			}
 		}				
 		else {
