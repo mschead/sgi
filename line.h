@@ -117,7 +117,7 @@ public:
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
-	  clipping2(window, viewport);
+	  //clipping2(window, viewport);
 
 	  // for (Coordenada* c : normalizedCoordinates) {
 	  // 	printf("%f\n", c->getX());
@@ -139,8 +139,8 @@ public:
 	  // printf("%d\n", x1);
 	  // printf("%d\n", y1);
 
-  	  printf("%d\n", x2);
-	  printf("%d\n", y2);
+  	//   printf("%d\n", x2);
+	  // printf("%d\n", y2);
 
 
 	  cairo_move_to(cr, x1, y1);

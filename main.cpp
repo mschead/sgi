@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <iostream>
+
 #include <vector>
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +9,10 @@
 #include "line.h"
 #include "point.h"
 #include "polygon.h"
+#include "canvas.h"
 #include "displayfile.h"
+
+
 
 using namespace std;
 
@@ -380,6 +384,21 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 }
 
 
+extern "C" G_MODULE_EXPORT void create_window() {
+  cairo_t *cr = cairo_create (surface);
+  vector<Coordenada*> coordenadas;
+  coordenadas.push_back(new Coordenada(-0.9, -0.9));
+  coordenadas.push_back(new Coordenada(0.9, -0.9));
+  coordenadas.push_back(new Coordenada(0.9, 0.9));
+  coordenadas.push_back(new Coordenada(-0.9, 0.9));
+  Canvas* canvas = new Canvas("window", coordenadas);
+  displayFile.addNewObject(canvas);
+  canvas->draw(viewport, window, cr);
+  cairo_stroke(cr);
+  gtk_widget_queue_draw (window_widget);
+}
+
+
 
 
 void initializeGTKComponentes() {
@@ -450,8 +469,7 @@ void initializeGTKComponentes() {
 
 int main(int argc, char *argv[]){
   gtk_init(&argc, &argv);
-  window = Window(0.0, 0.0, 300.0, 300.0);
-
+  window = Window(15.0, 15.0, 285.0, 285.0);
 
   initializeGTKComponentes(); 
   g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);
@@ -459,6 +477,7 @@ int main(int argc, char *argv[]){
   g_signal_connect(add_dialog, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
   g_signal_connect(edit_dialog, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
   gtk_builder_connect_signals(gtkBuilder, NULL);
+  
   gtk_widget_show_all(window_widget);
   gtk_main ();
   return 0;
