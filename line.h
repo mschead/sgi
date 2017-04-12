@@ -78,18 +78,28 @@ public:
 
 		if (p1 < 0.0) {
 			r1_teta1 = q1 / p1;
-			r2_teta1 = q3 / p3;
-
 			r1_teta2 = q2 / p2;
-			r2_teta2 = q4 / p4;
+
+			if (p3 < 0.0) {
+				r2_teta1 = q3 / p3;
+				r2_teta2 = q4 / p4;
+			} else {
+				r2_teta1 = q4 / p4;
+				r2_teta2 = q3 / p3;
+			}
+
 		} else {
-			r1_teta2 = q1 / p1;
-			r2_teta2 = q3 / p3;
-
 			r1_teta1 = q2 / p2;
-			r2_teta1 = q4 / p4;
-		}
+			r2_teta2 = q1 / p1;
 
+			if (p3 < 0.0) {
+				r2_teta1 = q3 / p3;
+				r2_teta2 = q4 / p4;
+			} else {
+				r2_teta1 = q4 / p4;
+				r2_teta2 = q3 / p3;
+			}
+		}
 
 		
 		// printf("%f, ", r1);
