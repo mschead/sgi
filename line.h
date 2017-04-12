@@ -67,47 +67,55 @@ public:
 		float p4 = pontoR2->getY() - pontoR1->getY();
 		float p3 = -1.0 * p4;
 
-		float q1 = pontoR1->getX() + 1.0; // - xwmin
-		float q2 = 1.0 - pontoR1->getX();
-		float q3 = pontoR1->getY() + 1.0; // - ymin
-		float q4 = 1.0 - pontoR1->getY();
+		float q1 = pontoR1->getX() + 0.9; // - xwmin
+		float q2 = 0.9 - pontoR1->getX();
+		float q3 = pontoR1->getY() + 0.9; // - ymin
+		float q4 = 0.9 - pontoR1->getY();
 
 
-		// parte do teta1
-		float r1 = q1 / p1;
-		float r3 = q3 / p3;
+		float r1_teta1, r2_teta1;
+		float r1_teta2, r2_teta2; 
 
-		printf("%f, ", r1);
-		printf("%f\n", r3);
+		if (p1 < 0.0) {
+			r1_teta1 = q1 / p1;
+			r2_teta1 = q3 / p3;
 
-		float teta1 = fmax(0.0, fmax(r1, r3));
+			r1_teta2 = q2 / p2;
+			r2_teta2 = q4 / p4;
+		} else {
+			r1_teta2 = q1 / p1;
+			r2_teta2 = q3 / p3;
 
-		// parte do teta2
-		float r2 = q2 / p2;
-		float r4 = q4 / p4;
+			r1_teta1 = q2 / p2;
+			r2_teta1 = q4 / p4;
+		}
 
-		float teta2 = fmin(1.0, fmin(r2, r4));
 
-		printf("%s\n", "verificar teta");
-		printf("%f, ", teta1);
-		printf("%f\n", teta2);
+		
+		// printf("%f, ", r1);
+		// printf("%f\n", r3);
+
+		float teta1 = fmax(0.0, fmax(r1_teta1, r2_teta1));
+		float teta2 = fmin(1.0, fmin(r1_teta2, r2_teta2));
+
+		// printf("%s\n", "verificar teta");
+		// printf("%f, ", teta1);
+		// printf("%f\n", teta2);
 
 		if (teta1 > teta2) {
 			return false;
 		}
 
-		printf("%s\n", "reta clipada");
+		// printf("%s\n", "reta clipada");
 		if (teta1 != 0) {
-			printf("%s\n", "teta1 entrou");
 			pontoR1->setX(pontoR1->getX() + teta1 * p2);
 			pontoR1->setY(pontoR1->getY() + teta1 * p4);
 		}
 
 
 		if (teta2 != 1) {
-			printf("%s\n", "teta2 entrou");
 			pontoR2->setX(pontoR1->getX() + teta2 * p2);
-			pontoR2->setY(pontoR1->getX() + teta2 * p4);
+			pontoR2->setY(pontoR1->getY() + teta2 * p4);
 		}
 
 		return true;
@@ -117,7 +125,7 @@ public:
 	void draw(Viewport viewport, Window window, cairo_t *cr) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
-	  //clipping2(window, viewport);
+	  clipping2(window, viewport);
 
 	  // for (Coordenada* c : normalizedCoordinates) {
 	  // 	printf("%f\n", c->getX());
@@ -130,22 +138,27 @@ public:
   	//   printf("%f\n", normalizedCoordinates.at(1)->getX());
 	  // printf("%f\n", normalizedCoordinates.at(1)->getY());
 
-	  int x1 = viewport.obterXdaViewport(normalizedCoordinates.at(0)->getX(), window.getXmin(), window.getXmax());
-	  int y1 = viewport.obterYdaViewport(normalizedCoordinates.at(0)->getY(), window.getYmin(), window.getYmax());
+	  // if (!clipping2(window, viewport)) {
+		  int x1 = viewport.obterXdaViewport(normalizedCoordinates.at(0)->getX(), window.getXmin(), window.getXmax());
+		  int y1 = viewport.obterYdaViewport(normalizedCoordinates.at(0)->getY(), window.getYmin(), window.getYmax());
 
-	  int x2 = viewport.obterXdaViewport(normalizedCoordinates.at(1)->getX(), window.getXmin(), window.getXmax());
-	  int y2 = viewport.obterYdaViewport(normalizedCoordinates.at(1)->getY(), window.getYmin(), window.getYmax());
+		  int x2 = viewport.obterXdaViewport(normalizedCoordinates.at(1)->getX(), window.getXmin(), window.getXmax());
+		  int y2 = viewport.obterYdaViewport(normalizedCoordinates.at(1)->getY(), window.getYmin(), window.getYmax());
 
-	  // printf("%d\n", x1);
-	  // printf("%d\n", y1);
+		  printf("PONTOS COM VIEWPORT: \n");
+		  printf("%d, ", x1);
+		  printf("%d\n", y1);
 
-  	//   printf("%d\n", x2);
-	  // printf("%d\n", y2);
+	  	  printf("%d, ", x2);
+		  printf("%d\n", y2);
 
 
-	  cairo_move_to(cr, x1, y1);
-	  cairo_line_to(cr, x2, y2);
-	  cairo_stroke(cr);
+		  cairo_move_to(cr, x1, y1);
+		  cairo_line_to(cr, x2, y2);
+		  cairo_stroke(cr);	  	
+	  // }
+
+
 	}
 
 };

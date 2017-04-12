@@ -29,7 +29,6 @@ public:
 
 	Object* getObjectByName(char* name) {
 		for (Object* object : displayFile) {
-			// printf("%s\n", object->getName());
 			if (strcmp(object->getName(), name) == 0) {
 				return object;
 			}
