@@ -23,18 +23,18 @@ public:
 		// Primeiro ponto
 		Coordenada* c1 = this->normalizedCoordinates.at(0);
 		
-		rc1[0] = c1->getY() <= 1 ? 0 : 1;
-		rc1[1] = c1->getY() >= -1 ? 0 : 1;
-		rc1[2] = c1->getX() <= 1 ? 0 : 1;
-		rc1[3] = c1->getX() >= -1 ? 0 : 1;
+		rc1[0] = c1->getY() <= 0.9 ? 0 : 1;
+		rc1[1] = c1->getY() >= -0.9 ? 0 : 1;
+		rc1[2] = c1->getX() <= 0.9 ? 0 : 1;
+		rc1[3] = c1->getX() >= -0.9 ? 0 : 1;
 
 		// Segundo ponto
 		Coordenada* c2 = this->normalizedCoordinates.at(1);
 
-		rc2[0] = c2->getY() <= 1 ? 0 : 1;
-		rc2[1] = c2->getY() >= -1 ? 0 : 1;
-		rc2[2] = c2->getX() <= 1 ? 0 : 1;
-		rc2[3] = c2->getX() >= -1 ? 0 : 1;
+		rc2[0] = c2->getY() <= 0.9 ? 0 : 1;
+		rc2[1] = c2->getY() >= -0.9 ? 0 : 1;
+		rc2[2] = c2->getX() <= 0.9 ? 0 : 1;
+		rc2[3] = c2->getX() >= -0.9 ? 0 : 1;
 
 		// 1 0 1 0
 		// 0 0 1 0
@@ -222,10 +222,14 @@ public:
 	}
 
 
-	void draw(Viewport viewport, Window window, cairo_t *cr) {
+	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
+	  if(clippingType == 0){
+		clipping(window, viewport);
+		}else{
 	  clipping(window, viewport);
+		}
 
 	  // for (Coordenada* c : normalizedCoordinates) {
 	  // 	printf("%f\n", c->getX());

@@ -23,7 +23,7 @@ public:
 		return coordenadas;
 	}
 
-	virtual void draw (Viewport viewport, Window window, cairo_t *cr) = 0;
+	virtual void draw (Viewport viewport, Window window, cairo_t *cr, int clippingType) = 0;
 
 	virtual void clipping (Window window, Viewport viewport) = 0;
 

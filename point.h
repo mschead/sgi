@@ -14,7 +14,7 @@ public:
 		
 	}
 
-	void virtual draw(Viewport viewport, Window window, cairo_t *cr) {
+	void virtual draw(Viewport viewport, Window window, cairo_t *cr,int clippingType) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
 	  int x = viewport.obterXdaViewport(normalizedCoordinates.at(0)->getX(), window.getXmin(), window.getXmax());

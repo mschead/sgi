@@ -14,7 +14,7 @@ public:
 		
 	}
 
-	void draw(Viewport viewport, Window window, cairo_t *cr) {
+	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		float x_inicial, y_inicial, x_final, y_final;
 		float x_init = coordenadas.front()->getX();
 		float y_init = coordenadas.front()->getY();
