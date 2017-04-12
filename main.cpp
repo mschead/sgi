@@ -19,6 +19,7 @@ using namespace std;
 Window window;
 Viewport viewport;
 Displayfile displayFile;
+int clippingType = 0;
 
 static cairo_surface_t *surface = NULL;
 GtkWidget *drawing_area;
@@ -121,11 +122,22 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   window.setAngle(factor);
 
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
 }
+
+extern "C" G_MODULE_EXPORT void clipping_event() {
+  clippingType = 0;
+  printf("%s\n", " Clipping type setado para 0");
+}
+
+extern "C" G_MODULE_EXPORT void clipping_event2() {
+  clippingType = 1;
+  printf("%s\n", " Clipping type setado para 1");
+}
+
 
 /* Mover window para esquerda */
 extern "C" G_MODULE_EXPORT void left_window() {
@@ -138,7 +150,7 @@ extern "C" G_MODULE_EXPORT void left_window() {
   window.refreshCenter();
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -155,7 +167,7 @@ extern "C" G_MODULE_EXPORT void right_window() {
   window.refreshCenter();
 
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -171,7 +183,7 @@ extern "C" G_MODULE_EXPORT void up_window() {
   window.refreshCenter();
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -187,7 +199,7 @@ extern "C" G_MODULE_EXPORT void down_window() {
   window.refreshCenter();
 
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -206,7 +218,7 @@ extern "C" G_MODULE_EXPORT void zoom_in() {
   window.setYmax(-1 * factor);
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr , clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -225,7 +237,7 @@ extern "C" G_MODULE_EXPORT void zoom_out() {
   window.setYmax(factor);
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -275,7 +287,7 @@ extern "C" G_MODULE_EXPORT void rotate_object(){
   clear_surface();
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -292,7 +304,7 @@ extern "C" G_MODULE_EXPORT void scale_object(){
   clear_surface();
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -309,7 +321,7 @@ extern "C" G_MODULE_EXPORT void translate_object() {
   clear_surface();
   
   for (Object* object : displayFile.getObjects()) {
-    object->draw(viewport, window, cr);
+    object->draw(viewport, window, cr, clippingType);
   }
 
   gtk_widget_queue_draw (window_widget);
@@ -350,7 +362,7 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     points.push_back(new Coordenada(x, y));
     Point* point = new Point(name, points);
     displayFile.addNewObject(point);
-    point->draw(viewport, window, cr);
+    point->draw(viewport, window, cr, clippingType);
 
   } else if (strcmp(label, "Line") == 0) {
     int x1 = atoi((char*)gtk_entry_get_text(entry_x1_line));
@@ -364,12 +376,12 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     points.push_back(new Coordenada(x2, y2));
     Line* line = new Line(name, points);
     displayFile.addNewObject(line);
-    line->draw(viewport, window, cr);
+    line->draw(viewport, window, cr, clippingType);
     
   } else if (strcmp(label, "Polygon") == 0) {
     Polygon* polygon = new Polygon(name, polygonCoordinate);
     displayFile.addNewObject(polygon);
-    polygon->draw(viewport, window, cr);
+    polygon->draw(viewport, window, cr, clippingType);
     polygonCoordinate.clear();
   }
 
@@ -393,7 +405,7 @@ extern "C" G_MODULE_EXPORT void create_window() {
   coordenadas.push_back(new Coordenada(-0.9, 0.9));
   Canvas* canvas = new Canvas("window", coordenadas);
   displayFile.addNewObject(canvas);
-  canvas->draw(viewport, window, cr);
+  canvas->draw(viewport, window, cr, clippingType);
   cairo_stroke(cr);
   gtk_widget_queue_draw (window_widget);
 }

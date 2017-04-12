@@ -738,6 +738,36 @@
             <property name="y">428</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkButton" id="button4">
+            <property name="label" translatable="yes">Clipping1</property>
+            <property name="width_request">20</property>
+            <property name="height_request">20</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="clipping_event" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">135</property>
+            <property name="y">120</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button5">
+            <property name="label" translatable="yes">Clipping2</property>
+            <property name="width_request">20</property>
+            <property name="height_request">20</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="clipping_event2" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">135</property>
+            <property name="y">150</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>
