@@ -40,19 +40,24 @@ GtkEntry *entry_object_name;
 
 GtkEntry* entry_angle;
 
+GtkListStore *pointsPolygon;
+
+vector<Coordenada*> polygonCoordinate;
+
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
 GtkEntry *polygon_x;
 GtkEntry *polygon_y;
 
-GtkListStore *pointsPolygon;
-
-vector<Coordenada*> polygonCoordinate;
-
 GtkEntry *entry_x1_line;
 GtkEntry *entry_y1_line;
 GtkEntry *entry_x2_line;
 GtkEntry *entry_y2_line;
+
+GtkEntry *entry_p1_hermite;
+GtkEntry *entry_p4_hermite;
+GtkEntry *entry_r1_hermite;
+GtkEntry *entry_r4_hermite;
 
 GtkEntry *entry_x_translate;
 GtkEntry *entry_y_translate;
@@ -383,6 +388,19 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     displayFile.addNewObject(polygon);
     polygon->draw(viewport, window, cr, clippingType);
     polygonCoordinate.clear();
+  } else if (strcmp(label, "Hermite") == 0) {
+    int x1 = atoi((char*)gtk_entry_get_text(entry_p1_hermite));
+    int y1 = atoi((char*)gtk_entry_get_text(entry_p4_hermite));
+
+    int x2 = atoi((char*)gtk_entry_get_text(entry_r1_hermite));
+    int y2 = atoi((char*)gtk_entry_get_text(entry_r4_hermite));
+
+    vector<Coordenada*> points;
+    points.push_back(new Coordenada(x1, y1));
+    points.push_back(new Coordenada(x2, y2));
+    Line* line = new Line(name, points);
+    displayFile.addNewObject(line);
+    line->draw(viewport, window, cr, clippingType);
   }
 
   GtkTreeIter iter;
@@ -426,6 +444,11 @@ void initializeGTKComponentes() {
   notebook = GTK_NOTEBOOK ( gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "add_notebook"));
 
   entry_object_name = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_object_name"));
+
+  entry_p1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_line"));
+  entry_p4_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_line"));
+  entry_r1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_line"));
+  entry_r4_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_line"));
 
   entry_x1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x1_line"));
   entry_y1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y1_line"));

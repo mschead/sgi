@@ -1,1 +1,0 @@
-enum Tipo {ponto, reta, poligono};
