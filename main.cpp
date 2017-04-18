@@ -9,6 +9,7 @@
 #include "line.h"
 #include "point.h"
 #include "polygon.h"
+#include "hermitespline.h"
 #include "canvas.h"
 #include "displayfile.h"
 
@@ -58,6 +59,15 @@ GtkEntry *entry_p1_hermite;
 GtkEntry *entry_p4_hermite;
 GtkEntry *entry_r1_hermite;
 GtkEntry *entry_r4_hermite;
+
+GtkEntry *entry_p1_x_hermite; 
+GtkEntry *entry_p1_y_hermite; 
+GtkEntry *entry_p4_x_hermite; 
+GtkEntry *entry_p4_y_hermite;    
+GtkEntry *entry_r1_x_hermite; 
+GtkEntry *entry_r1_y_hermite; 
+GtkEntry *entry_r4_x_hermite; 
+GtkEntry *entry_r4_y_hermite;
 
 GtkEntry *entry_x_translate;
 GtkEntry *entry_y_translate;
@@ -389,18 +399,25 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     polygon->draw(viewport, window, cr, clippingType);
     polygonCoordinate.clear();
   } else if (strcmp(label, "Hermite") == 0) {
-    int x1 = atoi((char*)gtk_entry_get_text(entry_p1_hermite));
-    int y1 = atoi((char*)gtk_entry_get_text(entry_p4_hermite));
 
-    int x2 = atoi((char*)gtk_entry_get_text(entry_r1_hermite));
-    int y2 = atoi((char*)gtk_entry_get_text(entry_r4_hermite));
+    int p1_x = atoi((char*)gtk_entry_get_text(entry_p1_x_hermite));
+    int p1_y = atoi((char*)gtk_entry_get_text(entry_p1_y_hermite));
+
+    int p4_x = atoi((char*)gtk_entry_get_text(entry_p4_x_hermite));
+    int p4_y = atoi((char*)gtk_entry_get_text(entry_p4_y_hermite));
+
+    int r1_x = atoi((char*)gtk_entry_get_text(entry_r1_x_hermite));
+    int r1_y = atoi((char*)gtk_entry_get_text(entry_r1_y_hermite));
+
+    int r4_x = atoi((char*)gtk_entry_get_text(entry_r4_x_hermite));
+    int r4_y = atoi((char*)gtk_entry_get_text(entry_r4_y_hermite));
+
 
     vector<Coordenada*> points;
-    points.push_back(new Coordenada(x1, y1));
-    points.push_back(new Coordenada(x2, y2));
-    Line* line = new Line(name, points);
-    displayFile.addNewObject(line);
-    line->draw(viewport, window, cr, clippingType);
+    HermiteSpline* spline = new HermiteSpline(name, points, new Coordenada(p1_x, p1_y), 
+      new Coordenada(p4_x, p4_y), new Coordenada(r1_x, r1_y), new Coordenada(r4_x, r4_y));
+    displayFile.addNewObject(spline);
+    spline->draw(viewport, window, cr, clippingType);
   }
 
   GtkTreeIter iter;
@@ -445,10 +462,14 @@ void initializeGTKComponentes() {
 
   entry_object_name = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_object_name"));
 
-  entry_p1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_line"));
-  entry_p4_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_line"));
-  entry_r1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_line"));
-  entry_r4_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_line"));
+  entry_p1_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_x_hermite"));
+  entry_p1_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_y_hermite"));
+  entry_p4_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_x_hermite"));
+  entry_p4_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_y_hermite"));
+  entry_r1_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_x_hermite"));
+  entry_r1_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_y_hermite"));
+  entry_r4_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_x_hermite"));
+  entry_r4_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_y_hermite"));
 
   entry_x1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x1_line"));
   entry_y1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y1_line"));

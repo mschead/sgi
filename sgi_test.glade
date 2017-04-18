@@ -258,76 +258,116 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkEntry" id="entry_p1_hermite">
-                    <property name="width_request">166</property>
-                    <property name="height_request">80</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="placeholder_text" translatable="yes">P1</property>
-                  </object>
-                  <packing>
-                    <property name="x">47</property>
-                    <property name="y">104</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="entry_p4_hermite">
-                    <property name="width_request">166</property>
-                    <property name="height_request">80</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="placeholder_text" translatable="yes">P4</property>
-                  </object>
-                  <packing>
-                    <property name="x">218</property>
-                    <property name="y">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="entry_r1_hermite">
-                    <property name="width_request">166</property>
-                    <property name="height_request">80</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="placeholder_text" translatable="yes">R1</property>
-                  </object>
-                  <packing>
-                    <property name="x">29</property>
-                    <property name="y">57</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="entry_r4_hermite">
-                    <property name="width_request">80</property>
-                    <property name="height_request">80</property>
+                  <object class="GtkEntry" id="entry_p1_x_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">0</property>
-                    <property name="placeholder_text" translatable="yes">R4</property>
+                    <property name="placeholder_text" translatable="yes">P1_X</property>
                   </object>
                   <packing>
-                    <property name="x">219</property>
-                    <property name="y">58</property>
+                    <property name="x">23</property>
+                    <property name="y">13</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkAlignment" id="alignment1">
-                    <property name="width_request">31</property>
-                    <property name="height_request">117</property>
+                  <object class="GtkEntry" id="entry_p1_y_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="xscale">0</property>
-                    <child>
-                      <object class="GtkEntry" id="entry1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                      </object>
-                    </child>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">P1_Y</property>
                   </object>
                   <packing>
-                    <property name="x">205</property>
-                    <property name="y">123</property>
+                    <property name="x">88</property>
+                    <property name="y">13</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_p4_x_hermite">
+                    <property name="name">60</property>
+                    <property name="width_request">60</property>
+                    <property name="height_request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">P4_X</property>
+                  </object>
+                  <packing>
+                    <property name="x">172</property>
+                    <property name="y">13</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_r4_x_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">R4_X</property>
+                  </object>
+                  <packing>
+                    <property name="x">172</property>
+                    <property name="y">52</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_r1_x_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">R1_X</property>
+                  </object>
+                  <packing>
+                    <property name="x">22</property>
+                    <property name="y">53</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_r1_y_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">R1_Y</property>
+                  </object>
+                  <packing>
+                    <property name="x">89</property>
+                    <property name="y">52</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_p4_y_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">P4_Y</property>
+                  </object>
+                  <packing>
+                    <property name="x">241</property>
+                    <property name="y">13</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_r4_y_hermite">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">R4_Y</property>
+                  </object>
+                  <packing>
+                    <property name="x">241</property>
+                    <property name="y">52</property>
                   </packing>
                 </child>
               </object>
@@ -368,14 +408,16 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkEntry" id="entry_x_scale">
-                <property name="width_request">166</property>
-                <property name="height_request">80</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">x</property>
               </object>
               <packing>
-                <property name="x">5</property>
+                <property name="x">7</property>
+                <property name="y">4</property>
               </packing>
             </child>
             <child>
@@ -389,21 +431,22 @@
                 <signal name="clicked" handler="scale_object" swapped="no"/>
               </object>
               <packing>
-                <property name="x">37</property>
-                <property name="y">97</property>
+                <property name="x">20</property>
+                <property name="y">39</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="entry_y_scale">
-                <property name="width_request">166</property>
-                <property name="height_request">80</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">y</property>
               </object>
               <packing>
-                <property name="x">4</property>
-                <property name="y">33</property>
+                <property name="x">71</property>
+                <property name="y">4</property>
               </packing>
             </child>
           </object>
@@ -424,27 +467,30 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkEntry" id="entry_x_translate">
-                <property name="width_request">110</property>
-                <property name="height_request">80</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">x</property>
               </object>
               <packing>
                 <property name="x">10</property>
+                <property name="y">4</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="entry_y_translate">
-                <property name="width_request">166</property>
-                <property name="height_request">80</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">y</property>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">36</property>
+                <property name="x">72</property>
+                <property name="y">4</property>
               </packing>
             </child>
             <child>
@@ -458,8 +504,8 @@
                 <signal name="clicked" handler="translate_object" swapped="no"/>
               </object>
               <packing>
-                <property name="x">42</property>
-                <property name="y">96</property>
+                <property name="x">21</property>
+                <property name="y">38</property>
               </packing>
             </child>
           </object>
@@ -484,14 +530,17 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkEntry" id="entry_angle">
-                <property name="width_request">166</property>
-                <property name="height_request">80</property>
+                <property name="name">0</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">angle</property>
               </object>
               <packing>
-                <property name="x">103</property>
+                <property name="x">16</property>
+                <property name="y">16</property>
               </packing>
             </child>
             <child>
@@ -505,47 +554,49 @@
                 <signal name="clicked" handler="rotate_object" swapped="no"/>
               </object>
               <packing>
-                <property name="x">137</property>
-                <property name="y">81</property>
+                <property name="x">80</property>
+                <property name="y">17</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="entry_x_rotate">
-                <property name="width_request">166</property>
-                <property name="height_request">80</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">x</property>
               </object>
               <packing>
-                <property name="x">16</property>
-                <property name="y">127</property>
+                <property name="x">17</property>
+                <property name="y">95</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="entry_y_rotate">
-                <property name="width_request">166</property>
-                <property name="height_request">80</property>
+                <property name="width_request">60</property>
+                <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">0</property>
                 <property name="placeholder_text" translatable="yes">y</property>
               </object>
               <packing>
-                <property name="x">202</property>
-                <property name="y">126</property>
+                <property name="x">85</property>
+                <property name="y">95</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="label1">
-                <property name="width_request">392</property>
-                <property name="height_request">80</property>
+                <property name="width_request">400</property>
+                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Fill in above if you want to rotate in a arbitrary coordinate</property>
               </object>
               <packing>
-                <property name="x">5</property>
-                <property name="y">89</property>
+                <property name="x">16</property>
+                <property name="y">60</property>
               </packing>
             </child>
           </object>
@@ -606,8 +657,8 @@
             <signal name="clicked" handler="new_element" swapped="no"/>
           </object>
           <packing>
-            <property name="x">30</property>
-            <property name="y">140</property>
+            <property name="x">38</property>
+            <property name="y">143</property>
           </packing>
         </child>
         <child>
@@ -621,7 +672,7 @@
             <signal name="clicked" handler="zoom_out" swapped="no"/>
           </object>
           <packing>
-            <property name="x">89</property>
+            <property name="x">86</property>
             <property name="y">253</property>
           </packing>
         </child>
@@ -643,7 +694,7 @@
         <child>
           <object class="GtkButton" id="right_button">
             <property name="label" translatable="yes">right</property>
-            <property name="width_request">40</property>
+            <property name="width_request">48</property>
             <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -651,8 +702,8 @@
             <signal name="clicked" handler="right_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">118</property>
-            <property name="y">360</property>
+            <property name="x">117</property>
+            <property name="y">357</property>
           </packing>
         </child>
         <child>
@@ -666,14 +717,14 @@
             <signal name="clicked" handler="up_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">68</property>
-            <property name="y">330</property>
+            <property name="x">66</property>
+            <property name="y">325</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="down_button">
             <property name="label" translatable="yes">down</property>
-            <property name="width_request">40</property>
+            <property name="width_request">53</property>
             <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -681,8 +732,8 @@
             <signal name="clicked" handler="down_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">64</property>
-            <property name="y">360</property>
+            <property name="x">61</property>
+            <property name="y">357</property>
           </packing>
         </child>
         <child>
@@ -696,34 +747,36 @@
             <signal name="clicked" handler="left_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">23</property>
-            <property name="y">360</property>
+            <property name="x">20</property>
+            <property name="y">358</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="step_factor">
-            <property name="width_request">160</property>
-            <property name="height_request">10</property>
+            <property name="width_request">60</property>
+            <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
             <property name="placeholder_text" translatable="yes">factor</property>
           </object>
           <packing>
-            <property name="x">10</property>
-            <property name="y">290</property>
+            <property name="x">56</property>
+            <property name="y">293</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="zoom_factor">
-            <property name="width_request">140</property>
-            <property name="height_request">20</property>
+            <property name="width_request">60</property>
+            <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
             <property name="placeholder_text" translatable="yes">zoom</property>
           </object>
           <packing>
-            <property name="x">10</property>
-            <property name="y">215</property>
+            <property name="x">56</property>
+            <property name="y">222</property>
           </packing>
         </child>
         <child>
@@ -784,20 +837,21 @@
             <signal name="clicked" handler="edit_element" swapped="no"/>
           </object>
           <packing>
-            <property name="x">30</property>
-            <property name="y">175</property>
+            <property name="x">38</property>
+            <property name="y">179</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="angle_factor">
-            <property name="width_request">166</property>
-            <property name="height_request">80</property>
+            <property name="width_request">60</property>
+            <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
             <property name="placeholder_text" translatable="yes">angle</property>
           </object>
           <packing>
-            <property name="x">10</property>
+            <property name="x">31</property>
             <property name="y">403</property>
           </packing>
         </child>
@@ -812,8 +866,8 @@
             <signal name="clicked" handler="rotate_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">59</property>
-            <property name="y">471</property>
+            <property name="x">98</property>
+            <property name="y">403</property>
           </packing>
         </child>
         <child>
@@ -827,38 +881,38 @@
             <signal name="clicked" handler="create_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">215</property>
-            <property name="y">428</property>
+            <property name="x">222</property>
+            <property name="y">421</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="button4">
             <property name="label" translatable="yes">Liang</property>
-            <property name="width_request">20</property>
-            <property name="height_request">20</property>
+            <property name="width_request">52</property>
+            <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <signal name="clicked" handler="clipping_event" swapped="no"/>
           </object>
           <packing>
-            <property name="x">135</property>
-            <property name="y">120</property>
+            <property name="x">337</property>
+            <property name="y">422</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="button5">
             <property name="label" translatable="yes">Cohen</property>
-            <property name="width_request">20</property>
-            <property name="height_request">20</property>
+            <property name="width_request">58</property>
+            <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <signal name="clicked" handler="clipping_event2" swapped="no"/>
           </object>
           <packing>
-            <property name="x">135</property>
-            <property name="y">150</property>
+            <property name="x">392</property>
+            <property name="y">421</property>
           </packing>
         </child>
       </object>

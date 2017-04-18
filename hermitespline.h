@@ -6,21 +6,27 @@
 class HermiteSpline : public Object {
 	
 public:
-	HermiteSpline(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+	HermiteSpline(char* nome, vector<Coordenada*> coordenadas, 
+		Coordenada *p1, Coordenada *p4, Coordenada *r1, Coordenada *r4) : Object(nome, coordenadas) {
+		this->p1 = p1;
+		this->p4 = p4;
+		this->r1 = r1;
+		this->r4 = r4;
 	}
 
-	void virtual draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
-		//fazer draw normalized
+	void clipping(Window window, Viewport viewport) {
+
+	}
+
+	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
+		normalizedCoordinates.clear();
 
 		Matrix m;
 		
-		float geometryVectorX = {normalizazedCoordinate.at(0).getX(), normalizazedCoordinate.at(1).getX(), 
-			normalizazedCoordinate.at(2).getX(), normalizazedCoordinate.at(3).getX()};
+		float geometryVectorX[4] = {p1->getX(), p4->getX(), r1->getX(), r4->getX()};
+		float geometryVectorY[4] = {p1->getY(), p4->getY(), r1->getY(), r4->getY()};
 
-		float geometryVectorY = {normalizazedCoordinate.at(0).getY(), normalizazedCoordinate.at(1).getY(), 
-			normalizazedCoordinate.at(2).getY(), normalizazedCoordinate.at(3).getY()};
-
-		float geometryVectorZ = {0, 0, 0, 0};
+		float geometryVectorZ[4] = {0, 0, 0, 0};
 
 		float resultX[4] = {0, 0, 0, 0};
 		float resultY[4] = {0, 0, 0, 0};
@@ -29,39 +35,58 @@ public:
 
 		m.multiplyHermiteToGeometryVector(geometryVectorX, resultX);
 		m.multiplyHermiteToGeometryVector(geometryVectorY, resultY);
-		m.multiplyHermiteToGeometryVector(geometryVectorZ, resultZ);
+		// m.multiplyHermiteToGeometryVector(geometryVectorZ, resultZ);
 
-		float x_inicial, y_inicial, z_final;
+		float x_inicial, y_inicial, z_inicial;
 		float x_final, y_final, z_final;
 
-		float matrixT[4] = {3.0 * t * t, 2.0 * t, 1.0, 0.0};
+		float matrixT[4] = {0.0, 0.0, 1.0, 0.0};
 
-		for (int i = 0; i < 4; i++) {
-			x_inicial = matrixT[i] * resultX[i];
-			y_inicial = matrixT[i] * resultY[i];
-		}		
+		// for (int i = 0; i < 4; i++) {
+		// 	x_inicial = matrixT[i] * resultX[i];
+		// 	y_inicial = matrixT[i] * resultY[i];
+		// }		
 
-		for (float t = 0.0; 0.0 < 1.1; t = t + 0.1) {
-			matrixT[4] = {3.0 * t * t, 2.0 * t, 1.0, 0.0};
+		// this->coordenadas.push_back(new Coordenada(x_inicial, y_inicial));
 
+		for (float t = 0.0; t < 1.1; t = t + 0.1) {
+			matrixT[0] = 3.0 * t * t;
+			matrixT[1] = 2.0 * t;
+			matrixT[2] = 1.0;
+			matrixT[3] = 0.0;
+			
+			x_final = 0.0;
+			y_final = 0.0;
 			for (int i = 0; i < 4; i++) {
-				x_final = matrixT[i] * resultX[i];
-				y_final = matrixT[i] * resultY[i];
+				x_final += matrixT[i] * resultX[i];
+				y_final += matrixT[i] * resultY[i];
 				// por enquanto nao precisa
 				//z = matrixT[i] * resultZ[i];				
-
-				cairo_move_to(cr, x_inicial, y_inicial);
-				cairo_line_to(cr, x_final, y_final);
-				cairo_stroke(cr);
-
-				x_inicial = x_final;
-				y_inicial = y_final;
 			}
 
+			this->coordenadas.push_back(new Coordenada(x_final, y_final));
+			// this->coordenadas.push_back(new Coordenada(x_final, y_final));
+
+			// x_inicial = x_final;
+			// y_inicial = y_final;
+		}
+
+		drawNormalized(window);
+
+		for (int i = 0; i < normalizedCoordinates.size() - 1; i++) {
+			cairo_move_to(cr, normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
+			cairo_line_to(cr, normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
+			
+			printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
+				normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
+
+			cairo_stroke(cr);
 		}
 
 	}
 
+private:
+	Coordenada *p1, *p4, *r1, *r4;
 
 
 };
