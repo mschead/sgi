@@ -15,6 +15,12 @@ public:
 		this->coordenadas = coordenadas;
 	}
 
+	~Object() {
+		delete nome;
+		coordenadas.clear();
+		normalizedCoordinates.clear();
+	}
+
 	char* getName() {
 		return nome;
 	}

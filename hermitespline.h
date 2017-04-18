@@ -12,14 +12,6 @@ public:
 		this->p4 = p4;
 		this->r1 = r1;
 		this->r4 = r4;
-	}
-
-	void clipping(Window window, Viewport viewport) {
-
-	}
-
-	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
-		normalizedCoordinates.clear();
 
 		Matrix m;
 		
@@ -37,17 +29,9 @@ public:
 		m.multiplyHermiteToGeometryVector(geometryVectorY, resultY);
 		// m.multiplyHermiteToGeometryVector(geometryVectorZ, resultZ);
 
-		float x_inicial, y_inicial, z_inicial;
 		float x_final, y_final, z_final;
 
 		float matrixT[4] = {0.0, 0.0, 1.0, 0.0};
-
-		// for (int i = 0; i < 4; i++) {
-		// 	x_inicial = matrixT[i] * resultX[i];
-		// 	y_inicial = matrixT[i] * resultY[i];
-		// }		
-
-		// this->coordenadas.push_back(new Coordenada(x_inicial, y_inicial));
 
 		for (float t = 0.0; t < 1.1; t = t + 0.1) {
 			matrixT[0] = 3.0 * t * t;
@@ -65,28 +49,45 @@ public:
 			}
 
 			this->coordenadas.push_back(new Coordenada(x_final, y_final));
-			// this->coordenadas.push_back(new Coordenada(x_final, y_final));
-
-			// x_inicial = x_final;
-			// y_inicial = y_final;
 		}
 
+	}
+
+	void clipping(Window window, Viewport viewport) {
+		// método de clippagem da reta invocado
+	}
+
+	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
+		normalizedCoordinates.clear();
+		auxLines.clear();
 		drawNormalized(window);
 
 		for (int i = 0; i < normalizedCoordinates.size() - 1; i++) {
-			cairo_move_to(cr, normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
-			cairo_line_to(cr, normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
-			
-			printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
-				normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
+		
+		    int x1 = viewport.obterXdaViewport(normalizedCoordinates.at(i)->getX(), window.getXmin(), window.getXmax());
+		    int y1 = viewport.obterYdaViewport(normalizedCoordinates.at(i)->getY(), window.getYmin(), window.getYmax());
 
-			cairo_stroke(cr);
+		    int x2 = viewport.obterXdaViewport(normalizedCoordinates.at(i+1)->getX(), window.getXmin(), window.getXmax());
+		    int y2 = viewport.obterYdaViewport(normalizedCoordinates.at(i+1)->getY(), window.getYmin(), window.getYmax());
+
+		    vector<Coordenada*> points;
+		    points.push_back(new Coordenada(x1, y1));
+		    points.push_back(new Coordenada(x2, y2));
+		    Line* line = new Line("", points);
+		    auxLines.push_back(line);
+		    line->draw(viewport, window, cr, clippingType);
+
+			// printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
+			// 	normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
 		}
+
+
 
 	}
 
 private:
 	Coordenada *p1, *p4, *r1, *r4;
+	std::vector<Line*> auxLines;
 
 
 };
