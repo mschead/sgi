@@ -75,8 +75,7 @@ public:
 		    points.push_back(new Coordenada(x2, y2));
 		    Line* line = new Line("", points);
 		    auxLines.push_back(line);
-		    line->draw(viewport, window, cr, clippingType);
-
+		    line->draw(viewport, window, cr, 1);
 			// printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
 			// 	normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
 		}

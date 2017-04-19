@@ -6,6 +6,9 @@
 	using namespace std;
 
 	class Line : public Object {
+
+	private:
+		bool desenhar = true;
 		
 	public:
 
@@ -158,6 +161,7 @@
 			}				
 			else {
 				printf("%s\n", "TA FORA");
+			desenhar = false;
 			}
 
 
@@ -245,12 +249,14 @@
 		void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		  normalizedCoordinates.clear();
 		  drawNormalized(window);
-		  
+		  desenhar = true;
 		  if(clippingType == 0){
 			clipping2(window, viewport);
 			}else{
 		  clipping(window, viewport);
-			}
+			}if(!desenhar){
+		  normalizedCoordinates.clear();
+		  	}else{
 
 		  // for (Coordenada* c : normalizedCoordinates) {
 		  // 	printf("%f\n", c->getX());
@@ -279,6 +285,7 @@
 		  cairo_move_to(cr, x1, y1);
 		  cairo_line_to(cr, x2, y2);
 		  cairo_stroke(cr);
+			}
 		}
 
 	};

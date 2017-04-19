@@ -20,7 +20,7 @@ using namespace std;
 Window window;
 Viewport viewport;
 Displayfile displayFile;
-int clippingType = 0;
+int clippingType = 1;
 
 static cairo_surface_t *surface = NULL;
 GtkWidget *drawing_area;
