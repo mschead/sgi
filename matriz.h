@@ -87,6 +87,41 @@ public:
 
 	}
 
+	void multiplyBSplineToGeometryVector(float geometryVector[4], float result[4]) {
+			// NAO ESQUECER DE DIVIDIR POR 6
+			float matrizBSpline[4][4];
+
+			matrizBSpline[0][0] = -1.0;
+			matrizBSpline[0][1] = 3.0;
+			matrizBSpline[0][2] = -3.0;
+			matrizBSpline[0][3] = 1.0;
+
+			matrizBSpline[1][0] = 3.0;
+			matrizBSpline[1][1] = -6.0;
+			matrizBSpline[1][2] = 3.0;
+			matrizBSpline[1][3] = 0.0;
+	
+			matrizBSpline[2][0] = -3.0;
+			matrizBSpline[2][1] = 0.0;
+			matrizBSpline[2][2] = 3.0;
+			matrizBSpline[2][3] = 0.0;
+			
+			matrizBSpline[3][0] = 1.0;
+			matrizBSpline[3][1] = 4.0;
+			matrizBSpline[3][2] = 1.0;
+			matrizBSpline[3][3] = 0.0;
+
+
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				result[i] += matrizBSpline[i][j] * geometryVector[j]; 
+			}
+			printf("%f\n", result[i]);
+		}
+
+	}
+
+
 	void multiplyMatrices(Matrix a, Matrix b, Matrix &result) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {

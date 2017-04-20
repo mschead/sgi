@@ -10,6 +10,7 @@
 #include "point.h"
 #include "polygon.h"
 #include "hermitespline.h"
+#include "bspline.h"
 #include "canvas.h"
 #include "displayfile.h"
 
@@ -44,11 +45,17 @@ GtkEntry* entry_angle;
 GtkListStore *pointsPolygon;
 
 vector<Coordenada*> polygonCoordinate;
+vector<Coordenada*> bsplineCoordinate;
 
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
+
 GtkEntry *polygon_x;
 GtkEntry *polygon_y;
+
+GtkEntry *bspline_x;
+GtkEntry *bspline_y;
+
 
 GtkEntry *entry_x1_line;
 GtkEntry *entry_y1_line;
@@ -352,12 +359,14 @@ extern "C" G_MODULE_EXPORT void add_point_event() {
   int x = atoi((char*)gtk_entry_get_text(polygon_x));
   int y = atoi((char*)gtk_entry_get_text(polygon_y));
 
-  printf("%d", x);
-  printf("%s", ", ");
-  printf("%d\n", y);
-
   polygonCoordinate.push_back(new Coordenada(x, y));
+}
 
+extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
+  int x = atoi((char*)gtk_entry_get_text(bspline_x));
+  int y = atoi((char*)gtk_entry_get_text(bspline_y));
+
+  bsplineCoordinate.push_back(new Coordenada(x, y));
 }
 
 extern "C" G_MODULE_EXPORT void add_confirm_event() {
@@ -418,6 +427,12 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
       new Coordenada(p4_x, p4_y), new Coordenada(r1_x, r1_y), new Coordenada(r4_x, r4_y));
     displayFile.addNewObject(spline);
     spline->draw(viewport, window, cr, clippingType);
+  } else if (strcmp(label, "BSpline") == 0) {
+    vector<Coordenada*> coordenadas;
+    BSpline* bspline = new BSpline(name, coordenadas, bsplineCoordinate);
+    displayFile.addNewObject(bspline);
+    bspline->draw(viewport, window, cr, clippingType);
+    bsplineCoordinate.clear();
   }
 
   GtkTreeIter iter;
@@ -478,6 +493,9 @@ void initializeGTKComponentes() {
 
   entry_x_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_point"));
   entry_y_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_point"));
+
+  bspline_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_x"));
+  bspline_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_y"));
 
   entry_x_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_translate"));
   entry_y_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_translate"));
