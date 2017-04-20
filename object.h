@@ -59,8 +59,10 @@ public:
 		result3.setZero();
 		result.setZero();
 
-		translateCenter.setTranslate(-1 * window.getXCenter(), -1 * window.getYCenter());
-		rotate.setRotate(-1 * window.getAngle());
+		// printf("%f, %f\n", -1.0 * window.getXCenter(), -1.0 * window.getYCenter());
+
+		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter());
+		rotate.setRotate(-1.0 * window.getAngle());
 		
 		float t1;
 		float t2;
@@ -85,9 +87,9 @@ public:
 			f2 = (-1.0 / window.getYCenter());			
 		}
 
-		// printf("%f\n", f1);
-		// printf("%f\n", f2);
-		translateBack.setTranslate(f1, f2);
+		// printf("%f, %f\n", f1, f2);
+		
+		// translateBack.setTranslate(f1, f2);
 
 		// result1.printMatrix3x3(translateCenter);
 		// printf("\n");
@@ -114,8 +116,7 @@ public:
 
 			result.multiplyPointToMatrix(point, result3, normalizePoint);
 
-			// printf("%f\n", normalizePoint[0]);
-	  // 		printf("%f\n", normalizePoint[1]);
+			printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1]));
 		}
 

@@ -51,25 +51,25 @@
 			coeficienteAngularY = 1/coeficienteAngularX;
 			}
 
-			printf("\n%s\n", "Coeficiente angular:");
-			printf("%f\n\n", coeficienteAngularX);
+			// printf("\n%s\n", "Coeficiente angular:");
+			// printf("%f\n\n", coeficienteAngularX);
 
 			bool rcComparer = rc1[0] && rc2[0] || rc1[1] && rc2[1] || rc1[2] && rc2[2] || rc1[3] && rc2[3];
 			int sum = rc1[0] + rc1[1] + rc1[2] + rc1[3] + rc2[0] + rc2[1] + rc2[2] + rc2[3]; 
 
 			if (!sum) {
-				printf("%s\n", "TUDO DENTRO");
+				// printf("%s\n", "TUDO DENTRO");
 			} else if (!rcComparer) {
-				printf("%s\n", "CALCULAR PARCIALMENTE");
+				// printf("%s\n", "CALCULAR PARCIALMENTE");
 
 				if( rc1[0] == 1 || rc2[0] == 1 ){
 					printf("%s\n", "CALCULAR X QUE ALCANCA TOPO");
 					float topX;
 
-					printf("%s\n", "X em relacao a window");
-					printf("%f\n", c1->getX());
-					printf("%s\n", "Y em relacao a window");
-					printf("%f\n", c1->getY());
+					// printf("%s\n", "X em relacao a window");
+					// printf("%f\n", c1->getX());
+					// printf("%s\n", "Y em relacao a window");
+					// printf("%f\n", c1->getY());
 					
 					topX = coeficienteAngularY * (0.9 - c1->getY()) + c1->getX();
 					
@@ -82,18 +82,18 @@
 						c2->setX(topX);
 						}
 					}
-					printf("%s\n", "X de interseccao calculado");
-					printf("%f\n", topX);
+					// printf("%s\n", "X de interseccao calculado");
+					// printf("%f\n", topX);
 				}
 
 				if( rc1[1] == 1 || rc2[1] == 1){
-					printf("%s\n", "CALCULAR X QUE ALCANCA BASE");
+					// printf("%s\n", "CALCULAR X QUE ALCANCA BASE");
 					float bottonX;
 
-					printf("%s\n", "X em relacao a window");
-					printf("%f\n", c1->getX());
-					printf("%s\n", "Y em relacao a window");
-					printf("%f\n", c1->getY());
+					// printf("%s\n", "X em relacao a window");
+					// printf("%f\n", c1->getX());
+					// printf("%s\n", "Y em relacao a window");
+					// printf("%f\n", c1->getY());
 					
 					bottonX = coeficienteAngularY * (-0.9 - c1->getY()) + c1->getX();
 					
@@ -106,18 +106,18 @@
 						c2->setX(bottonX);
 						}
 					}
-					printf("%s\n", "X de interseccao calculado");
-					printf("%f\n", bottonX);
+					// printf("%s\n", "X de interseccao calculado");
+					// printf("%f\n", bottonX);
 				}
 
 				if( rc1[2] == 1 || rc2[2] == 1 ){
-					printf("%s\n", "CALCULAR Y QUE ALCANCA LADO DIREITO");
+					// printf("%s\n", "CALCULAR Y QUE ALCANCA LADO DIREITO");
 					float rightY;
 
-					printf("%s\n", "X em relacao a window");
-					printf("%f\n", c1->getX());
-					printf("%s\n", "Y em relacao a window");
-					printf("%f\n", c1->getY());
+					// printf("%s\n", "X em relacao a window");
+					// printf("%f\n", c1->getX());
+					// printf("%s\n", "Y em relacao a window");
+					// printf("%f\n", c1->getY());
 					
 					rightY = coeficienteAngularX * (0.9 - c1->getX()) + c1->getY();
 					
@@ -130,18 +130,18 @@
 						c2->setX(0.9);
 						}
 					}
-					printf("%s\n", "Y de interseccao calculado");
-					printf("%f\n", rightY);
+					// printf("%s\n", "Y de interseccao calculado");
+					// printf("%f\n", rightY);
 				}
 
 				if( rc1[3] == 1 || rc2[3] == 1){
-					printf("%s\n", "CALCULAR Y QUE ALCANCA LADO ESQUERDO");
+					// printf("%s\n", "CALCULAR Y QUE ALCANCA LADO ESQUERDO");
 					float leftY;
 
-					printf("%s\n", "X em relacao a window");
-					printf("%f\n", c1->getX());
-					printf("%s\n", "Y em relacao a window");
-					printf("%f\n", c1->getY());
+					// printf("%s\n", "X em relacao a window");
+					// printf("%f\n", c1->getX());
+					// printf("%s\n", "Y em relacao a window");
+					// printf("%f\n", c1->getY());
 					
 					leftY = coeficienteAngularX * (-0.9 - c1->getX()) + c1->getY();
 					
@@ -154,13 +154,13 @@
 						c2->setX(-0.9);
 						}
 					}
-					printf("%s\n", "Y de interseccao calculado");
-					printf("%f\n", leftY);
+					// printf("%s\n", "Y de interseccao calculado");
+					// printf("%f\n", leftY);
 
 				}
 			}				
 			else {
-				printf("%s\n", "TA FORA");
+				// printf("%s\n", "TA FORA");
 			desenhar = false;
 			}
 
@@ -275,12 +275,8 @@
 		  int x2 = viewport.obterXdaViewport(normalizedCoordinates.at(1)->getX(), window.getXmin(), window.getXmax());
 		  int y2 = viewport.obterYdaViewport(normalizedCoordinates.at(1)->getY(), window.getYmin(), window.getYmax());
 
-		  printf("%d\n", x1);
-		  printf("%d\n", y1);
-
-	  	  printf("%d\n", x2);
-		  printf("%d\n", y2);
-
+		  // printf("%d, %d\n", x1, y1);
+	  	//   printf("%d, %d\n", x2, y2);
 
 		  cairo_move_to(cr, x1, y1);
 		  cairo_line_to(cr, x2, y2);
