@@ -102,7 +102,7 @@ public:
 				estavaDentro = true;
 		}
 		printf("%s\n", "Numero de vertices");
-		printf("%u\n", coordenadasClippadas.size());
+		// printf("%u\n", coordenadasClippadas.size());
 		normalizedCoordinates = coordenadasClippadas;
 	}
 

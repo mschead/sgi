@@ -22,7 +22,7 @@ public:
 
 		float resultX[4] = {0, 0, 0, 0};
 		float resultY[4] = {0, 0, 0, 0};
-		float resultZ[4] = {0, 0, 0, 0};
+		// float resultZ[4] = {0, 0, 0, 0};
 
 
 		m.multiplyHermiteToGeometryVector(geometryVectorX, resultX);
@@ -31,7 +31,7 @@ public:
 
 		float x_final, y_final, z_final;
 
-		float matrixT[4] = {0.0, 0.0, 1.0, 0.0};
+		float matrixT[4];
 
 		for (float t = 0.0; t < 1.1; t = t + 0.1) {
 			matrixT[0] = 3.0 * t * t;
@@ -73,14 +73,13 @@ public:
 		    vector<Coordenada*> points;
 		    points.push_back(new Coordenada(x1, y1));
 		    points.push_back(new Coordenada(x2, y2));
-		    Line* line = new Line("", points);
+		    char* emptyName = "";
+		    Line* line = new Line(emptyName, points);
 		    auxLines.push_back(line);
-		    line->draw(viewport, window, cr, 1);
+		    line->draw(viewport, window, cr, clippingType);
 			// printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
 			// 	normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
 		}
-
-
 
 	}
 

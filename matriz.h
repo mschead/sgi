@@ -83,6 +83,7 @@ public:
 			for (int j = 0; j < 4; j++) {
 				result[i] += hermite[i][j] * geometryVector[j]; 
 			}
+			// printf("%f\n", result[i]);
 		}
 
 	}
@@ -116,9 +117,19 @@ public:
 			for (int j = 0; j < 4; j++) {
 				result[i] += matrizBSpline[i][j] * geometryVector[j]; 
 			}
-			printf("%f\n", result[i]);
+			result[i] = result[i] / 6.0;
+			// printf("%f\n", result[i]);
 		}
 
+	}
+
+	void multiplyTetaMatrixBSplineToGeometryVector(float tetaMatrix[4][4], float geometryVector[4], float result[4]) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				result[i] += tetaMatrix[i][j] * geometryVector[j]; 
+			}
+			// printf("%f\n", result[i]);
+		}
 	}
 
 
