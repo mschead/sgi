@@ -116,7 +116,7 @@ public:
 
 			result.multiplyPointToMatrix(point, result3, normalizePoint);
 
-			printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
+			// printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1]));
 		}
 

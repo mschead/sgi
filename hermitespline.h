@@ -34,10 +34,10 @@ public:
 		float matrixT[4];
 
 		for (float t = 0.0; t < 1.1; t = t + 0.1) {
-			matrixT[0] = 3.0 * t * t;
-			matrixT[1] = 2.0 * t;
-			matrixT[2] = 1.0;
-			matrixT[3] = 0.0;
+			matrixT[0] = t * t * t;
+			matrixT[1] = t * t;
+			matrixT[2] = t;
+			matrixT[3] = 1.0;
 			
 			x_final = 0.0;
 			y_final = 0.0;
@@ -48,6 +48,7 @@ public:
 				//z = matrixT[i] * resultZ[i];				
 			}
 
+			// printf("%f, %f\n", x_final, y_final);
 			this->coordenadas.push_back(new Coordenada(x_final, y_final));
 		}
 
@@ -58,27 +59,20 @@ public:
 	}
 
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
-		normalizedCoordinates.clear();
+		// normalizedCoordinates.clear();
 		auxLines.clear();
-		drawNormalized(window);
+		// drawNormalized(window);
 
-		for (int i = 0; i < normalizedCoordinates.size() - 1; i++) {
-		
-		    int x1 = viewport.obterXdaViewport(normalizedCoordinates.at(i)->getX(), window.getXmin(), window.getXmax());
-		    int y1 = viewport.obterYdaViewport(normalizedCoordinates.at(i)->getY(), window.getYmin(), window.getYmax());
-
-		    int x2 = viewport.obterXdaViewport(normalizedCoordinates.at(i+1)->getX(), window.getXmin(), window.getXmax());
-		    int y2 = viewport.obterYdaViewport(normalizedCoordinates.at(i+1)->getY(), window.getYmin(), window.getYmax());
-
+		for (int i = 0; i < coordenadas.size() - 1; i++) {
 		    vector<Coordenada*> points;
-		    points.push_back(new Coordenada(x1, y1));
-		    points.push_back(new Coordenada(x2, y2));
+		    points.push_back(new Coordenada(coordenadas.at(i)->getX(), coordenadas.at(i)->getY()));
+		    points.push_back(new Coordenada(coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY()));
 		    char* emptyName = "";
 		    Line* line = new Line(emptyName, points);
 		    auxLines.push_back(line);
 		    line->draw(viewport, window, cr, clippingType);
-			// printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
-			// 	normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
+			printf("(%f, %f) - (%f, %f)\n", coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), 
+			coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY());
 		}
 
 	}

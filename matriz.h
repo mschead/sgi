@@ -59,25 +59,25 @@ public:
 	void multiplyHermiteToGeometryVector(float geometryVector[4], float result[4]) {
 		float hermite[4][4];
 
-		hermite[0][0] = 2;
-		hermite[0][1] = -2;
-		hermite[0][2] = 1;
-		hermite[0][3] = 1;
+		hermite[0][0] = 2.0;
+		hermite[0][1] = -2.0;
+		hermite[0][2] = 1.0;
+		hermite[0][3] = 1.0;
 
-		hermite[1][0] = -3;
-		hermite[1][1] = 3;
-		hermite[1][2] = -2;
-		hermite[1][3] = 1;
+		hermite[1][0] = -3.0;
+		hermite[1][1] = 3.0;
+		hermite[1][2] = -2.0;
+		hermite[1][3] = -1.0;
 
-		hermite[2][0] = 0;
-		hermite[2][1] = 0;
-		hermite[2][2] = 1;
-		hermite[2][3] = 0;
+		hermite[2][0] = 0.0;
+		hermite[2][1] = 0.0;
+		hermite[2][2] = 1.0;
+		hermite[2][3] = 0.0;
 
-		hermite[3][0] = 1;
-		hermite[3][1] = 0;
-		hermite[3][2] = 0;
-		hermite[3][3] = 0;
+		hermite[3][0] = 1.0;
+		hermite[3][1] = 0.0;
+		hermite[3][2] = 0.0;
+		hermite[3][3] = 0.0;
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {

@@ -127,8 +127,8 @@ class BSpline : public Object {
 
 			// adicionar no atributo "coordenadas"			
 
-			// printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
-			// printf("%f, %f, %f, %f\n", pontosFwdY[0], pontosFwdY[1], pontosFwdY[2], pontosFwdY[3]);
+			printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
+			printf("%f, %f, %f, %f\n", pontosFwdY[0], pontosFwdY[1], pontosFwdY[2], pontosFwdY[3]);
 
 			xOld = pontosFwdX[0];
 			yOld = pontosFwdY[0];			
