@@ -7,7 +7,7 @@ class BSpline : public Object {
 
 		BSpline(char* nome, vector<Coordenada*> coordenadas, vector<Coordenada*> userPoints) : Object(nome, coordenadas) {
 			this->userPoints = userPoints;
-			float teta = 0.2;
+			float teta = 0.01;
 
 			matrizTeta[0][0] = 0;
 			matrizTeta[0][1] = 0;
@@ -90,18 +90,13 @@ class BSpline : public Object {
 		drawNormalized(window);
 
 		for (int i = 0; i < normalizedCoordinates.size() - 1; i++) {
-		
-		    int x1 = viewport.obterXdaViewport(normalizedCoordinates.at(i)->getX(), window.getXmin(), window.getXmax());
-		    int y1 = viewport.obterYdaViewport(normalizedCoordinates.at(i)->getY(), window.getYmin(), window.getYmax());
-
-		    int x2 = viewport.obterXdaViewport(normalizedCoordinates.at(i+1)->getX(), window.getXmin(), window.getXmax());
-		    int y2 = viewport.obterYdaViewport(normalizedCoordinates.at(i+1)->getY(), window.getYmin(), window.getYmax());
 
 		    vector<Coordenada*> points;
-		    points.push_back(new Coordenada(x1, y1));
-		    points.push_back(new Coordenada(x2, y2));
+		    points.push_back(coordenadas.at(i));
+		    points.push_back(coordenadas.at(i+1));
 		    char* emptyName = "";
 		    Line* line = new Line(emptyName, points);
+
 		    auxLines.push_back(line);
 		    line->draw(viewport, window, cr, clippingType);
 			// printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
@@ -113,10 +108,13 @@ class BSpline : public Object {
 		float xOld = pontosFwdX[0];
 		float yOld = pontosFwdY[0];
 
+		coordenadas.push_back(new Coordenada(pontosFwdX[0],pontosFwdY[0]));
+
+		printf("%s\n\n", "Comecando foward differences");
 		// printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
 		// printf("%f, %f, %f, %f\n", pontosFwdY[0], pontosFwdY[1], pontosFwdY[2], pontosFwdY[3]);
 
-		for (int i = 0; i <= userPoints.size(); i++) {
+		for (int i = 0; i < 99; i++) {
 			pontosFwdX[0] += pontosFwdX[1];
 			pontosFwdX[1] += pontosFwdX[2];
 			pontosFwdX[2] += pontosFwdX[3];
@@ -125,14 +123,15 @@ class BSpline : public Object {
 			pontosFwdY[1] += pontosFwdY[2];
 			pontosFwdY[2] += pontosFwdY[3];
 
-			// adicionar no atributo "coordenadas"			
+			coordenadas.push_back(new Coordenada(pontosFwdX[0],pontosFwdY[0]));		
 
-			printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
-			printf("%f, %f, %f, %f\n", pontosFwdY[0], pontosFwdY[1], pontosFwdY[2], pontosFwdY[3]);
+			//printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
+			//printf("%f, %f, %f, %f\n", pontosFwdY[0], pontosFwdY[1], pontosFwdY[2], pontosFwdY[3]);
 
 			xOld = pontosFwdX[0];
 			yOld = pontosFwdY[0];			
 		}
+		printf("%s\n\n", "Terminando foward differences");
 
 
 	}
