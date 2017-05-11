@@ -4,6 +4,7 @@
 #include <vector>
 #include "coordenada.h"
 #include "matriz.h"
+#include "matrix3D.h"
 
 using namespace std;
 

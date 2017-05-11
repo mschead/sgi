@@ -40,7 +40,9 @@ GtkCellRenderer *renderer;
 
 GtkEntry *entry_object_name;
 
-GtkEntry* entry_angle;
+GtkEntry* entry_x_angle;
+GtkEntry* entry_y_angle;
+GtkEntry* entry_z_angle;
 
 GtkListStore *pointsPolygon;
 
@@ -49,6 +51,7 @@ vector<Coordenada*> bsplineCoordinate;
 
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
+GtkEntry *entry_z_point;
 
 GtkEntry *polygon_x;
 GtkEntry *polygon_y;
@@ -59,8 +62,10 @@ GtkEntry *bspline_y;
 
 GtkEntry *entry_x1_line;
 GtkEntry *entry_y1_line;
+GtkEntry *entry_z1_line;
 GtkEntry *entry_x2_line;
 GtkEntry *entry_y2_line;
+GtkEntry *entry_z2_line;
 
 GtkEntry *entry_p1_hermite;
 GtkEntry *entry_p4_hermite;
@@ -78,13 +83,14 @@ GtkEntry *entry_r4_y_hermite;
 
 GtkEntry *entry_x_translate;
 GtkEntry *entry_y_translate;
+GtkEntry *entry_z_translate;
 
 GtkEntry *entry_x_scale;
 GtkEntry *entry_y_scale;
+GtkEntry *entry_z_scale;
 
 GtkEntry *entry_x_rotate;
 GtkEntry *entry_y_rotate;
-
 
 GtkEntry *zoom_factor;
 GtkEntry *step_factor;
@@ -289,7 +295,9 @@ extern "C" G_MODULE_EXPORT void edit_element(){
 
 
 extern "C" G_MODULE_EXPORT void rotate_object(){
-  int angle = atoi((char*)gtk_entry_get_text(entry_angle));
+  int angleX = atoi((char*)   gtk_entry_get_text(entry_x_angle));
+  int angleY = atoi((char*) gtk_entry_get_text(entry_y_angle));
+  int angleZ = atoi((char*) gtk_entry_get_text(entry_z_angle));
   
   char* entry_x_s = (char*) gtk_entry_get_text(entry_x_rotate);
   char* entry_y_s = (char*) gtk_entry_get_text(entry_x_rotate);
@@ -300,9 +308,9 @@ extern "C" G_MODULE_EXPORT void rotate_object(){
   printf("%s\n", (char*)gtk_entry_get_text(entry_x_rotate));
 
   if (strcmp(entry_x_s, "") != 0 && strcmp(entry_y_s, "") != 0) {
-      toEdit->rotateUsingCoordinate(angle, entryX, entryY);
+      toEdit->rotateUsingCoordinate(angleZ, entryX, entryY);
   } else {
-      toEdit->rotate(angle);
+      toEdit->rotate(angleZ);
   }
 
   cairo_t *cr = cairo_create (surface);
@@ -488,22 +496,29 @@ void initializeGTKComponentes() {
 
   entry_x1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x1_line"));
   entry_y1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y1_line"));
+  entry_z1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z1_line"));
   entry_x2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x2_line"));
   entry_y2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y2_line"));
+  entry_z2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z2_line"));
 
   entry_x_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_point"));
   entry_y_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_point"));
+  entry_z_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z_point"));
 
   bspline_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_x"));
   bspline_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_y"));
 
   entry_x_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_translate"));
   entry_y_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_translate"));
+  entry_z_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z_translate"));
 
   entry_x_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_scale"));
   entry_y_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_scale"));
+  entry_z_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z_scale"));
 
-  entry_angle = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_angle"));
+  entry_x_angle = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_angle"));
+  entry_y_angle = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_angle"));
+  entry_z_angle = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z_angle"));
 
   entry_x_rotate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_rotate"));
   entry_y_rotate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_rotate"));
