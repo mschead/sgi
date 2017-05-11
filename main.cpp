@@ -14,7 +14,7 @@
 #include "canvas.h"
 #include "displayfile.h"
 
-
+#define Z_STUB 0
 
 using namespace std;
 
@@ -55,9 +55,11 @@ GtkEntry *entry_z_point;
 
 GtkEntry *polygon_x;
 GtkEntry *polygon_y;
+GtkEntry *polygon_z;
 
 GtkEntry *bspline_x;
 GtkEntry *bspline_y;
+GtkEntry *bspline_z;
 
 
 GtkEntry *entry_x1_line;
@@ -73,13 +75,17 @@ GtkEntry *entry_r1_hermite;
 GtkEntry *entry_r4_hermite;
 
 GtkEntry *entry_p1_x_hermite; 
-GtkEntry *entry_p1_y_hermite; 
+GtkEntry *entry_p1_y_hermite;
+GtkEntry *entry_p1_z_hermite; 
 GtkEntry *entry_p4_x_hermite; 
-GtkEntry *entry_p4_y_hermite;    
+GtkEntry *entry_p4_y_hermite;
+GtkEntry *entry_p4_z_hermite;    
 GtkEntry *entry_r1_x_hermite; 
-GtkEntry *entry_r1_y_hermite; 
+GtkEntry *entry_r1_y_hermite;
+GtkEntry *entry_r1_z_hermite; 
 GtkEntry *entry_r4_x_hermite; 
 GtkEntry *entry_r4_y_hermite;
+GtkEntry *entry_r4_z_hermite;
 
 GtkEntry *entry_x_translate;
 GtkEntry *entry_y_translate;
@@ -344,8 +350,9 @@ extern "C" G_MODULE_EXPORT void scale_object(){
 extern "C" G_MODULE_EXPORT void translate_object() {
   int entryX = atoi((char*)gtk_entry_get_text(entry_x_translate));
   int entryY = atoi((char*)gtk_entry_get_text(entry_y_translate));
+  int entryZ = atoi((char*)gtk_entry_get_text(entry_z_translate));
 
-  toEdit->translate(entryX, entryY);
+  toEdit->translate(entryX, entryY, entryZ);
 
   cairo_t *cr = cairo_create (surface);
   clear_surface();
@@ -364,17 +371,19 @@ char* getCurrentLabel(){
 }
 
 extern "C" G_MODULE_EXPORT void add_point_event() {
-  int x = atoi((char*)gtk_entry_get_text(polygon_x));
-  int y = atoi((char*)gtk_entry_get_text(polygon_y));
+  int x = atoi((char*) gtk_entry_get_text(polygon_x));
+  int y = atoi((char*) gtk_entry_get_text(polygon_y));
+  int z = atoi((char*) gtk_entry_get_text(polygon_z));
 
-  polygonCoordinate.push_back(new Coordenada(x, y));
+  polygonCoordinate.push_back(new Coordenada(x, y, z));
 }
 
 extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
   int x = atoi((char*)gtk_entry_get_text(bspline_x));
   int y = atoi((char*)gtk_entry_get_text(bspline_y));
+  int z = atoi((char*)gtk_entry_get_text(bspline_z));
 
-  bsplineCoordinate.push_back(new Coordenada(x, y));
+  bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
 extern "C" G_MODULE_EXPORT void add_confirm_event() {
@@ -389,9 +398,10 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
   if (strcmp(label, "Point") == 0) {
     int x = atoi((char*)gtk_entry_get_text(entry_x_point));
     int y = atoi((char*)gtk_entry_get_text(entry_y_point));
+    int z = atoi((char*)gtk_entry_get_text(entry_z_point));
     
     vector<Coordenada*> points;
-    points.push_back(new Coordenada(x, y));
+    points.push_back(new Coordenada(x, y, z));
     Point* point = new Point(name, points);
     displayFile.addNewObject(point);
     point->draw(viewport, window, cr, clippingType);
@@ -399,13 +409,15 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
   } else if (strcmp(label, "Line") == 0) {
     int x1 = atoi((char*)gtk_entry_get_text(entry_x1_line));
     int y1 = atoi((char*)gtk_entry_get_text(entry_y1_line));
+    int z1 = atoi((char*)gtk_entry_get_text(entry_z1_line));
 
     int x2 = atoi((char*)gtk_entry_get_text(entry_x2_line));
     int y2 = atoi((char*)gtk_entry_get_text(entry_y2_line));
+    int z2 = atoi((char*)gtk_entry_get_text(entry_z2_line));
 
     vector<Coordenada*> points;
-    points.push_back(new Coordenada(x1, y1));
-    points.push_back(new Coordenada(x2, y2));
+    points.push_back(new Coordenada(x1, y1, z1));
+    points.push_back(new Coordenada(x2, y2, z2));
     Line* line = new Line(name, points);
     displayFile.addNewObject(line);
     line->draw(viewport, window, cr, clippingType);
@@ -419,20 +431,24 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 
     int p1_x = atoi((char*)gtk_entry_get_text(entry_p1_x_hermite));
     int p1_y = atoi((char*)gtk_entry_get_text(entry_p1_y_hermite));
+    int p1_z = atoi((char*)gtk_entry_get_text(entry_p1_z_hermite));
 
     int p4_x = atoi((char*)gtk_entry_get_text(entry_p4_x_hermite));
     int p4_y = atoi((char*)gtk_entry_get_text(entry_p4_y_hermite));
+    int p4_z = atoi((char*)gtk_entry_get_text(entry_p4_z_hermite));
 
     int r1_x = atoi((char*)gtk_entry_get_text(entry_r1_x_hermite));
     int r1_y = atoi((char*)gtk_entry_get_text(entry_r1_y_hermite));
+    int r1_z = atoi((char*)gtk_entry_get_text(entry_r1_z_hermite));
 
     int r4_x = atoi((char*)gtk_entry_get_text(entry_r4_x_hermite));
     int r4_y = atoi((char*)gtk_entry_get_text(entry_r4_y_hermite));
+    int r4_z = atoi((char*)gtk_entry_get_text(entry_r4_z_hermite));
 
 
     vector<Coordenada*> points;
-    HermiteSpline* spline = new HermiteSpline(name, points, new Coordenada(p1_x, p1_y), 
-      new Coordenada(p4_x, p4_y), new Coordenada(r1_x, r1_y), new Coordenada(r4_x, r4_y));
+    HermiteSpline* spline = new HermiteSpline(name, points, new Coordenada(p1_x, p1_y, p1_z), 
+      new Coordenada(p4_x, p4_y, p4_z), new Coordenada(r1_x, r1_y, r1_z), new Coordenada(r4_x, r4_y, r4_z));
     displayFile.addNewObject(spline);
     spline->draw(viewport, window, cr, clippingType);
   } else if (strcmp(label, "BSpline") == 0) {
@@ -457,10 +473,10 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 extern "C" G_MODULE_EXPORT void create_window() {
   cairo_t *cr = cairo_create (surface);
   vector<Coordenada*> coordenadas;
-  coordenadas.push_back(new Coordenada(-0.9, -0.9));
-  coordenadas.push_back(new Coordenada(0.9, -0.9));
-  coordenadas.push_back(new Coordenada(0.9, 0.9));
-  coordenadas.push_back(new Coordenada(-0.9, 0.9));
+  coordenadas.push_back(new Coordenada(-0.9, -0.9, Z_STUB));
+  coordenadas.push_back(new Coordenada(0.9, -0.9, Z_STUB));
+  coordenadas.push_back(new Coordenada(0.9, 0.9, Z_STUB));
+  coordenadas.push_back(new Coordenada(-0.9, 0.9, Z_STUB));
   Canvas* canvas = new Canvas("window", coordenadas);
   displayFile.addNewObject(canvas);
   canvas->draw(viewport, window, cr, clippingType);

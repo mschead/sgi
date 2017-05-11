@@ -32,8 +32,8 @@ class BSpline : public Object {
 			Matrix m;
 
 			float coeficienteX[4], coeficienteY[4], coeficienteZ[4];
-			float resultX[4], resultY[4];
-			float pontosFwdX[4], pontosFwdY[4];
+			float resultX[4], resultY[4], resultZ[4];
+			float pontosFwdX[4], pontosFwdY[4], pontosFwdZ[4];
 
 			for (int i = 0; i < userPoints.size() - 3; i++) {
 				Coordenada *p1 = userPoints.at(i);
@@ -50,6 +50,11 @@ class BSpline : public Object {
 				coeficienteY[1] = p2->getY();
 				coeficienteY[2] = p3->getY();
 				coeficienteY[3] = p4->getY();
+				
+				coeficienteZ[0] = p1->getZ();
+				coeficienteZ[1] = p2->getZ();
+				coeficienteZ[2] = p3->getZ();
+				coeficienteZ[3] = p4->getZ();
 
 				resultX[0] = 0;
 				resultX[1] = 0;
@@ -60,10 +65,15 @@ class BSpline : public Object {
 				resultY[1] = 0;
 				resultY[2] = 0;
 				resultY[3] = 0;
+
+				resultZ[0] = 0;
+				resultZ[1] = 0;
+				resultZ[2] = 0;
+				resultZ[3] = 0;
 				
 				m.multiplyBSplineToGeometryVector(coeficienteX, resultX);
 				m.multiplyBSplineToGeometryVector(coeficienteY, resultY);
-				//m.multiplyBSplineToGeometryVector(coeficienteZ, resultZ);
+				m.multiplyBSplineToGeometryVector(coeficienteZ, resultZ);
 
 				pontosFwdX[0] = 0;
 				pontosFwdX[1] = 0;
@@ -75,10 +85,16 @@ class BSpline : public Object {
 				pontosFwdY[2] = 0;
 				pontosFwdY[3] = 0;
 
+				pontosFwdZ[0] = 0;
+				pontosFwdZ[1] = 0;
+				pontosFwdZ[2] = 0;
+				pontosFwdZ[3] = 0;
+
 				m.multiplyTetaMatrixBSplineToGeometryVector(matrizTeta, resultX, pontosFwdX);
 				m.multiplyTetaMatrixBSplineToGeometryVector(matrizTeta, resultY, pontosFwdY);
+				m.multiplyTetaMatrixBSplineToGeometryVector(matrizTeta, resultZ, pontosFwdZ);
 
-				desenharCurvaFwdDiff(pontosFwdX, pontosFwdY);
+				desenharCurvaFwdDiff(pontosFwdX, pontosFwdY, pontosFwdZ);
 
 			}
 
@@ -104,11 +120,12 @@ class BSpline : public Object {
 		}
 	}
 
-	void desenharCurvaFwdDiff(float pontosFwdX[4], float pontosFwdY[4]) {
+	void desenharCurvaFwdDiff(float pontosFwdX[4], float pontosFwdY[4], float pontosFwdZ[4]) {
 		float xOld = pontosFwdX[0];
 		float yOld = pontosFwdY[0];
+		float zOld = pontosFwdZ[0];
 
-		coordenadas.push_back(new Coordenada(pontosFwdX[0],pontosFwdY[0]));
+		coordenadas.push_back(new Coordenada(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));
 
 		printf("%s\n\n", "Comecando foward differences");
 		// printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
@@ -123,17 +140,21 @@ class BSpline : public Object {
 			pontosFwdY[1] += pontosFwdY[2];
 			pontosFwdY[2] += pontosFwdY[3];
 
-			coordenadas.push_back(new Coordenada(pontosFwdX[0],pontosFwdY[0]));		
+			pontosFwdZ[0] += pontosFwdZ[1];
+			pontosFwdZ[1] += pontosFwdZ[2];
+			pontosFwdZ[2] += pontosFwdZ[3];
+
+			coordenadas.push_back(new Coordenada(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));		
 
 			//printf("%f, %f, %f, %f\n", pontosFwdX[0], pontosFwdX[1], pontosFwdX[2], pontosFwdX[3]);
 			//printf("%f, %f, %f, %f\n", pontosFwdY[0], pontosFwdY[1], pontosFwdY[2], pontosFwdY[3]);
 
 			xOld = pontosFwdX[0];
-			yOld = pontosFwdY[0];			
+			yOld = pontosFwdY[0];
+			zOld = pontosFwdZ[0];
+
 		}
 		printf("%s\n\n", "Terminando foward differences");
-
-
 	}
 
 	void clipping (Window window, Viewport viewport) {

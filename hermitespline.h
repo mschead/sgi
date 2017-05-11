@@ -18,16 +18,16 @@ public:
 		float geometryVectorX[4] = {p1->getX(), p4->getX(), r1->getX(), r4->getX()};
 		float geometryVectorY[4] = {p1->getY(), p4->getY(), r1->getY(), r4->getY()};
 
-		float geometryVectorZ[4] = {0, 0, 0, 0};
+		float geometryVectorZ[4] = {p1->getZ(), p4->getZ(), r1->getZ(), r4->getZ()};
 
 		float resultX[4] = {0, 0, 0, 0};
 		float resultY[4] = {0, 0, 0, 0};
-		// float resultZ[4] = {0, 0, 0, 0};
+		float resultZ[4] = {0, 0, 0, 0};
 
 
 		m.multiplyHermiteToGeometryVector(geometryVectorX, resultX);
 		m.multiplyHermiteToGeometryVector(geometryVectorY, resultY);
-		// m.multiplyHermiteToGeometryVector(geometryVectorZ, resultZ);
+		m.multiplyHermiteToGeometryVector(geometryVectorZ, resultZ);
 
 		float x_final, y_final, z_final;
 
@@ -44,12 +44,13 @@ public:
 			for (int i = 0; i < 4; i++) {
 				x_final += matrixT[i] * resultX[i];
 				y_final += matrixT[i] * resultY[i];
+				z_final += matrixT[i] * resultZ[i];
 				// por enquanto nao precisa
 				//z = matrixT[i] * resultZ[i];				
 			}
 
 			// printf("%f, %f\n", x_final, y_final);
-			this->coordenadas.push_back(new Coordenada(x_final, y_final));
+			this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 
 	}
@@ -65,14 +66,14 @@ public:
 
 		for (int i = 0; i < coordenadas.size() - 1; i++) {
 		    vector<Coordenada*> points;
-		    points.push_back(new Coordenada(coordenadas.at(i)->getX(), coordenadas.at(i)->getY()));
-		    points.push_back(new Coordenada(coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY()));
+		    points.push_back(new Coordenada(coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), coordenadas.at(i)->getZ()));
+		    points.push_back(new Coordenada(coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY(), coordenadas.at(i+1)->getZ()));
 		    char* emptyName = "";
 		    Line* line = new Line(emptyName, points);
 		    auxLines.push_back(line);
 		    line->draw(viewport, window, cr, clippingType);
-			printf("(%f, %f) - (%f, %f)\n", coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), 
-			coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY());
+			// printf("(%f, %f) - (%f, %f)\n", coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), 
+			// coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY());
 		}
 
 	}

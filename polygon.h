@@ -2,6 +2,7 @@
 #define _POLYGON_H_
 
 #include "object.h"
+#define Z_STUB 0
 
 class Polygon : public Object{
 	
@@ -15,7 +16,7 @@ public:
 		bool estavaDentro;
 		bool comecouFora;
 		vector<Coordenada*> coordenadasClippadas;
-		Coordenada* coordenadaFora = new Coordenada( -10, -10);
+		Coordenada* coordenadaFora = new Coordenada( -10, -10, Z_STUB);
 		float controleX;
 		float controleY;
 			if(normalizedCoordinates.at(0)->getX() <= 0.9 && normalizedCoordinates.at(0)->getX() >= -0.9 && normalizedCoordinates.at(0)->getY() <= 0.9 && normalizedCoordinates.at(0)->getY() >= -0.9){
@@ -42,7 +43,7 @@ public:
 				controleY = coordenadaFora->getY();
 
 				clippingReta(coordenadaFora, normalizedCoordinates.at(n));
-				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY()));
+				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
 				coordenadaFora->setX(controleX);
 				coordenadaFora->setY(controleY);
 				estavaDentro = true;
@@ -58,7 +59,7 @@ public:
 
 				clippingReta(coordenadaFora, coordenadasClippadas.back());
 				printf("%s\n", " Clipagem feita");
-				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY()));	
+				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));	
 				coordenadaFora->setX(controleX);
 				coordenadaFora->setY(controleY);
 				estavaDentro = false;
@@ -71,7 +72,7 @@ public:
 			coordenadaFora->setX(normalizedCoordinates.at(0)->getX());
 			coordenadaFora->setY(normalizedCoordinates.at(0)->getY());
 			clippingReta(coordenadaFora, coordenadasClippadas.back());
-			coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY()));
+			coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
 		}if(comecouFora && !estavaDentro){
 			float controleX2 = normalizedCoordinates.at(n)->getX();
 			float controleY2 = normalizedCoordinates.at(n)->getY();
@@ -80,9 +81,9 @@ public:
 
 			clippingReta(coordenadaFora, normalizedCoordinates.at(n));
 			if(normalizedCoordinates.at(n)->getX() <= 0.9 && normalizedCoordinates.at(n)->getX() >= -0.9 && normalizedCoordinates.at(n)->getY() >= -0.9 && normalizedCoordinates.at(n)->getY() <= 0.9){
-			coordenadasClippadas.push_back(new Coordenada (normalizedCoordinates.at(n)->getX(),normalizedCoordinates.at(n)->getY()));
+			coordenadasClippadas.push_back(new Coordenada (normalizedCoordinates.at(n)->getX(),normalizedCoordinates.at(n)->getY(), Z_STUB));
 			}if(coordenadaFora->getX() <= 0.9 && coordenadaFora->getX() >= -0.9 && coordenadaFora->getY() >= -0.9 && coordenadaFora->getY() <= 0.9){
-			coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY()));
+			coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
 			}
 			
 			normalizedCoordinates.at(n)->setX(controleX2);
@@ -96,7 +97,7 @@ public:
 				controleY = coordenadaFora->getY();
 
 				clippingReta(coordenadaFora, normalizedCoordinates.at(n));
-				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY()));
+				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
 				coordenadaFora->setX(controleX);
 				coordenadaFora->setY(controleY);
 				estavaDentro = true;

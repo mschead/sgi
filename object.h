@@ -37,16 +37,19 @@ public:
 	Coordenada pontoMedio() {
 		int x = 0;
 		int y = 0;
+		int z = 0;
 
 		for (Coordenada* coordenada : coordenadas) {
 			x += coordenada->getX();
 			y += coordenada->getY();
+			z += coordenada->getZ();
 		}
 
 		x = x / coordenadas.size();
 		y = y / coordenadas.size();
+		z = z / coordenadas.size();
 
-		Coordenada c(x, y);
+		Coordenada c(x, y, z);
 		return c;
 	}
 
@@ -118,18 +121,18 @@ public:
 			result.multiplyPointToMatrix(point, result3, normalizePoint);
 
 			// printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
-			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1]));
+			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1], 1));
 		}
 
 	}
 
-	void translate(int entryX, int entryY) {
-		Matrix m;
-		m.setTranslate(entryX, entryY);
+	void translate(int entryX, int entryY, int entryZ) {
+		Matrix3D m;
+		m.setTranslate(entryX, entryY, entryZ);
 
 		for (Coordenada* coordenada : coordenadas) {
-			float result[3] = {0, 0, 0};
-			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			float result[4] = {0, 0, 0, 0};
+			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m.multiplyPointToMatrix(point, m, result);
 			coordenada->setCoordenada(result);
 		}
