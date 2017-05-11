@@ -140,27 +140,24 @@ public:
 	}
 
 
-	void scale(float entryX, float entryY) {
+	void scale(float entryX, float entryY, float entryZ) {
 		Coordenada pontoMedio = this->pontoMedio();
 
-		Matrix m1, m2, m3, result1, result2;
+		Matrix3D m1, m2, m3, result1, result2;
 
-		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY());
-		m2.setScale(entryX, entryY);
-		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
+		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY(), -1 * pontoMedio.getZ());
+		m2.setScale(entryX, entryY, entryZ);
+		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY(), pontoMedio.getZ());
 
 		result1.setZero();
 		result2.setZero();
 		
 		m1.multiplyMatrices(m1, m2, result1);
-
 		m1.multiplyMatrices(result1, m3, result2);
 
-		m1.printMatrix3x3(result2);
-
 		for (Coordenada* coordenada : coordenadas) {
-			float result3[3] = {0, 0, 0};
-			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			float result3[4] = {0, 0, 0, 0};
+			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m1.multiplyPointToMatrix(point, result2, result3);
 			coordenada->setCoordenada(result3);
 		}
@@ -170,11 +167,11 @@ public:
 	void rotate(int ang) {
 		Coordenada pontoMedio = this->pontoMedio();
 
-		Matrix m1, m2, m3, result1, result2;
+		Matrix3D m1, m2, m3, result1, result2;
 
-		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY());
-		m2.setRotate(ang);
-		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY());
+		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY(), -1 * pontoMedio.getZ());
+		m2.setRotateZ(ang);
+		m3.setTranslate(pontoMedio.getX(), pontoMedio.getY(), pontoMedio.getZ());
 		
 		result1.setZero();
 		result2.setZero();
@@ -186,16 +183,13 @@ public:
 
 		m1.multiplyMatrices(m1, m2, result1);
 
-		m1.printMatrix3x3(result1);
-
-
 		m1.multiplyMatrices(result1, m3, result2);
 
 		// m1.printMatrix3x3(result2);
 
 		for (Coordenada* coordenada : coordenadas) {
-			float result3[3] = {0, 0, 0};
-			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
+			float result3[4] = {0, 0, 0, 0};
+			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m1.multiplyPointToMatrix(point, result2, result3);
 			// for (int j = 0; j < 3; j++) {
 			// 	printf("%f\n", result3[j]);
@@ -234,9 +228,6 @@ public:
 			float result3[3] = {0, 0, 0};
 			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 			m1.multiplyPointToMatrix(point, result2, result3);
-			// for (int j = 0; j < 3; j++) {
-			// 	printf("%f\n", result3[j]);
-			// }
 			coordenada->setCoordenada(result3);
 		}
 

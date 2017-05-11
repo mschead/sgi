@@ -333,8 +333,9 @@ extern "C" G_MODULE_EXPORT void rotate_object(){
 extern "C" G_MODULE_EXPORT void scale_object(){
   float entryX = atof((char*)gtk_entry_get_text(entry_x_scale));
   float entryY = atof((char*)gtk_entry_get_text(entry_y_scale));
+  float entryZ = atof((char*)gtk_entry_get_text(entry_z_scale));
 
-  toEdit->scale(entryX, entryY);
+  toEdit->scale(entryX, entryY, entryZ);
 
   cairo_t *cr = cairo_create (surface);
   clear_surface();
@@ -503,12 +504,16 @@ void initializeGTKComponentes() {
 
   entry_p1_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_x_hermite"));
   entry_p1_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_y_hermite"));
+  entry_p1_z_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p1_z_hermite"));
   entry_p4_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_x_hermite"));
   entry_p4_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_y_hermite"));
+  entry_p4_z_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_p4_z_hermite"));
   entry_r1_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_x_hermite"));
   entry_r1_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_y_hermite"));
+  entry_r1_z_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r1_z_hermite"));
   entry_r4_x_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_x_hermite"));
   entry_r4_y_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_y_hermite"));
+  entry_r4_z_hermite = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_r4_z_hermite"));
 
   entry_x1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x1_line"));
   entry_y1_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y1_line"));
@@ -523,6 +528,7 @@ void initializeGTKComponentes() {
 
   bspline_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_x"));
   bspline_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_y"));
+  bspline_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_z"));
 
   entry_x_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_translate"));
   entry_y_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_translate"));
@@ -545,6 +551,7 @@ void initializeGTKComponentes() {
   
   polygon_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_x"));
   polygon_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_y"));
+  polygon_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_z"));
 
   list_objects = GTK_TREE_VIEW( gtk_builder_get_object( gtkBuilder, "list_objects" ) );
 
