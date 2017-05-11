@@ -4,6 +4,7 @@
 #include <vector>
 #include "coordenada.h"
 #include "matriz.h"
+#include <math>
 #include "matrix3D.h"
 
 using namespace std;
@@ -232,6 +233,51 @@ public:
 		}
 
 	}
+
+
+	void ortogonalizate(float vrpNaOrigem[3]) {
+		Coordenada pontoMedio = pontoMedio();
+		float vpn[3];
+		vpn[0] = pontoMedio->getX() - vrpNaOrigem[0];
+		vpn[1] = pontoMedio->getY() - vrpNaOrigem[1];
+		vpn[2] = pontoMedio->getZ() - vrpNaOrigem[2];
+
+		float hipotenusa = sqrt((vpn[0] * vpn[0]) + (vpn[2] * vpn[2]));
+		
+
+		if (vpn[2] > 0) {
+			if (vpn[0] > 0) {
+				float girarEmZ = asin(vpn[0] / hipotenusa)
+			} else {
+				float girarEmZ = -1.0 * asin(vpn[0] / hipotenusa)
+			}
+		} else {
+			if (vpn[1] > 0) {
+				float girarEmZ = asin(vpn[0] / hipotenusa) 
+			} else {
+				float girarEmZ = -1.0 * asin(vpn[0] / hipotenusa)
+			}
+		}
+
+
+		 
+		
+		if (vpn[2] > 0) {
+			if (vpn[1] > 0) {
+				float girarEmX = asin(vpn[1] / hipotenusa);
+			} else {
+				float girarEmX = -1.0 * asin(vpn[1] / hipotenusa);
+			}
+		} else {
+			if (vpn[1] > 0) {
+				float girarEmX = 180 - asin(vpn[1] / hipotenusa);
+			} else {
+				float girarEmX = 180 + asin(vpn[1] / hipotenusa);
+			}
+		}
+
+	}
+
 
 protected:
 	char* nome;
