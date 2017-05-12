@@ -255,7 +255,7 @@
                 <child>
                   <object class="GtkEntry" id="polygon_z">
                     <property name="width_request">60</property>
-                    <property name="height_request">29</property>
+                    <property name="height_request">23</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">0</property>
@@ -559,6 +559,136 @@
               </object>
               <packing>
                 <property name="position">4</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed" id="fixed10">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkEntry" id="wireframe_x1">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="max_width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">x1</property>
+                  </object>
+                  <packing>
+                    <property name="x">5</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="wireframe_y1">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="max_width_chars">0</property>
+                    <property name="secondary_icon_tooltip_text" translatable="yes">33</property>
+                    <property name="placeholder_text" translatable="yes">y1</property>
+                  </object>
+                  <packing>
+                    <property name="x">80</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="wireframe_z1">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="max_width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">z1</property>
+                  </object>
+                  <packing>
+                    <property name="x">155</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="wireframe_x2">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="max_width_chars">0</property>
+                    <property name="placeholder_text" translatable="yes">x2</property>
+                  </object>
+                  <packing>
+                    <property name="x">5</property>
+                    <property name="y">50</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="wireframe_y2">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="max_width_chars">0</property>
+                    <property name="shadow_type">out</property>
+                    <property name="placeholder_text" translatable="yes">y2</property>
+                    <property name="input_purpose">phone</property>
+                  </object>
+                  <packing>
+                    <property name="x">80</property>
+                    <property name="y">50</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="wireframe_z2">
+                    <property name="width_request">60</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="width_chars">0</property>
+                    <property name="max_width_chars">0</property>
+                    <property name="shadow_type">out</property>
+                    <property name="placeholder_text" translatable="yes">z2</property>
+                    <property name="input_purpose">phone</property>
+                  </object>
+                  <packing>
+                    <property name="x">155</property>
+                    <property name="y">50</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button7">
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="add_point_wireframe_event" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">250</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Wireframe</property>
+              </object>
+              <packing>
+                <property name="position">5</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
