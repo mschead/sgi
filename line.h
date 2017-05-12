@@ -247,6 +247,8 @@
 
 
 		void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
+		  // float vrp[3] = {window.getXCenter(), window.getYCenter(), 0.0};
+		  // this->ortogonalize(vrp);
 		  normalizedCoordinates.clear();
 		  drawNormalized(window);
 		  desenhar = true;

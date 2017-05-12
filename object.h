@@ -4,7 +4,7 @@
 #include <vector>
 #include "coordenada.h"
 #include "matriz.h"
-#include <math>
+#include <math.h>
 #include "matrix3D.h"
 
 using namespace std;
@@ -235,46 +235,63 @@ public:
 	}
 
 
-	void ortogonalizate(float vrpNaOrigem[3]) {
-		Coordenada pontoMedio = pontoMedio();
+	void ortogonalize(float vrp[3]) {
+		Coordenada pontoMedio = this->pontoMedio();
+		
 		float vpn[3];
-		vpn[0] = pontoMedio->getX() - vrpNaOrigem[0];
-		vpn[1] = pontoMedio->getY() - vrpNaOrigem[1];
-		vpn[2] = pontoMedio->getZ() - vrpNaOrigem[2];
+		vpn[0] = pontoMedio.getX() - vrp[0];
+		vpn[1] = pontoMedio.getY() - vrp[1];
+		vpn[2] = pontoMedio.getZ() - vrp[2];
 
 		float hipotenusa = sqrt((vpn[0] * vpn[0]) + (vpn[2] * vpn[2]));
 		
+		float girarEmZ, girarEmX;
 
 		if (vpn[2] > 0) {
 			if (vpn[0] > 0) {
-				float girarEmZ = asin(vpn[0] / hipotenusa)
+				girarEmZ = asin(vpn[0] / hipotenusa);
 			} else {
-				float girarEmZ = -1.0 * asin(vpn[0] / hipotenusa)
+				girarEmZ = -1.0 * asin(vpn[0] / hipotenusa);
 			}
 		} else {
 			if (vpn[1] > 0) {
-				float girarEmZ = asin(vpn[0] / hipotenusa) 
+				girarEmZ = asin(vpn[0] / hipotenusa); 
 			} else {
-				float girarEmZ = -1.0 * asin(vpn[0] / hipotenusa)
+				girarEmZ = -1.0 * asin(vpn[0] / hipotenusa);
 			}
 		}
 
-
-		 
-		
 		if (vpn[2] > 0) {
 			if (vpn[1] > 0) {
-				float girarEmX = asin(vpn[1] / hipotenusa);
+				girarEmX = asin(vpn[1] / hipotenusa);
 			} else {
-				float girarEmX = -1.0 * asin(vpn[1] / hipotenusa);
+				girarEmX = -1.0 * asin(vpn[1] / hipotenusa);
 			}
 		} else {
 			if (vpn[1] > 0) {
-				float girarEmX = 180 - asin(vpn[1] / hipotenusa);
+				girarEmX = 180 - asin(vpn[1] / hipotenusa);
 			} else {
-				float girarEmX = 180 + asin(vpn[1] / hipotenusa);
+				girarEmX = 180 + asin(vpn[1] / hipotenusa);
 			}
 		}
+
+		Matrix3D m, translateCenter, rotateZ, rotateX;
+		Matrix3D result1, result2;
+
+		translateCenter.setTranslate(-1.0 * vrp[0], -1.0 * vrp[1], -1.0 * vrp[2]);
+		rotateZ.setRotateZ(girarEmZ);
+		rotateX.setRotateX(girarEmX);
+
+		m.multiplyMatrices(translateCenter, rotateZ, result1);
+		m.multiplyMatrices(result1, rotateX, result2);
+
+		for (Coordenada* coordenada : coordenadas) {
+			float result3[4] = {0, 0, 0, 0};
+			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
+			m.multiplyPointToMatrix(point, result2, result3);
+			coordenada->setCoordenada(result3);
+		}
+
 
 	}
 
