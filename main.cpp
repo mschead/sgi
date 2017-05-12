@@ -13,6 +13,7 @@
 #include "bspline.h"
 #include "canvas.h"
 #include "displayfile.h"
+#include "object3D.h"
 
 #define Z_STUB 0
 
@@ -48,6 +49,8 @@ GtkListStore *pointsPolygon;
 
 vector<Coordenada*> polygonCoordinate;
 vector<Coordenada*> bsplineCoordinate;
+vector<Line*> wireframeLines;
+vector<Coordenada*> coordenadasWireframe;
 
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
@@ -68,6 +71,13 @@ GtkEntry *entry_z1_line;
 GtkEntry *entry_x2_line;
 GtkEntry *entry_y2_line;
 GtkEntry *entry_z2_line;
+
+GtkEntry *wireframe_x1;
+GtkEntry *wireframe_y1;
+GtkEntry *wireframe_z1;
+GtkEntry *wireframe_x2;
+GtkEntry *wireframe_y2;
+GtkEntry *wireframe_z2;
 
 GtkEntry *entry_p1_hermite;
 GtkEntry *entry_p4_hermite;
@@ -387,6 +397,19 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
   bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
+extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
+  int x1 = atoi((char*)gtk_entry_get_text(wireframe_x1));
+  int y1 = atoi((char*)gtk_entry_get_text(wireframe_y1));
+  int z1 = atoi((char*)gtk_entry_get_text(wireframe_z1));
+
+  int x2 = atoi((char*)gtk_entry_get_text(wireframe_x2));
+  int y2 = atoi((char*)gtk_entry_get_text(wireframe_y2));
+  int z2 = atoi((char*)gtk_entry_get_text(wireframe_z2));
+
+  coordenadasWireframe.push_back(new Coordenada(x1, y1, z1));
+  coordenadasWireframe.push_back(new Coordenada(x2, y2, z2));
+}
+
 extern "C" G_MODULE_EXPORT void add_confirm_event() {
   cairo_t *cr = cairo_create (surface);
 
@@ -458,7 +481,22 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     displayFile.addNewObject(bspline);
     bspline->draw(viewport, window, cr, clippingType);
     bsplineCoordinate.clear();
+  } else if (strcmp(label, "Wireframe") == 0) {
+    for (int i=0; i<(coordenadasWireframe.size()/2);i++){
+	vector<Coordenada*> points;
+    	points.push_back(coordenadasWireframe.at(2*i));
+    	points.push_back(coordenadasWireframe.at((2*i)+1));
+	printf("%s\n", "mandei os pontos");
+	printf("%u\n", coordenadasWireframe.at(2*i)->getX());
+	printf("%u\n", coordenadasWireframe.at((2*i)+1)->getX());
+	Line* line = new Line("", points);
+	displayFile.addNewObject(line);
+	wireframeLines.push_back(line);
+	}
+    Object3D* wireframe = new Object3D("", wireframeLines);
+    wireframe->draw(viewport, window, cr, clippingType);
   }
+
 
   GtkTreeIter iter;
   gtk_list_store_append(list_store, &iter);
@@ -521,6 +559,13 @@ void initializeGTKComponentes() {
   entry_x2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x2_line"));
   entry_y2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y2_line"));
   entry_z2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z2_line"));
+
+  wireframe_x1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_x1"));
+  wireframe_y1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_y1"));
+  wireframe_z1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_z1"));
+  wireframe_x2 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_x2"));
+  wireframe_y2 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_y2"));
+  wireframe_z2 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_z2"));
 
   entry_x_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_point"));
   entry_y_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_point"));

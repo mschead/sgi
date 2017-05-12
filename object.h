@@ -261,6 +261,9 @@ public:
 			}
 		}
 
+
+		 
+		
 		if (vpn[2] > 0) {
 			if (vpn[1] > 0) {
 				girarEmX = asin(vpn[1] / hipotenusa);
