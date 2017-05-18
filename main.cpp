@@ -163,7 +163,7 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   clear_surface();
 
   float factor = atof((char*)gtk_entry_get_text(angle_factor));
-  window.setAngle(factor);
+  window.setAngleZ(factor);
 
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr, clippingType);
@@ -302,7 +302,6 @@ extern "C" G_MODULE_EXPORT void edit_element(){
 
     char* name = ((char*) value);
     toEdit = displayFile.getObjectByName(name);
-    printf("%s\n", toEdit->getName());
 
     gtk_widget_show_all(edit_dialog);
   }
@@ -321,12 +320,12 @@ extern "C" G_MODULE_EXPORT void rotate_object(){
   float entryX = atof(entry_x_s);
   float entryY = atof(entry_y_s);
 
-  printf("%s\n", (char*)gtk_entry_get_text(entry_x_rotate));
+  // printf("%s\n", (char*)gtk_entry_get_text(entry_x_rotate));
 
   if (strcmp(entry_x_s, "") != 0 && strcmp(entry_y_s, "") != 0) {
       toEdit->rotateUsingCoordinate(angleZ, entryX, entryY);
   } else {
-      toEdit->rotate(angleZ);
+      toEdit->rotate(angleX, angleY, angleZ);
   }
 
   cairo_t *cr = cairo_create (surface);

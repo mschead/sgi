@@ -42,12 +42,28 @@ public:
 		return yCenter;
 	}
 
-	void setAngle(float angle) {
-		this->angle += angle;
+	void setAngleZ(float angleZ) {
+		this->angleZ += angleZ;
 	}
 
-	float getAngle() {
-		return angle;
+	float getAngleZ() {
+		return angleZ;
+	}
+
+	void setAngleY(float angleY) {
+		this->angleY += angleY;
+	}
+
+	float getAngleY() {
+		return angleY;
+	}
+
+	void setAngleX(float angleX) {
+		this->angleX += angleX;
+	}
+
+	float getAngleX() {
+		return angleX;
 	}
 
 	void refreshCenter() {
@@ -83,5 +99,5 @@ public:
 private:
 	float xmin, ymin, xmax, ymax;
 	float xCenter, yCenter;
-	float angle = 0;
+	float angleZ, angleY, angleX = 0;
 };

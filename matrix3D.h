@@ -8,7 +8,7 @@ public:
 		identity[0][0] = 1;
 		identity[1][0] = 0;
 		identity[2][0] = 0;
-		identity[3][1] = 0;
+		identity[3][0] = 0;
 
 		identity[0][1] = 0;
 		identity[1][1] = 1;
@@ -99,6 +99,7 @@ public:
 			}
 			printf("\n");
 		}
+		printf("\n");
 	}
 
 	void printMatrix1x4(int a[4]) {

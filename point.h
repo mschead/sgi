@@ -23,6 +23,11 @@ public:
 
 	// se for virtual, pode dar erro, verificar
 	void virtual draw(Viewport viewport, Window window, cairo_t *cr,int clippingType) {
+	  float vrp[3];
+	  vrp[0] = window.getXCenter();
+	  vrp[1] = window.getYCenter();
+	  vrp[2] = 0.0;
+	  ortogonalize(vrp);
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
 	  desenhar = true;
