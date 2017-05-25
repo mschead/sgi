@@ -59,6 +59,8 @@ public:
 	}
 
 	void drawNormalized(Window window) {
+		vector<Coordenada*> ortogonalized = ortogonalize(window);
+
 		Matrix translateCenter, rotate, scale, translateBack;
 
 		Matrix result1, result2, result3, result;
@@ -119,7 +121,7 @@ public:
 		// printf("\n");
 		// result1.printMatrix3x3(result3);
 
-		for (Coordenada* coordenada : coordenadas) {
+		for (Coordenada* coordenada : ortogonalized) {
 			float normalizePoint[3] = {0, 0, 0};
 			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 
@@ -136,12 +138,16 @@ public:
 		m.setTranslate(entryX, entryY, entryZ);
 
 		for (Coordenada* coordenada : coordenadas) {
+			printf("ANTES: %f, %f, %f\n", coordenada->getX(), coordenada->getY(), coordenada->getZ());
 			float result[4] = {0, 0, 0, 0};
 			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m.multiplyPointToMatrix(point, m, result);
 			coordenada->setCoordenada(result);
 		}
 
+		for (Coordenada* coordenada : coordenadas) {
+			printf("DEPOIS: %f, %f, %f\n", coordenada->getX(), coordenada->getY(), coordenada->getZ());
+		}
 	}
 
 

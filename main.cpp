@@ -49,8 +49,10 @@ GtkListStore *pointsPolygon;
 
 vector<Coordenada*> polygonCoordinate;
 vector<Coordenada*> bsplineCoordinate;
-vector<Line*> wireframeLines;
-vector<Coordenada*> coordenadasWireframe;
+
+vector<Polygon*> wireframePolygons;
+vector<Coordenada*> wireframeCoordinates;
+
 
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
@@ -402,49 +404,80 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
 }
 
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
-  // int x1 = atoi((char*)gtk_entry_get_text(wireframe_x1));
-  // int y1 = atoi((char*)gtk_entry_get_text(wireframe_y1));
-  // int z1 = atoi((char*)gtk_entry_get_text(wireframe_z1));
 
-  // int x2 = atoi((char*)gtk_entry_get_text(wireframe_x2));
-  // int y2 = atoi((char*)gtk_entry_get_text(wireframe_y2));
-  // int z2 = atoi((char*)gtk_entry_get_text(wireframe_z2));
+  char *name = "";
 
-  coordenadasWireframe.push_back(new Coordenada(50, 50, 0));
-  coordenadasWireframe.push_back(new Coordenada(50, 50, 50));
+  vector<Coordenada*> coordinates_square_1;
+  Coordenada* c1 = new Coordenada(50, 100, 0);
+  coordinates_square_1.push_back(c1);
+  Coordenada* c2 = new Coordenada(100, 100, 0);
+  coordinates_square_1.push_back(c2);
+  Coordenada* c3 = new Coordenada(100, 50, 0);
+  coordinates_square_1.push_back(c3);
+  Coordenada* c4 = new Coordenada(50, 50, 0);
+  coordinates_square_1.push_back(c4);
 
-  coordenadasWireframe.push_back(new Coordenada(50, 50, 0));
-  coordenadasWireframe.push_back(new Coordenada(50, 100, 0));
+  wireframeCoordinates.push_back(c1);
+  wireframeCoordinates.push_back(c2);
+  wireframeCoordinates.push_back(c3);
+  wireframeCoordinates.push_back(c4);
+  Polygon* square_1 = new Polygon(name, coordinates_square_1);
+  wireframePolygons.push_back(square_1);
 
-  coordenadasWireframe.push_back(new Coordenada(50, 50, 0));
-  coordenadasWireframe.push_back(new Coordenada(100, 50, 0));
+  vector<Coordenada*> coordinates_square_2;
+  Coordenada* c5 = new Coordenada(100, 100, 0);
+  coordinates_square_2.push_back(c5);
+  Coordenada* c6 = new Coordenada(100, 100, 50);
+  coordinates_square_2.push_back(c6);
+  Coordenada *c7 = new Coordenada(100, 50, 50);
+  coordinates_square_2.push_back(c7);
+  Coordenada *c8 = new Coordenada(100, 50, 0);
+  coordinates_square_2.push_back(c8);
 
-  coordenadasWireframe.push_back(new Coordenada(50, 50, 50));
-  coordenadasWireframe.push_back(new Coordenada(50, 100, 50));
+  wireframeCoordinates.push_back(c5);
+  wireframeCoordinates.push_back(c6);
+  wireframeCoordinates.push_back(c7);
+  wireframeCoordinates.push_back(c8);
+  Polygon* square_2 = new Polygon(name, coordinates_square_2);
+  wireframePolygons.push_back(square_2);
 
-  coordenadasWireframe.push_back(new Coordenada(50, 50, 50));
-  coordenadasWireframe.push_back(new Coordenada(100, 50, 50));
 
-  coordenadasWireframe.push_back(new Coordenada(100, 50, 50));
-  coordenadasWireframe.push_back(new Coordenada(100, 100, 50));
 
-  coordenadasWireframe.push_back(new Coordenada(100, 50, 50));
-  coordenadasWireframe.push_back(new Coordenada(100, 50, 0));
 
-  coordenadasWireframe.push_back(new Coordenada(50, 100, 0));
-  coordenadasWireframe.push_back(new Coordenada(100, 100, 0));
+  vector<Coordenada*> coordinates_square_3;
+  Coordenada* c9 = new Coordenada(50, 100, 0);
+  coordinates_square_3.push_back(c9);
+  Coordenada* c10 = new Coordenada(50, 100, 50);
+  coordinates_square_3.push_back(c10);
+  Coordenada* c11 = new Coordenada(50, 50, 50);
+  coordinates_square_3.push_back(c11);
+  Coordenada* c12 = new Coordenada(50, 50, 0);
+  coordinates_square_3.push_back(c12);
 
-  coordenadasWireframe.push_back(new Coordenada(100, 100, 0));
-  coordenadasWireframe.push_back(new Coordenada(100, 100, 50));
+  wireframeCoordinates.push_back(c9);
+  wireframeCoordinates.push_back(c10);
+  wireframeCoordinates.push_back(c11);
+  wireframeCoordinates.push_back(c12);
+  Polygon* square_3 = new Polygon(name, coordinates_square_3);
+  wireframePolygons.push_back(square_3);
 
-  coordenadasWireframe.push_back(new Coordenada(50, 100, 50));
-  coordenadasWireframe.push_back(new Coordenada(100, 100, 50));
 
-  coordenadasWireframe.push_back(new Coordenada(50, 100, 0));
-  coordenadasWireframe.push_back(new Coordenada(50, 100, 50));
+  vector<Coordenada*> coordinates_square_4;
+  Coordenada* c13 = new Coordenada(100, 100, 50);
+  coordinates_square_4.push_back(c13);
+  Coordenada* c14 = new Coordenada(50, 100, 50);
+  coordinates_square_4.push_back(c14);
+  Coordenada* c15 = new Coordenada(50, 50, 50);
+  coordinates_square_4.push_back(c15);
+  Coordenada* c16 = new Coordenada(100, 50, 50);
+  coordinates_square_4.push_back(c16);
 
-  coordenadasWireframe.push_back(new Coordenada(100, 50, 0));
-  coordenadasWireframe.push_back(new Coordenada(100, 100, 0));
+  wireframeCoordinates.push_back(c13);
+  wireframeCoordinates.push_back(c14);
+  wireframeCoordinates.push_back(c15);
+  wireframeCoordinates.push_back(c16);
+  Polygon* square_4 = new Polygon(name, coordinates_square_4);
+  wireframePolygons.push_back(square_4);
 
 }
 
@@ -520,18 +553,7 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     bspline->draw(viewport, window, cr, clippingType);
     bsplineCoordinate.clear();
   } else if (strcmp(label, "Wireframe") == 0) {
-    for (int i=0; i<(coordenadasWireframe.size()/2);i++){
-	    vector<Coordenada*> points;
-      points.push_back(coordenadasWireframe.at(2*i));
-      points.push_back(coordenadasWireframe.at((2*i)+1));
-	    // printf("%s\n", "mandei os pontos");
-	    // printf("%u\n", coordenadasWireframe.at(2*i)->getX());
-	    // printf("%u\n", coordenadasWireframe.at((2*i)+1)->getX());
-	    Line* line = new Line("", points);
-	    // displayFile.addNewObject(line);
-	   wireframeLines.push_back(line);
-	}
-    Object3D* wireframe = new Object3D(name, wireframeLines);
+    Object3D* wireframe = new Object3D(name, wireframePolygons, wireframeCoordinates);
     displayFile.addNewObject(wireframe);
     wireframe->draw(viewport, window, cr, clippingType);
   }

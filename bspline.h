@@ -115,8 +115,6 @@ class BSpline : public Object {
 
 		    auxLines.push_back(line);
 		    line->draw(viewport, window, cr, clippingType);
-			// printf("(%f, %f) - (%f, %f)\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), 
-			// 	normalizedCoordinates.at(i + 1)->getX(), normalizedCoordinates.at(i + 1)->getY());
 		}
 	}
 
