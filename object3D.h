@@ -44,7 +44,51 @@ public:
 			// printf("%s\n\n", "coloquei outra coordenada");
 			}
 		}
+		
+		for( int i = 0; i < lines.size(); i++){
+				// printf("%u\n\n", i);
+				int auxiliarDeCoordenadaUnica1 = -1;
+				int auxiliarDeCoordenadaUnica2 = -1;
+				bool atualizarCoordenada1 = false;
+				bool atualizarCoordenada2 = false;
+			
+				for( int j = 0; j<coordenadas.size(); j++){
+					if ( lines.at(i)->getPoints().at(0)->getX() == coordenadas.at(j)->getX() && lines.at(i)->getPoints().at(0)->getY() == coordenadas.at(j)->getY() && lines.at(i)->getPoints().at(0)->getZ() == coordenadas.at(j)->getZ()){
+						printf("%s\n", "atualizar coordenada1");
+						printf("%f, %f, %f = %f, %f, %f\n\n", lines.at(i)->getPoints().at(0)->getX(),lines.at(i)->getPoints().at(0)->getY(),lines.at(i)->getPoints().at(0)->getZ(),coordenadas.at(j)->getX(),coordenadas.at(j)->getY(),coordenadas.at(j)->getZ());
+						atualizarCoordenada1 = true;
+						auxiliarDeCoordenadaUnica1 = j;
+						}
+					if ( lines.at(i)->getPoints().at(1)->getX() == coordenadas.at(j)->getX() && lines.at(i)->getPoints().at(1)->getY() == coordenadas.at(j)->getY() && lines.at(i)->getPoints().at(1)->getZ() == coordenadas.at(j)->getZ()){
+						printf("%s\n\n", "atualizar coordenada2");
+						printf("%f, %f, %f = %f, %f, %f\n\n", lines.at(i)->getPoints().at(1)->getX(),lines.at(i)->getPoints().at(1)->getY(),lines.at(i)->getPoints().at(1)->getZ(),coordenadas.at(j)->getX(),coordenadas.at(j)->getY(),coordenadas.at(j)->getZ());
+						atualizarCoordenada2 = true;
+						auxiliarDeCoordenadaUnica2 = j;
+						}
+					}
+				vector<Coordenada*> points;
+				points.clear();
+				if(atualizarCoordenada1){
+						printf("%f,%f,%f\n\n", coordenadas.at(auxiliarDeCoordenadaUnica1)->getX(),coordenadas.at(auxiliarDeCoordenadaUnica1)->getY(), coordenadas.at(auxiliarDeCoordenadaUnica1)->getZ());
+      						points.push_back(coordenadas.at(auxiliarDeCoordenadaUnica1));
+					}else{
+						points.push_back(lines.at(i)->getPoints().at(0));					
+					}
+				if(atualizarCoordenada2){
+      						points.push_back(coordenadas.at(auxiliarDeCoordenadaUnica2));
+					}else{
+						points.push_back(lines.at(i)->getPoints().at(1));					
+					}
+				lines.at(i) = new Line("", points);
+				}
+
 		// printf("%s\n\n", "tamanho vetor coordenadas");
+		for( int i = 0; i < lines.size(); i++){
+			printf("%s\n", "Pares de coordenadas de cada aresta");
+			printf("%f, %f, %f\n", lines.at(i)->getPoints().at(0)->getX(), lines.at(i)->getPoints().at(0)->getY(), lines.at(i)->getPoints().at(0)->getZ());
+			printf("%f, %f, %f\n\n", lines.at(i)->getPoints().at(1)->getX(), lines.at(i)->getPoints().at(1)->getY(), lines.at(i)->getPoints().at(1)->getZ());
+
+		}
 		printf("%u\n\n", coordenadas.size());
 		// for(int k = 0; k < coordenadas.size(); k++){ // Printa os " x "  para verificar valores
 		// 	printf("\n%f", coordenadas.at(k)->getX());
