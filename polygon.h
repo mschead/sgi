@@ -9,6 +9,10 @@ class Polygon : public Object{
 public:
 
 	Polygon(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+		for (Coordenada* c : coordenadas) {
+      		printf("Y ANTES CONSTRUTOR: %f\n", c->getY());
+      		printf("Z ANTES CONSTRUTOR: %f\n", c->getZ());
+    	}
 	}
 
 	void clipping(Window window, Viewport viewport) {
@@ -102,7 +106,7 @@ public:
 				coordenadaFora->setY(controleY);
 				estavaDentro = true;
 		}
-		printf("%s\n", "Numero de vertices");
+		// printf("%s\n", "Numero de vertices");
 		// printf("%u\n", coordenadasClippadas.size());
 		normalizedCoordinates = coordenadasClippadas;
 	}
@@ -221,6 +225,10 @@ public:
 	
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		normalizedCoordinates.clear();
+		// for (Coordenada* c : coordenadas) {
+  //     		printf("Y DEPOIS NORMALIZACAO: %f\n", c->getY());
+  //     		printf("Z DEPOIS NORMALIZACAO: %f\n", c->getZ());
+  //   	}
 		drawNormalized(window);
 		clipping(window, viewport);
 

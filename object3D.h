@@ -127,12 +127,8 @@ public:
 	}
 
 protected:
-	char* nome;
 	vector<Line*> lines;
-	std::vector<Line*> auxLines;
-	// vector<Coordenada*> coordenadas;
-	// vector<Coordenada*> normalizedCoordinates;
-	
+	std::vector<Line*> auxLines;	
 };
 
 #endif

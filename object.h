@@ -40,9 +40,9 @@ public:
 	virtual void clipping (Window window, Viewport viewport) = 0;
 
 	Coordenada pontoMedio() {
-		int x = 0;
-		int y = 0;
-		int z = 0;
+		float x = 0;
+		float y = 0;
+		float z = 0;
 
 		for (Coordenada* coordenada : coordenadas) {
 			x += coordenada->getX();
@@ -59,8 +59,6 @@ public:
 	}
 
 	void drawNormalized(Window window) {
-		// std::vector<Coordenada*> coordenadasOrtog = ortogonalize(window);
-		// printf("TAMANHO!: %d\n", coordenadasOrtog.size());
 		Matrix translateCenter, rotate, scale, translateBack;
 
 		Matrix result1, result2, result3, result;
@@ -172,14 +170,10 @@ public:
 	}
 
 	void rotate(int angX, int angY, int angZ) {
-		printf("TAMANHO COORDENADAS: %i\n", coordenadas.size());
-		// for(int k = 0; k < coordenadas.size(); k++){ // Printa os " x "  para verificar valores
-		// 	printf("\n%f", coordenadas.at(k)->getX());
-		// }
+
 		Coordenada pontoMedio = this->pontoMedio();
 
 		Matrix3D m1, matrixX, matrixY, matrixZ, m3, resultX, resultY, resultZ, final;
-		printf("OPA\n");
 		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY(), -1 * pontoMedio.getZ());
 		
 		// matrixX.printMatrix4x4(matrixX);
@@ -202,7 +196,7 @@ public:
 		// resultX.printMatrix4x4(resultX);
 		// resultY.printMatrix4x4(resultY);
 		// resultZ.printMatrix4x4(resultZ);
-		// final.printMatrix4x4(final);
+		
 
 
 
@@ -211,6 +205,19 @@ public:
 		m1.multiplyMatrices(resultY, matrixZ, resultZ);
 		m1.multiplyMatrices(resultZ, m3, final);
 
+		resultZ.printMatrix4x4(m1);
+		resultZ.printMatrix4x4(m3);
+
+		matrixX.printMatrix4x4(matrixX);
+		matrixY.printMatrix4x4(matrixY);
+		matrixZ.printMatrix4x4(matrixZ);
+
+		resultX.printMatrix4x4(resultX);
+		resultY.printMatrix4x4(resultY);
+		resultZ.printMatrix4x4(resultZ);
+		// resultZ.printMatrix4x4(m1);
+		
+		// final.printMatrix4x4(final);
 		// m1.printMatrix3x3(result2);
 
 		for (Coordenada* coordenada : coordenadas) {

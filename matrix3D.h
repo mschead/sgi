@@ -42,7 +42,7 @@ public:
 		float angleRad = ang * PI / 180;
 
 		identity[1][1] = cos (angleRad);
-		identity[1][2] = -1 * sin (angleRad);
+		identity[1][2] = -1.0 * sin (angleRad);
 		identity[2][1] = sin (angleRad);
 		identity[2][2] = cos (angleRad);
 	}
@@ -51,7 +51,7 @@ public:
 		float angleRad = ang * PI / 180;
 
 		identity[0][0] = cos (angleRad);
-		identity[0][2] = -1 * sin (angleRad);
+		identity[0][2] = -1.0 * sin (angleRad);
 		identity[2][0] = sin (angleRad);
 		identity[2][2] = cos (angleRad);
 	}
@@ -61,7 +61,7 @@ public:
 
 		identity[0][0] = cos (angleRad);
 		identity[0][1] = sin (angleRad);
-		identity[1][0] = -1 * sin (angleRad);
+		identity[1][0] = -1.0 * sin (angleRad);
 		identity[1][1] = cos (angleRad);
 	}
 
