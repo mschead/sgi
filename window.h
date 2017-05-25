@@ -42,6 +42,10 @@ public:
 		return yCenter;
 	}
 
+	float getZCenter() {
+		return 0;
+	}
+
 	void setAngleZ(float angleZ) {
 		this->angleZ += angleZ;
 	}
@@ -69,6 +73,7 @@ public:
 	void refreshCenter() {
 		xCenter = (xmin + xmax) / 2.0;
 		yCenter = (ymin + ymax) / 2.0;
+		// zCenter = ()
 	}
 
 	void setXmin(float xmin) {
@@ -98,6 +103,6 @@ public:
 
 private:
 	float xmin, ymin, xmax, ymax;
-	float xCenter, yCenter;
+	float xCenter, yCenter, zCenter;
 	float angleZ, angleY, angleX = 0;
 };

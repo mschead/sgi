@@ -1204,17 +1204,17 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="angle_factor">
-            <property name="width_request">60</property>
+          <object class="GtkEntry" id="angle_window_x">
+            <property name="width_request">50</property>
             <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="width_chars">0</property>
-            <property name="placeholder_text" translatable="yes">angle</property>
+            <property name="placeholder_text" translatable="yes">x</property>
           </object>
           <packing>
-            <property name="x">31</property>
-            <property name="y">403</property>
+            <property name="x">19</property>
+            <property name="y">404</property>
           </packing>
         </child>
         <child>
@@ -1228,8 +1228,8 @@
             <signal name="clicked" handler="rotate_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">98</property>
-            <property name="y">403</property>
+            <property name="x">61</property>
+            <property name="y">438</property>
           </packing>
         </child>
         <child>
@@ -1275,6 +1275,34 @@
           <packing>
             <property name="x">392</property>
             <property name="y">421</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="angle_window_y">
+            <property name="width_request">50</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="placeholder_text" translatable="yes">y</property>
+          </object>
+          <packing>
+            <property name="x">73</property>
+            <property name="y">405</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="angle_window_z">
+            <property name="width_request">50</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="placeholder_text" translatable="yes">z</property>
+          </object>
+          <packing>
+            <property name="x">128</property>
+            <property name="y">405</property>
           </packing>
         </child>
       </object>

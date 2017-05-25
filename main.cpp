@@ -110,7 +110,10 @@ GtkEntry *entry_y_rotate;
 
 GtkEntry *zoom_factor;
 GtkEntry *step_factor;
-GtkEntry *angle_factor;
+
+GtkEntry *angle_window_x;
+GtkEntry *angle_window_y;
+GtkEntry *angle_window_z;
 
 
 Object *toEdit;
@@ -162,8 +165,11 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   cairo_t *cr = cairo_create (surface);
   clear_surface();
 
-  float factor = atof((char*)gtk_entry_get_text(angle_factor));
-  window.setAngleZ(factor);
+  float factor_x = atof((char*)gtk_entry_get_text(angle_window_x));
+  float factor_y = atof((char*)gtk_entry_get_text(angle_window_y));
+  float factor_z = atof((char*)gtk_entry_get_text(angle_window_z));
+
+  window.setAngleZ(factor_z);
 
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr, clippingType);
@@ -321,7 +327,6 @@ extern "C" G_MODULE_EXPORT void rotate_object(){
   float entryY = atof(entry_y_s);
 
   // printf("%s\n", (char*)gtk_entry_get_text(entry_x_rotate));
-
   if (strcmp(entry_x_s, "") != 0 && strcmp(entry_y_s, "") != 0) {
       toEdit->rotateUsingCoordinate(angleZ, entryX, entryY);
   } else {
@@ -397,16 +402,50 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
 }
 
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
-  int x1 = atoi((char*)gtk_entry_get_text(wireframe_x1));
-  int y1 = atoi((char*)gtk_entry_get_text(wireframe_y1));
-  int z1 = atoi((char*)gtk_entry_get_text(wireframe_z1));
+  // int x1 = atoi((char*)gtk_entry_get_text(wireframe_x1));
+  // int y1 = atoi((char*)gtk_entry_get_text(wireframe_y1));
+  // int z1 = atoi((char*)gtk_entry_get_text(wireframe_z1));
 
-  int x2 = atoi((char*)gtk_entry_get_text(wireframe_x2));
-  int y2 = atoi((char*)gtk_entry_get_text(wireframe_y2));
-  int z2 = atoi((char*)gtk_entry_get_text(wireframe_z2));
+  // int x2 = atoi((char*)gtk_entry_get_text(wireframe_x2));
+  // int y2 = atoi((char*)gtk_entry_get_text(wireframe_y2));
+  // int z2 = atoi((char*)gtk_entry_get_text(wireframe_z2));
 
-  coordenadasWireframe.push_back(new Coordenada(x1, y1, z1));
-  coordenadasWireframe.push_back(new Coordenada(x2, y2, z2));
+  coordenadasWireframe.push_back(new Coordenada(50, 50, 0));
+  coordenadasWireframe.push_back(new Coordenada(50, 50, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 50, 0));
+  coordenadasWireframe.push_back(new Coordenada(50, 100, 0));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 50, 0));
+  coordenadasWireframe.push_back(new Coordenada(100, 50, 0));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 50, 50));
+  coordenadasWireframe.push_back(new Coordenada(50, 100, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 50, 50));
+  coordenadasWireframe.push_back(new Coordenada(100, 50, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(100, 50, 50));
+  coordenadasWireframe.push_back(new Coordenada(100, 100, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(100, 50, 50));
+  coordenadasWireframe.push_back(new Coordenada(100, 50, 0));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 100, 0));
+  coordenadasWireframe.push_back(new Coordenada(100, 100, 0));
+
+  coordenadasWireframe.push_back(new Coordenada(100, 100, 0));
+  coordenadasWireframe.push_back(new Coordenada(100, 100, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 100, 50));
+  coordenadasWireframe.push_back(new Coordenada(100, 100, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(50, 100, 0));
+  coordenadasWireframe.push_back(new Coordenada(50, 100, 50));
+
+  coordenadasWireframe.push_back(new Coordenada(100, 50, 0));
+  coordenadasWireframe.push_back(new Coordenada(100, 100, 0));
+
 }
 
 extern "C" G_MODULE_EXPORT void add_confirm_event() {
@@ -482,17 +521,18 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     bsplineCoordinate.clear();
   } else if (strcmp(label, "Wireframe") == 0) {
     for (int i=0; i<(coordenadasWireframe.size()/2);i++){
-	vector<Coordenada*> points;
-    	points.push_back(coordenadasWireframe.at(2*i));
-    	points.push_back(coordenadasWireframe.at((2*i)+1));
-	printf("%s\n", "mandei os pontos");
-	printf("%u\n", coordenadasWireframe.at(2*i)->getX());
-	printf("%u\n", coordenadasWireframe.at((2*i)+1)->getX());
-	Line* line = new Line("", points);
-	displayFile.addNewObject(line);
-	wireframeLines.push_back(line);
+	    vector<Coordenada*> points;
+      points.push_back(coordenadasWireframe.at(2*i));
+      points.push_back(coordenadasWireframe.at((2*i)+1));
+	    // printf("%s\n", "mandei os pontos");
+	    // printf("%u\n", coordenadasWireframe.at(2*i)->getX());
+	    // printf("%u\n", coordenadasWireframe.at((2*i)+1)->getX());
+	    Line* line = new Line("", points);
+	    // displayFile.addNewObject(line);
+	   wireframeLines.push_back(line);
 	}
-    Object3D* wireframe = new Object3D("", wireframeLines);
+    Object3D* wireframe = new Object3D(name, wireframeLines);
+    displayFile.addNewObject(wireframe);
     wireframe->draw(viewport, window, cr, clippingType);
   }
 
@@ -591,7 +631,10 @@ void initializeGTKComponentes() {
 
   zoom_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "zoom_factor"));
   step_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "step_factor"));
-  angle_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_factor"));
+
+  angle_window_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_window_x"));
+  angle_window_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_window_y"));
+  angle_window_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_window_z"));
   
   polygon_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_x"));
   polygon_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "polygon_y"));

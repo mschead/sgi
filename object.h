@@ -17,6 +17,10 @@ public:
 		this->coordenadas = coordenadas;
 	}
 
+	Object(char* nome) {
+		this->nome = nome;
+	}
+
 	~Object() {
 		delete nome;
 		coordenadas.clear();
@@ -55,6 +59,8 @@ public:
 	}
 
 	void drawNormalized(Window window) {
+		// std::vector<Coordenada*> coordenadasOrtog = ortogonalize(window);
+		// printf("TAMANHO!: %d\n", coordenadasOrtog.size());
 		Matrix translateCenter, rotate, scale, translateBack;
 
 		Matrix result1, result2, result3, result;
@@ -166,10 +172,14 @@ public:
 	}
 
 	void rotate(int angX, int angY, int angZ) {
+		printf("TAMANHO COORDENADAS: %i\n", coordenadas.size());
+		// for(int k = 0; k < coordenadas.size(); k++){ // Printa os " x "  para verificar valores
+		// 	printf("\n%f", coordenadas.at(k)->getX());
+		// }
 		Coordenada pontoMedio = this->pontoMedio();
 
 		Matrix3D m1, matrixX, matrixY, matrixZ, m3, resultX, resultY, resultZ, final;
-
+		printf("OPA\n");
 		m1.setTranslate(-1 * pontoMedio.getX(), -1 * pontoMedio.getY(), -1 * pontoMedio.getZ());
 		
 		// matrixX.printMatrix4x4(matrixX);
@@ -184,7 +194,7 @@ public:
 		resultY.setZero();
 		resultZ.setZero();
 		final.setZero();
-
+		
 		// matrixX.printMatrix4x4(matrixX);
 		// matrixY.printMatrix4x4(matrixY);
 		// matrixZ.printMatrix4x4(matrixZ);
@@ -193,6 +203,7 @@ public:
 		// resultY.printMatrix4x4(resultY);
 		// resultZ.printMatrix4x4(resultZ);
 		// final.printMatrix4x4(final);
+
 
 
 		m1.multiplyMatrices(m1, matrixX, resultX);
@@ -246,74 +257,27 @@ public:
 	}
 
 
-	void ortogonalize(float vrp[3]) {
-		Coordenada pontoMedio = this->pontoMedio();
+	std::vector<Coordenada*> ortogonalize(Window window) {
 		
-		float vpn[3];
-		vpn[0] = pontoMedio.getX() - vrp[0];
-		vpn[1] = pontoMedio.getY() - vrp[1];
-		vpn[2] = pontoMedio.getZ() - vrp[2];
-
-		printf("Ponto médio: %f, %f, %f\n", pontoMedio.getX(), pontoMedio.getY(), pontoMedio.getZ());
-		printf("VRP: %f, %f, %f\n", vrp[0], vrp[1], vrp[2]);
-		printf("VPN ANTES: %f, %f, %f\n", vpn[0], vpn[1], vpn[2]);
-		float hipotenusa = sqrt((vpn[0] * vpn[0]) + (vpn[2] * vpn[2]));
-		
-		float girarEmZ, girarEmX;
-
-		if (vpn[2] > 0) {
-			if (vpn[0] > 0) {
-				girarEmZ = asin(vpn[0] / hipotenusa);
-			} else {
-				girarEmZ = -1.0 * asin(vpn[0] / hipotenusa);
-			}
-		} else {
-			if (vpn[1] > 0) {
-				girarEmZ = asin(vpn[0] / hipotenusa); 
-			} else {
-				girarEmZ = -1.0 * asin(vpn[0] / hipotenusa);
-			}
-		}
-
-
-		 
-		
-		if (vpn[2] > 0) {
-			if (vpn[1] > 0) {
-				girarEmX = asin(vpn[1] / hipotenusa);
-			} else {
-				girarEmX = -1.0 * asin(vpn[1] / hipotenusa);
-			}
-		} else {
-			if (vpn[1] > 0) {
-				girarEmX = 180 - asin(vpn[1] / hipotenusa);
-			} else {
-				girarEmX = 180 + asin(vpn[1] / hipotenusa);
-			}
-		}
-
-		Matrix3D m, translateCenter, rotateZ, rotateX;
+		std::vector<Coordenada*> perspectiva;
+		Matrix3D m, translateCenter, rotateY, rotateX;
 		Matrix3D result1, result2;
 
-		translateCenter.setTranslate(-1.0 * vrp[0], -1.0 * vrp[1], -1.0 * vrp[2]);
-		rotateZ.setRotateZ(girarEmZ);
-		rotateX.setRotateX(girarEmX);
+		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0 * window.getZCenter());
+		rotateY.setRotateY(-1 * window.getAngleY());
+		rotateX.setRotateX(-1 * window.getAngleX());
 
-		m.multiplyMatrices(translateCenter, rotateZ, result1);
+		m.multiplyMatrices(translateCenter, rotateY, result1);
 		m.multiplyMatrices(result1, rotateX, result2);
 
+		for (Coordenada* coordenada : coordenadas) {
+			float result3[4] = {0, 0, 0, 0};
+			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
+			m.multiplyPointToMatrix(point, result2, result3);
+			perspectiva.push_back(new Coordenada(point[0], point[1], point[2]));
+		}
 
-		float teste[3];
-		m.multiplyPointToMatrix(vpn, result2, teste);
-		printf("VPN ROTACIONADO: %f, %f, %f\n", teste[0], teste[1], teste[2]);		
-
-		// for (Coordenada* coordenada : coordenadas) {
-		// 	float result3[4] = {0, 0, 0, 0};
-		// 	float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
-		// 	m.multiplyPointToMatrix(point, result2, result3);
-		// 	coordenada->setCoordenada(result3);
-		// }
-
+		return perspectiva;
 
 	}
 
