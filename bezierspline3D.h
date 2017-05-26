@@ -247,7 +247,7 @@ public:
 				//z = matrixT[i] * resultZ[i];				
 			}
 
-			// printf("%f, %f\n", x_final, y_final);
+			 printf("%f, %f, %f\n", x_final, y_final);
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 

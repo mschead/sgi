@@ -554,15 +554,15 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     bspline->draw(viewport, window, cr, clippingType);
     bsplineCoordinate.clear();
   } else if (strcmp(label, "Wireframe") == 0) {
-	/*vector<Coordenada*> points;
+	vector<Coordenada*> points;
 	BezierSpline3D* spline = new BezierSpline3D(name, points, new Coordenada(0, 0, 0), 
       new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
       new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
       new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
-      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));*/
+      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));/*
     Object3D* wireframe = new Object3D(name, wireframePolygons, wireframeCoordinates);
     displayFile.addNewObject(wireframe);
-    wireframe->draw(viewport, window, cr, clippingType);
+    wireframe->draw(viewport, window, cr, clippingType);*/
   } else if (strcmp(label, "BezierBicubic") == 0) {
 	vector<Coordenada*> points;
     /*BezierSpline3D* spline = new HermiteSpline(name, points, new Coordenada(p11_x, p11_y, p11_z), 
