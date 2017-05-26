@@ -171,6 +171,8 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   float factor_y = atof((char*)gtk_entry_get_text(angle_window_y));
   float factor_z = atof((char*)gtk_entry_get_text(angle_window_z));
 
+  window.setAngleX(factor_x);
+  window.setAngleY(factor_y);
   window.setAngleZ(factor_z);
 
   for (Object* object : displayFile.getObjects()) {

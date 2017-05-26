@@ -138,16 +138,12 @@ public:
 		m.setTranslate(entryX, entryY, entryZ);
 
 		for (Coordenada* coordenada : coordenadas) {
-			printf("ANTES: %f, %f, %f\n", coordenada->getX(), coordenada->getY(), coordenada->getZ());
 			float result[4] = {0, 0, 0, 0};
 			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m.multiplyPointToMatrix(point, m, result);
 			coordenada->setCoordenada(result);
 		}
 
-		for (Coordenada* coordenada : coordenadas) {
-			printf("DEPOIS: %f, %f, %f\n", coordenada->getX(), coordenada->getY(), coordenada->getZ());
-		}
 	}
 
 
@@ -287,7 +283,7 @@ public:
 			float result3[4] = {0, 0, 0, 0};
 			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m.multiplyPointToMatrix(point, result2, result3);
-			perspectiva.push_back(new Coordenada(point[0], point[1], point[2]));
+			perspectiva.push_back(new Coordenada(result3[0], result3[1], result3[2]));
 		}
 
 		return perspectiva;
