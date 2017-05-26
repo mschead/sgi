@@ -213,6 +213,11 @@ public:
 
 		float tVariation[4];
 		float sVariation[4];
+
+		float resultX2[4];
+		float resultY2[4];
+		float resultZ2[4];
+
 		float x_final, y_final, z_final;
 
 		for (float s = 0.0; s < 1.1; s = s + 0.2) {
@@ -231,13 +236,13 @@ public:
 				tVariation[2] = t;
 				tVariation[3] = 1.0;
 
-				m.multiply4x4by4x1(resultX,tVariation, resultX);
-				m.multiply4x4by4x1(resultX,tVariation, resultY);
-				m.multiply4x4by4x1(resultX,tVariation, resultZ);
+				m.multiply4x4by4x1(resultX,tVariation, resultX2);
+				m.multiply4x4by4x1(resultX,tVariation, resultY2);
+				m.multiply4x4by4x1(resultX,tVariation, resultZ2);
 					}
-				x_final += sVariation[i] * resultX[i];
-				y_final += sVariation[i] * resultY[i];
-				z_final += sVariation[i] * resultZ[i];
+				x_final += sVariation[i] * resultX2[i];
+				y_final += sVariation[i] * resultY2[i];
+				z_final += sVariation[i] * resultZ2[i];
 				// por enquanto nao precisa
 				//z = matrixT[i] * resultZ[i];				
 			}
