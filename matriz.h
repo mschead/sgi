@@ -88,6 +88,21 @@ public:
 
 	}
 
+	void multiplyMatrices4x4by4x4(float matriz[4][4], float geometryVector[4][4], float result[4][4]) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				for(int k = 0; k < 4; k++) {
+					result[i][j] +=  matriz[i][k] *  geometryVector[k][j];
+				}
+			}
+		}
+		/*for (int i = 0; i < 3; i++) {
+			for (int j = 0; j<4; j++) {
+			//printf("%f  %f  %f\n ", result[i][j]);			
+			}
+		}*/
+	}
+
 	void multiplyBSplineToGeometryVector(float geometryVector[4], float result[4]) {
 			// NAO ESQUECER DE DIVIDIR POR 6
 			float matrizBSpline[4][4];
@@ -123,6 +138,15 @@ public:
 
 	}
 
+	void multiply4x4by4x1(float bigMatrix[4][4], float lilyMatrix[4], float result[4]) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				result[i] += bigMatrix[i][j] * lilyMatrix[j]; 
+			}
+			// printf("%f\n", result[i]);
+		}
+	}
+
 	void multiplyTetaMatrixBSplineToGeometryVector(float tetaMatrix[4][4], float geometryVector[4], float result[4]) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -141,7 +165,9 @@ public:
 				}
 			}
 		}
+		
 	}
+
 
 	void printMatrix3x3(Matrix a) {
 		for (int i = 0; i < 3; i++) {
