@@ -103,24 +103,24 @@ public:
 		float bezier[4][4];
 
 		bezier[0][0] = 1;
-		bezier[0][1] = 0;
-		bezier[0][2] = 0;
-		bezier[0][3] = 0;
+		bezier[0][1] = 3;
+		bezier[0][2] = -3;
+		bezier[0][3] = 1;
 
-		bezier[1][0] = 0;
-		bezier[1][1] = 0;
-		bezier[1][2] = 0;
-		bezier[1][3] = 1;
+		bezier[1][0] = 3;
+		bezier[1][1] = -6;
+		bezier[1][2] = 3;
+		bezier[1][3] = 0;
 
 		bezier[2][0] = -3;
 		bezier[2][1] = 3;
 		bezier[2][2] = 0;
 		bezier[2][3] = 0;
 
-		bezier[3][0] = 0;
+		bezier[3][0] = 1;
 		bezier[3][1] = 0.0;
-		bezier[3][2] = -3;
-		bezier[3][3] = 3;
+		bezier[3][2] = 0;
+		bezier[3][3] = 0;
 
 		float resultX[4][4];
 		resultX[0][0] = 0;
@@ -185,10 +185,14 @@ public:
 		resultZ[3][2] = 0;
 		resultZ[3][3] = 0;
 
-		printf("%s\n", "setei bezier");
-
+		printf("%s\n", "Matriz bezier por geometria em X");
+		
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorX, resultX);
+
+		printf("%s\n", "Matriz bezier por geometria em Y");
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorY, resultY);
+
+		printf("%s\n", "Matriz bezier por geometria em Z");
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorZ, resultZ);
 
 		printf("%s\n", "multipliquei bezier");
@@ -196,24 +200,24 @@ public:
 		float bezierTransposta[4][4];
 
 		bezierTransposta[0][0] = 1;
-		bezierTransposta[0][1] = 0;
+		bezierTransposta[0][1] = 3;
 		bezierTransposta[0][2] = -3;
-		bezierTransposta[0][3] = 0;
+		bezierTransposta[0][3] = 1;
 
-		bezierTransposta[1][0] = 0;
-		bezierTransposta[1][1] = 0;
+		bezierTransposta[1][0] = 3;
+		bezierTransposta[1][1] = -6;
 		bezierTransposta[1][2] = 3;
 		bezierTransposta[1][3] = 0;
 
-		bezierTransposta[2][0] = 0;
-		bezierTransposta[2][1] = 0;
+		bezierTransposta[2][0] = -3;
+		bezierTransposta[2][1] = 3;
 		bezierTransposta[2][2] = 0;
-		bezierTransposta[2][3] = -3;
+		bezierTransposta[2][3] = 0;
 
-		bezierTransposta[3][0] = 0;
-		bezierTransposta[3][1] = 1;
+		bezierTransposta[3][0] = 1;
+		bezierTransposta[3][1] = 0.0;
 		bezierTransposta[3][2] = 0;
-		bezierTransposta[3][3] = 3;
+		bezierTransposta[3][3] = 0;
 
 		printf("%s\n", "setei beziertransposta");
 
@@ -283,9 +287,11 @@ public:
 		float resultX3[4];
 		float resultY3[4];
 		float resultZ3[4];
-
+		printf("%s\n", "Matriz beziertransposta por resultX");
 		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultX2);
+		printf("%s\n", "Matriz beziertransposta por resultY");
 		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultY2);
+		printf("%s\n", "Matriz beziertransposta por resultZ");
 		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultZ2);
 
 		printf("%s\n", "multipliquei beziertransposta");
@@ -293,11 +299,11 @@ public:
 		float tVariation[4];
 		float sVariation[4];
 
-		float x_final[4];
-		float y_final[4];
-		float z_final[4];
+		float x_final;
+		float y_final;
+		float z_final;
 
-		for (float s = 0.0; s < 1.0; s = s + 0.2) {
+		for (float s = 0.0; s < 1.1; s = s + 0.2) {
 			printf("%s%f\n", "entrei no laco", s);
 			sVariation[0] = s * s * s;
 			sVariation[1] = s * s;
@@ -307,31 +313,35 @@ public:
 			m.multiplyPointToMatrix3D(sVariation, resultX2, resultX3);
 			m.multiplyPointToMatrix3D(sVariation, resultY2, resultY3);
 			m.multiplyPointToMatrix3D(sVariation, resultZ2, resultZ3);
-			
-				for( float t = 0.0; t < 1.0; t = t + 0.2){
+			for( int i = 0; i<6; i++){
+				for( float t = 0.0; t < 1.1; t = t + 0.2){
 				tVariation[0] = t * t * t;
 				tVariation[1] = t * t;
 				tVariation[2] = t;
 				tVariation[3] = 1.0;
+				x_final = 0;
+				y_final = 0;
+				z_final = 0;
 
-				x_final[0] = resultX3[0] * tVariation[0];
-				x_final[1] = resultX3[1] * tVariation[1];
-				x_final[2] = resultX3[2] * tVariation[2];
-				x_final[3] = resultX3[3] * tVariation[3];
+				x_final = resultX3[0] * tVariation[0];
+				x_final = x_final + resultX3[1] * tVariation[1];
+				x_final = x_final + resultX3[2] * tVariation[2];
+				x_final = x_final + resultX3[3] * tVariation[3];
 
-				y_final[0] = resultY3[0] * tVariation[0];
-				y_final[1] = resultY3[1] * tVariation[1];
-				y_final[2] = resultY3[2] * tVariation[2];
-				y_final[3] = resultY3[3] * tVariation[3];
+				y_final = y_final +resultY3[0] * tVariation[0];
+				y_final = y_final +resultY3[1] * tVariation[1];
+				y_final = y_final +resultY3[2] * tVariation[2];
+				y_final = y_final + resultY3[3] * tVariation[3];
 
-				z_final[0] = resultZ3[0] * tVariation[0];
-				z_final[1] = resultZ3[1] * tVariation[1];
-				z_final[2] = resultZ3[2] * tVariation[2];
-				z_final[3] = resultZ3[3] * tVariation[3];
+				z_final[0]= resultZ3[0] * tVariation[0];
+				z_final[1] = z_final + resultZ3[1] * tVariation[1];
+				z_final[2] = z_final + resultZ3[2] * tVariation[2];
+				z_final[3] = z_final + resultZ3[3] * tVariation[3];
 
-				printf("%f, %f, %f, %f\n", x_final[0], x_final[1], x_final[2],x_final[3]);
-				}		
+				vetores[i].push_back(new Coordenada(x_final,y_final,z_final));
 
+				}
+			}		
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 
@@ -342,11 +352,36 @@ public:
 	}
 
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
+		auxLines.clear();
+		
+		for(int i= 0; i<6; i++){ //( ligando pontos da esquerda pra direita)
+			for (int j= 0; j<3; j++){			
+				vector<Coordenada*> points;
+    				points.push_back(vetores[i].at[j]);
+   				points.push_back(vetores[i].at[j+1]);
+    				Line* line = new Line("", points);
+				auxLines.push_back(line);
+				}
+			}
+
+		for(int i= 0; i<4; i++){ //( ligando pontos de cima pra baixo)
+			for (int j= 0; j<5; j++){			
+				vector<Coordenada*> points;
+    				points.push_back(vetores[j].at[i]);
+   				points.push_back(vetores[j+1].at[i]);
+    				Line* line = new Line("", points);
+				auxLines.push_back(line);
+				}
+			}
+		for( int i = 0; i<auxLines.size(); i++){
+				auxLines.at(i)->draw();		
+			}
 		}
 
 private:
 	Coordenada *p11, *p12, *p13, *p14, *p21, *p22, *p23, *p24, *p31, *p32, *p33, *p34, *p41, *p42, *p43, *p44;
 	std::vector<Line*> auxLines;
+	std::vector<Coordenada*> vetores[6];
 
 
 };
