@@ -345,8 +345,8 @@ public:
 				z_final = z_final + resultZ3[3] * tVariation[3];
 
 				Coordenada* coordenadaNova = new Coordenada(x_final,y_final,z_final);
-				coordenadas.push_back(coordenadaNova);
-				vetores[auxliarVetor].push_back(coordenadaNova);
+				//coordenadas.push_back(coordenadaNova);
+				vetores[auxliarVetor].push_back(new Coordenada(x_final,y_final,z_final));
 				}		
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
@@ -364,8 +364,7 @@ public:
 		for(int i= 0; i<6; i++){ //( ligando pontos da esquerda pra direita)
 			for (int j= 0; j<5; j++){			
 				vector<Coordenada*> points;
-				printf("Ligando ponto %f %f %f \n", vetores[i].at(j)->getX(),  vetores[i].at(j)->getY(), vetores[i].at(j)->getZ());
-				printf("com ponto %f %f %f \n", vetores[i].at(j+1)->getX(),  vetores[i].at(j+1)->getY(), vetores[i].at(j+1)->getZ());
+				/*printf("Ligando ponto %f %f %f \n", vetores[i].at(j)->getX(),  vetores[i].at(j)->getY(), vetores[i].at(j)->getZ());*/
     				points.push_back(vetores[i].at(j));
    				points.push_back(vetores[i].at(j+1));
     				Line* line = new Line("", points);
@@ -391,7 +390,6 @@ public:
 private:
 	Coordenada *p11, *p12, *p13, *p14, *p21, *p22, *p23, *p24, *p31, *p32, *p33, *p34, *p41, *p42, *p43, *p44;
 	std::vector<Line*> auxLines;
-	vector<Coordenada*> coordenadas;
 	std::vector<Coordenada*> vetores[6];
 
 
