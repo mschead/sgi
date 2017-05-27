@@ -56,6 +56,14 @@ public:
 		}
 	}
 
+	void multiplyPointToMatrix3D(float point[4], float transform[4][4], float result[4]) {
+		for (int j = 0; j < 4; j++) {
+			for (int i = 0; i < 4; i ++) {
+				result[j] += point[i] * transform[i][j];
+			}
+		}
+	}
+
 	void multiplyHermiteToGeometryVector(float geometryVector[4], float result[4]) {
 		float hermite[4][4];
 
@@ -96,11 +104,10 @@ public:
 				}
 			}
 		}
-		/*for (int i = 0; i < 3; i++) {
-			for (int j = 0; j<4; j++) {
-			//printf("%f  %f  %f\n ", result[i][j]);			
-			}
-		}*/
+		
+		for (int i = 0; i < 3; i++) {
+			printf("%f  %f  %f %f\n ", result[i][0], result[i][1], result[i][2], result[i][3]);			
+		}
 	}
 
 	void multiplyBSplineToGeometryVector(float geometryVector[4], float result[4]) {
@@ -141,9 +148,9 @@ public:
 	void multiply4x4by4x1(float bigMatrix[4][4], float lilyMatrix[4], float result[4]) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				result[i] += bigMatrix[i][j] * lilyMatrix[j]; 
+				result[i] += bigMatrix[i][j] * lilyMatrix[j];
 			}
-			// printf("%f\n", result[i]);
+			printf("%f\n", result[i]);
 		}
 	}
 
