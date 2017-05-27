@@ -293,11 +293,9 @@ public:
 		float tVariation[4];
 		float sVariation[4];
 
-		float resultX3[4];
-		float resultY3[4];
-		float resultZ3[4];
-
-		float x_final, y_final, z_final;
+		float x_final[4];
+		float y_final[4];
+		float z_final[4];
 
 		for (float s = 0.0; s < 1.0; s = s + 0.2) {
 			printf("%s%f\n", "entrei no laco", s);
@@ -305,37 +303,35 @@ public:
 			sVariation[1] = s * s;
 			sVariation[2] = s;
 			sVariation[3] = 1.0;
+
+			m.multiplyPointToMatrix3D(sVariation, resultX2, resultX3);
+			m.multiplyPointToMatrix3D(sVariation, resultY2, resultY3);
+			m.multiplyPointToMatrix3D(sVariation, resultZ2, resultZ3);
 			
-			x_final = 0.0;
-			y_final = 0.0;
-			z_final = 0.0;
 				for( float t = 0.0; t < 1.0; t = t + 0.2){
 				tVariation[0] = t * t * t;
 				tVariation[1] = t * t;
 				tVariation[2] = t;
 				tVariation[3] = 1.0;
 
-				m.multiply4x4by4x1(resultX,tVariation, resultX3);
-				m.multiply4x4by4x1(resultY,tVariation, resultY3);
-				m.multiply4x4by4x1(resultZ,tVariation, resultZ3);
+				x_final[0] = resultX3[0] * tVariation[0];
+				x_final[1] = resultX3[1] * tVariation[1];
+				x_final[2] = resultX3[2] * tVariation[2];
+				x_final[3] = resultX3[3] * tVariation[3];
 
-				x_final = sVariation[s] * resultX3[0];
-				x_final = sVariation[s] * resultX3[1];
-				x_final = sVariation[s] * resultX3[2];
-				x_final = sVariation[s] * resultX3[3];
-				
-				y_final = sVariation[s] * resultY3[0];
-				y_final = sVariation[s] * resultY3[1];
-				y_final = sVariation[s] * resultY3[2];
-				y_final = sVariation[s] * resultY3[3];
+				y_final[0] = resultY3[0] * tVariation[0];
+				y_final[1] = resultY3[1] * tVariation[1];
+				y_final[2] = resultY3[2] * tVariation[2];
+				y_final[3] = resultY3[3] * tVariation[3];
 
-				z_final = sVariation[s] * resultZ3[0];
-				z_final = sVariation[s] * resultZ3[1];
-				z_final = sVariation[s] * resultZ3[2];
-				z_final = sVariation[s] * resultZ3[3];
-					}		
+				z_final[0] = resultZ3[0] * tVariation[0];
+				z_final[1] = resultZ3[1] * tVariation[1];
+				z_final[2] = resultZ3[2] * tVariation[2];
+				z_final[3] = resultZ3[3] * tVariation[3];
 
-			 printf("%f, %f, %f\n", x_final, y_final, z_final);
+				printf("%f, %f, %f, %f\n", x_final[0], x_final[1], x_final[2],x_final[3]);
+				}		
+
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 
