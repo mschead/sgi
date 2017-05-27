@@ -303,17 +303,19 @@ public:
 		float y_final;
 		float z_final;
 
+		int auxliarVetor = -1;
+
 		for (float s = 0.0; s < 1.1; s = s + 0.2) {
 			printf("%s%f\n", "entrei no laco", s);
 			sVariation[0] = s * s * s;
 			sVariation[1] = s * s;
 			sVariation[2] = s;
 			sVariation[3] = 1.0;
+			auxliarVetor = auxliarVetor + 1;
 
 			m.multiplyPointToMatrix3D(sVariation, resultX2, resultX3);
 			m.multiplyPointToMatrix3D(sVariation, resultY2, resultY3);
 			m.multiplyPointToMatrix3D(sVariation, resultZ2, resultZ3);
-			for( int i = 0; i<6; i++){
 				for( float t = 0.0; t < 1.1; t = t + 0.2){
 				tVariation[0] = t * t * t;
 				tVariation[1] = t * t;
@@ -333,15 +335,13 @@ public:
 				y_final = y_final +resultY3[2] * tVariation[2];
 				y_final = y_final + resultY3[3] * tVariation[3];
 
-				z_final[0]= resultZ3[0] * tVariation[0];
-				z_final[1] = z_final + resultZ3[1] * tVariation[1];
-				z_final[2] = z_final + resultZ3[2] * tVariation[2];
-				z_final[3] = z_final + resultZ3[3] * tVariation[3];
+				z_final= resultZ3[0] * tVariation[0];
+				z_final = z_final + resultZ3[1] * tVariation[1];
+				z_final = z_final + resultZ3[2] * tVariation[2];
+				z_final = z_final + resultZ3[3] * tVariation[3];
 
-				vetores[i].push_back(new Coordenada(x_final,y_final,z_final));
-
-				}
-			}		
+				vetores[auxliarVetor].push_back(new Coordenada(x_final,y_final,z_final));
+				}		
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 
@@ -353,9 +353,10 @@ public:
 
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		auxLines.clear();
+		printf("%f \n", vetores[0].at(0)->getX());
 		
 		for(int i= 0; i<6; i++){ //( ligando pontos da esquerda pra direita)
-			for (int j= 0; j<3; j++){			
+			for (int j= 0; j<5; j++){			
 				vector<Coordenada*> points;
     				points.push_back(vetores[i].at[j]);
    				points.push_back(vetores[i].at[j+1]);
@@ -364,7 +365,7 @@ public:
 				}
 			}
 
-		for(int i= 0; i<4; i++){ //( ligando pontos de cima pra baixo)
+		for(int i= 0; i<6; i++){ //( ligando pontos de cima pra baixo)
 			for (int j= 0; j<5; j++){			
 				vector<Coordenada*> points;
     				points.push_back(vetores[j].at[i]);
@@ -373,8 +374,9 @@ public:
 				auxLines.push_back(line);
 				}
 			}
+
 		for( int i = 0; i<auxLines.size(); i++){
-				auxLines.at(i)->draw();		
+				/*auxLines.at(i)->draw(viewport, window, cr, 1);*/		
 			}
 		}
 
