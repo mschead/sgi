@@ -7,7 +7,8 @@ class BezierSpline3D : public Object {
 	
 public:
 	BezierSpline3D(char* nome, vector<Coordenada*> coordenadas, 
-		Coordenada *p11, Coordenada *p12, Coordenada *p13, Coordenada *p14, Coordenada *p21, Coordenada *p22,Coordenada *p23,Coordenada *p24,Coordenada *p31,Coordenada *p32,Coordenada *p33,Coordenada *p34,Coordenada *p41,Coordenada *p42, Coordenada *p43, Coordenada *p44) : Object(nome, coordenadas) {
+		Coordenada *p11, Coordenada *p12, Coordenada *p13, Coordenada *p14, Coordenada *p21, Coordenada *p22,Coordenada *p23,Coordenada *p24,Coordenada *p31,Coordenada *p32,Coordenada *p33,Coordenada *p34,Coordenada *p41,Coordenada *p42, Coordenada *p43, Coordenada *p44) : Object(nome, coordenadas) {	
+		printf("%s\n", "entrei no construtor");
 		this->p11 = p11;
 		this->p12 = p12;
 		this->p13 = p13;
@@ -27,6 +28,7 @@ public:
 		this->p42 = p42;
 		this->p43 = p43;
 		this->p44 = p44;
+
 
 		Matrix m;
 
@@ -95,6 +97,8 @@ public:
 		geometryVectorZ[3][1] = p42->getZ();
 		geometryVectorZ[3][2] = p43->getZ();
 		geometryVectorZ[3][3] = p44->getZ();
+
+		printf("%s\n", "setei vetor geometria");
 
 		float bezier[4][4];
 
@@ -181,9 +185,13 @@ public:
 		resultZ[3][2] = 0;
 		resultZ[3][3] = 0;
 
+		printf("%s\n", "setei bezier");
+
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorX, resultX);
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorY, resultY);
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorZ, resultZ);
+
+		printf("%s\n", "multipliquei bezier");
 
 		float bezierTransposta[4][4];
 
@@ -207,20 +215,92 @@ public:
 		bezierTransposta[3][2] = 0;
 		bezierTransposta[3][3] = 3;
 
-		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultX);
-		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultY);
-		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultZ);
+		printf("%s\n", "setei beziertransposta");
+
+		float resultX2[4][4];
+		resultX2[0][0] = 0;
+		resultX2[0][1] = 0;
+		resultX2[0][2] = 0;
+		resultX2[0][3] = 0;
+
+		resultX2[1][0] = 0;
+		resultX2[1][1] = 0;
+		resultX2[1][2] = 0;
+		resultX2[1][3] = 0;
+
+		resultX2[2][0] = 0;
+		resultX2[2][1] = 0;
+		resultX2[2][2] = 0;
+		resultX2[2][3] = 0;
+
+		resultX2[3][0] = 0;
+		resultX2[3][1] = 0;
+		resultX2[3][2] = 0;
+		resultX2[3][3] = 0;
+
+		float resultY2[4][4];
+		resultY2[0][0] = 0;
+		resultY2[0][1] = 0;
+		resultY2[0][2] = 0;
+		resultY2[0][3] = 0;
+
+		resultY2[1][0] = 0;
+		resultY2[1][1] = 0;
+		resultY2[1][2] = 0;
+		resultY2[1][3] = 0;
+
+		resultY2[2][0] = 0;
+		resultY2[2][1] = 0;
+		resultY2[2][2] = 0;
+		resultY2[2][3] = 0;
+
+		resultY2[3][0] = 0;
+		resultY2[3][1] = 0;
+		resultY2[3][2] = 0;
+		resultY2[3][3] = 0;
+
+		float resultZ2[4][4];
+		resultZ2[0][0] = 0;
+		resultZ2[0][1] = 0;
+		resultZ2[0][2] = 0;
+		resultZ2[0][3] = 0;
+
+		resultZ2[1][0] = 0;
+		resultZ2[1][1] = 0;
+		resultZ2[1][2] = 0;
+		resultZ2[1][3] = 0;
+
+		resultZ2[2][0] = 0;
+		resultZ2[2][1] = 0;
+		resultZ2[2][2] = 0;
+		resultZ2[2][3] = 0;
+
+		resultZ2[3][0] = 0;
+		resultZ2[3][1] = 0;
+		resultZ2[3][2] = 0;
+		resultZ2[3][3] = 0;
+
+		float resultX3[4];
+		float resultY3[4];
+		float resultZ3[4];
+
+		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultX2);
+		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultY2);
+		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultZ2);
+
+		printf("%s\n", "multipliquei beziertransposta");
 
 		float tVariation[4];
 		float sVariation[4];
 
-		float resultX2[4];
-		float resultY2[4];
-		float resultZ2[4];
+		float resultX3[4];
+		float resultY3[4];
+		float resultZ3[4];
 
 		float x_final, y_final, z_final;
 
-		for (float s = 0.0; s < 1.1; s = s + 0.2) {
+		for (float s = 0.0; s < 1.0; s = s + 0.2) {
+			printf("%s%f\n", "entrei no laco", s);
 			sVariation[0] = s * s * s;
 			sVariation[1] = s * s;
 			sVariation[2] = s;
@@ -229,25 +309,33 @@ public:
 			x_final = 0.0;
 			y_final = 0.0;
 			z_final = 0.0;
-			for (int i = 0; i < 4; i++) {
-				for( float t = 0.0; t < 1.1; s = t + 0.2){
+				for( float t = 0.0; t < 1.0; t = t + 0.2){
 				tVariation[0] = t * t * t;
 				tVariation[1] = t * t;
 				tVariation[2] = t;
 				tVariation[3] = 1.0;
 
-				m.multiply4x4by4x1(resultX,tVariation, resultX2);
-				m.multiply4x4by4x1(resultX,tVariation, resultY2);
-				m.multiply4x4by4x1(resultX,tVariation, resultZ2);
-					}
-				x_final += sVariation[i] * resultX2[i];
-				y_final += sVariation[i] * resultY2[i];
-				z_final += sVariation[i] * resultZ2[i];
-				// por enquanto nao precisa
-				//z = matrixT[i] * resultZ[i];				
-			}
+				m.multiply4x4by4x1(resultX,tVariation, resultX3);
+				m.multiply4x4by4x1(resultY,tVariation, resultY3);
+				m.multiply4x4by4x1(resultZ,tVariation, resultZ3);
 
-			 printf("%f, %f, %f\n", x_final, y_final);
+				x_final = sVariation[s] * resultX3[0];
+				x_final = sVariation[s] * resultX3[1];
+				x_final = sVariation[s] * resultX3[2];
+				x_final = sVariation[s] * resultX3[3];
+				
+				y_final = sVariation[s] * resultY3[0];
+				y_final = sVariation[s] * resultY3[1];
+				y_final = sVariation[s] * resultY3[2];
+				y_final = sVariation[s] * resultY3[3];
+
+				z_final = sVariation[s] * resultZ3[0];
+				z_final = sVariation[s] * resultZ3[1];
+				z_final = sVariation[s] * resultZ3[2];
+				z_final = sVariation[s] * resultZ3[3];
+					}		
+
+			 printf("%f, %f, %f\n", x_final, y_final, z_final);
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 
