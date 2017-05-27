@@ -33,6 +33,10 @@ public:
 		Matrix m;
 
 		float geometryVectorX[4][4];
+		printf("\n vetor geometria %f   %f   %f   %f\n",p11->getX(), p12->getX(), p13->getX(),p14->getX());
+		printf("%f   %f   %f   %f\n",p21->getX(), p22->getX(), p23->getX(),p24->getX());
+		printf("%f   %f   %f   %f\n",p31->getX(), p32->getX(), p33->getX(),p34->getX());
+		printf("%f   %f   %f   %f\n",p41->getX(), p42->getX(), p43->getX(),p44->getX());
 
 		geometryVectorX[0][0] = p11->getX();
 		geometryVectorX[0][1] = p12->getX();
@@ -189,13 +193,13 @@ public:
 		
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorX, resultX);
 
-		printf("%s\n", "Matriz bezier por geometria em Y");
+		//printf("%s\n", "Matriz bezier por geometria em Y");
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorY, resultY);
 
-		printf("%s\n", "Matriz bezier por geometria em Z");
+		//printf("%s\n", "Matriz bezier por geometria em Z");
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorZ, resultZ);
 
-		printf("%s\n", "multipliquei bezier");
+		//printf("%s\n", "multipliquei bezier");
 
 		float bezierTransposta[4][4];
 
@@ -288,11 +292,11 @@ public:
 		float resultY3[4];
 		float resultZ3[4];
 		printf("%s\n", "Matriz beziertransposta por resultX");
-		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultX2);
-		printf("%s\n", "Matriz beziertransposta por resultY");
-		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultY2);
-		printf("%s\n", "Matriz beziertransposta por resultZ");
-		m.multiplyMatrices4x4by4x4(bezierTransposta,resultX, resultZ2);
+		m.multiplyMatrices4x4by4x4(resultX,bezierTransposta, resultX2);
+		//printf("%s\n", "Matriz beziertransposta por resultY");
+		m.multiplyMatrices4x4by4x4(resultY,bezierTransposta, resultY2);
+		//printf("%s\n", "Matriz beziertransposta por resultZ");
+		m.multiplyMatrices4x4by4x4(resultZ,bezierTransposta, resultZ2);
 
 		printf("%s\n", "multipliquei beziertransposta");
 
@@ -353,13 +357,14 @@ public:
 
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		auxLines.clear();
-		printf("%f \n", vetores[0].at(0)->getX());
+
 		
 		for(int i= 0; i<6; i++){ //( ligando pontos da esquerda pra direita)
 			for (int j= 0; j<5; j++){			
 				vector<Coordenada*> points;
-    				points.push_back(vetores[i].at[j]);
-   				points.push_back(vetores[i].at[j+1]);
+				/*printf("Ligando ponto %f %f %f \n", vetores[i].at(j)->getX(),  vetores[i].at(j)->getY(), vetores[i].at(j)->getZ());*/
+    				points.push_back(vetores[i].at(j));
+   				points.push_back(vetores[i].at(j+1));
     				Line* line = new Line("", points);
 				auxLines.push_back(line);
 				}
@@ -368,15 +373,15 @@ public:
 		for(int i= 0; i<6; i++){ //( ligando pontos de cima pra baixo)
 			for (int j= 0; j<5; j++){			
 				vector<Coordenada*> points;
-    				points.push_back(vetores[j].at[i]);
-   				points.push_back(vetores[j+1].at[i]);
+    				points.push_back(vetores[j].at(i));
+   				points.push_back(vetores[j+1].at(i));
     				Line* line = new Line("", points);
 				auxLines.push_back(line);
 				}
 			}
 
 		for( int i = 0; i<auxLines.size(); i++){
-				/*auxLines.at(i)->draw(viewport, window, cr, 1);*/		
+				auxLines.at(i)->draw(viewport, window, cr, 1);	
 			}
 		}
 

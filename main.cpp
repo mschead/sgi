@@ -561,6 +561,7 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
       new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
       new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
 	displayFile.addNewObject(bezier3D);
+	bezier3D->draw(viewport, window, cr, clippingType);
 	/*
     Object3D* wireframe = new Object3D(name, wireframePolygons, wireframeCoordinates);
     displayFile.addNewObject(wireframe);
