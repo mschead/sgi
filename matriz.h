@@ -57,6 +57,10 @@ public:
 	}
 
 	void multiplyPointToMatrix3D(float point[4], float transform[4][4], float result[4]) {
+	    	result[0] = 0;
+		result[1] = 0;
+		result[2] = 0;
+		result[3] = 0;
             for (int j = 0; j < 4; j++) {
 			for (int i = 0; i < 4; i ++) {
 				result[j] += point[i] * transform[i][j];
@@ -97,6 +101,10 @@ public:
 	}
 
 	void multiplyMatrices4x4by4x4(float matriz[4][4], float geometryVector[4][4], float result[4][4]) {
+		printf("Linha %u : %f  %f  %f %f\n ",1,geometryVector[0][0], geometryVector[0][1], geometryVector[0][2], geometryVector[0][3]);
+		printf("Linha %u : %f  %f  %f %f\n ",2,geometryVector[1][0], geometryVector[1][1], geometryVector[1][2], geometryVector[1][3]);
+		printf("Linha %u : %f  %f  %f %f\n ",3,geometryVector[2][0], geometryVector[2][1], geometryVector[2][2], geometryVector[2][3]);
+		printf("Linha %u : %f  %f  %f %f\n ",4,geometryVector[3][0], geometryVector[3][1], geometryVector[3][2], geometryVector[3][3]);
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				for(int k = 0; k < 4; k++) {
@@ -104,7 +112,6 @@ public:
 				}
 			}
 		}
-		printf("\n\n");
 		for (int i = 0; i < 4; i++) {
 			printf("Linha %u : %f  %f  %f %f\n ",i,result[i][0], result[i][1], result[i][2], result[i][3]);			
 		}

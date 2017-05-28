@@ -645,6 +645,21 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkButton" id="button7">
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="add_point_wireframe_event" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">250</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkEntry" id="wireframe_z2">
                     <property name="width_request">60</property>
                     <property name="height_request">29</property>
@@ -661,21 +676,6 @@
                     <property name="y">50</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkButton" id="button7">
-                    <property name="label" translatable="yes">Add</property>
-                    <property name="width_request">100</property>
-                    <property name="height_request">80</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="add_point_wireframe_event" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="x">250</property>
-                    <property name="y">10</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">5</property>
@@ -689,6 +689,81 @@
               </object>
               <packing>
                 <property name="position">5</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed" id="fixed11">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkButton" id="button8">
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">half</property>
+                    <property name="xalign">0.51999998092651367</property>
+                    <property name="yalign">0.51999998092651367</property>
+                    <signal name="clicked" handler="add_point_surfaceBezier_event" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">150</property>
+                    <property name="y">25</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">BezierSurface</property>
+              </object>
+              <packing>
+                <property name="position">6</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed" id="fixed12">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkButton" id="button9">
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="xalign">0.51999998092651367</property>
+                    <property name="yalign">0.51999998092651367</property>
+                    <signal name="clicked" handler="add_point_surfaceSpline_event" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">250</property>
+                    <property name="y">25</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">7</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label8">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">SplineSurface</property>
+              </object>
+              <packing>
+                <property name="position">7</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
