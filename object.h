@@ -136,7 +136,6 @@ public:
 	void translate(int entryX, int entryY, int entryZ) {
 		Matrix3D m;
 		m.setTranslate(entryX, entryY, entryZ);
-
 		for (Coordenada* coordenada : coordenadas) {
 			printf("ANTES: %f, %f, %f\n", coordenada->getX(), coordenada->getY(), coordenada->getZ());
 			float result[4] = {0, 0, 0, 0};

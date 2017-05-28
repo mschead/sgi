@@ -57,7 +57,7 @@ public:
 	}
 
 	void multiplyPointToMatrix3D(float point[4], float transform[4][4], float result[4]) {
-		for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 4; j++) {
 			for (int i = 0; i < 4; i ++) {
 				result[j] += point[i] * transform[i][j];
 			}
