@@ -106,7 +106,7 @@ public:
 
 		float bezier[4][4];
 
-		bezier[0][0] = 1;
+		bezier[0][0] = -1;
 		bezier[0][1] = 3;
 		bezier[0][2] = -3;
 		bezier[0][3] = 1;
@@ -114,17 +114,17 @@ public:
 		bezier[1][0] = 3;
 		bezier[1][1] = -6;
 		bezier[1][2] = 3;
-		bezier[1][3] = 0;
+		bezier[1][3] = 0.0;
 
 		bezier[2][0] = -3;
-		bezier[2][1] = 3;
-		bezier[2][2] = 0;
-		bezier[2][3] = 0;
+		bezier[2][1] = 3.0;
+		bezier[2][2] = 0.0;
+		bezier[2][3] = 0.0;
 
 		bezier[3][0] = 1;
 		bezier[3][1] = 0.0;
-		bezier[3][2] = 0;
-		bezier[3][3] = 0;
+		bezier[3][2] = 0.0;
+		bezier[3][3] = 0.0;
 
 		float resultX[4][4];
 		resultX[0][0] = 0;
@@ -189,6 +189,11 @@ public:
 		resultZ[3][2] = 0;
 		resultZ[3][3] = 0;
 
+		printf("\n\n %f   %f   %f   %u\n", bezier[0][0], bezier[0][1], bezier[0][2], bezier[0][3]);
+		printf("\n\n %f   %f   %f   %u\n", bezier[1][0], bezier[1][1], bezier[1][2], bezier[1][3]);
+		printf("\n\n %f   %f   %f   %u\n", bezier[2][0], bezier[2][1], bezier[2][2], bezier[2][3]);
+		printf("\n\n %f   %f   %f   %u\n", bezier[3][0], bezier[3][1], bezier[3][2], bezier[3][3]);
+
 		printf("%s\n", "Matriz bezier por geometria em X");
 		
 		m.multiplyMatrices4x4by4x4(bezier,geometryVectorX, resultX);
@@ -203,7 +208,7 @@ public:
 
 		float bezierTransposta[4][4];
 
-		bezierTransposta[0][0] = 1;
+		bezierTransposta[0][0] = -1;
 		bezierTransposta[0][1] = 3;
 		bezierTransposta[0][2] = -3;
 		bezierTransposta[0][3] = 1;
@@ -291,7 +296,7 @@ public:
 		float resultX3[4];
 		float resultY3[4];
 		float resultZ3[4];
-		printf("%s\n", "Matriz beziertransposta por resultX");
+		printf("%s\n", "Matriz resultX por resultX");
 		m.multiplyMatrices4x4by4x4(resultX,bezierTransposta, resultX2);
 		//printf("%s\n", "Matriz beziertransposta por resultY");
 		m.multiplyMatrices4x4by4x4(resultY,bezierTransposta, resultY2);
@@ -344,9 +349,11 @@ public:
 				z_final = z_final + resultZ3[2] * tVariation[2];
 				z_final = z_final + resultZ3[3] * tVariation[3];
 
+				printf("\n\n %f   %f   %f   %u\n", x_final, y_final, z_final, t);
+
 				Coordenada* coordenadaNova = new Coordenada(x_final,y_final,z_final);
 				//coordenadas.push_back(coordenadaNova);
-				vetores[auxliarVetor].push_back(new Coordenada(x_final,y_final,z_final));
+				vetores[auxliarVetor].push_back(coordenadaNova);
 				}		
 			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}

@@ -104,9 +104,9 @@ public:
 				}
 			}
 		}
-		
-		for (int i = 0; i < 3; i++) {
-			printf("%f  %f  %f %f\n ", result[i][0], result[i][1], result[i][2], result[i][3]);			
+		printf("\n\n");
+		for (int i = 0; i < 4; i++) {
+			printf("Linha %u : %f  %f  %f %f\n ",i,result[i][0], result[i][1], result[i][2], result[i][3]);			
 		}
 	}
 
