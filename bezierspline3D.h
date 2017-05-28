@@ -29,7 +29,6 @@ public:
 		this->p43 = p43;
 		this->p44 = p44;
 
-
 		Matrix m;
 
 		float geometryVectorX[4][4];
@@ -106,22 +105,22 @@ public:
 
 		float bezier[4][4];
 
-		bezier[0][0] = -1;
-		bezier[0][1] = 3;
-		bezier[0][2] = -3;
-		bezier[0][3] = 1;
+		bezier[0][0] = -1.0;
+		bezier[0][1] = 3.0;
+		bezier[0][2] = -3.0;
+		bezier[0][3] = 1.0;
 
-		bezier[1][0] = 3;
-		bezier[1][1] = -6;
-		bezier[1][2] = 3;
+		bezier[1][0] = 3.0;
+		bezier[1][1] = -6.0;
+		bezier[1][2] = 3.0;
 		bezier[1][3] = 0.0;
 
-		bezier[2][0] = -3;
+		bezier[2][0] = -3.0;
 		bezier[2][1] = 3.0;
 		bezier[2][2] = 0.0;
 		bezier[2][3] = 0.0;
 
-		bezier[3][0] = 1;
+		bezier[3][0] = 1.0;
 		bezier[3][1] = 0.0;
 		bezier[3][2] = 0.0;
 		bezier[3][3] = 0.0;
@@ -208,25 +207,25 @@ public:
 
 		float bezierTransposta[4][4];
 
-		bezierTransposta[0][0] = -1;
-		bezierTransposta[0][1] = 3;
-		bezierTransposta[0][2] = -3;
-		bezierTransposta[0][3] = 1;
+		bezierTransposta[0][0] = -1.0;
+		bezierTransposta[0][1] = 3.0;
+		bezierTransposta[0][2] = -3.0;
+		bezierTransposta[0][3] = 1.0;
 
-		bezierTransposta[1][0] = 3;
-		bezierTransposta[1][1] = -6;
-		bezierTransposta[1][2] = 3;
-		bezierTransposta[1][3] = 0;
+		bezierTransposta[1][0] = 3.0;
+		bezierTransposta[1][1] = -6.0;
+		bezierTransposta[1][2] = 3.0;
+		bezierTransposta[1][3] = 0.0;
 
-		bezierTransposta[2][0] = -3;
-		bezierTransposta[2][1] = 3;
-		bezierTransposta[2][2] = 0;
-		bezierTransposta[2][3] = 0;
+		bezierTransposta[2][0] = -3.0;
+		bezierTransposta[2][1] = 3.0;
+		bezierTransposta[2][2] = 0.0;
+		bezierTransposta[2][3] = 0.0;
 
-		bezierTransposta[3][0] = 1;
+		bezierTransposta[3][0] = 1.0;
 		bezierTransposta[3][1] = 0.0;
-		bezierTransposta[3][2] = 0;
-		bezierTransposta[3][3] = 0;
+		bezierTransposta[3][2] = 0.0;
+		bezierTransposta[3][3] = 0.0;
 
 		printf("%s\n", "setei beziertransposta");
 
@@ -296,6 +295,7 @@ public:
 		float resultX3[4];
 		float resultY3[4];
 		float resultZ3[4];
+                
 		printf("%s\n", "Matriz resultX por resultX");
 		m.multiplyMatrices4x4by4x4(resultX,bezierTransposta, resultX2);
 		//printf("%s\n", "Matriz beziertransposta por resultY");
@@ -335,27 +335,26 @@ public:
 				z_final = 0;
 
 				x_final = resultX3[0] * tVariation[0];
-				x_final = x_final + resultX3[1] * tVariation[1];
-				x_final = x_final + resultX3[2] * tVariation[2];
-				x_final = x_final + resultX3[3] * tVariation[3];
+				x_final += resultX3[1] * tVariation[1];
+				x_final += resultX3[2] * tVariation[2];
+				x_final += resultX3[3] * tVariation[3];
 
-				y_final = y_final +resultY3[0] * tVariation[0];
-				y_final = y_final +resultY3[1] * tVariation[1];
-				y_final = y_final +resultY3[2] * tVariation[2];
-				y_final = y_final + resultY3[3] * tVariation[3];
+				y_final = resultY3[0] * tVariation[0];
+				y_final += resultY3[1] * tVariation[1];
+				y_final += resultY3[2] * tVariation[2];
+				y_final += resultY3[3] * tVariation[3];
 
-				z_final= resultZ3[0] * tVariation[0];
-				z_final = z_final + resultZ3[1] * tVariation[1];
-				z_final = z_final + resultZ3[2] * tVariation[2];
-				z_final = z_final + resultZ3[3] * tVariation[3];
+				z_final = resultZ3[0] * tVariation[0];
+				z_final += resultZ3[1] * tVariation[1];
+				z_final += resultZ3[2] * tVariation[2];
+				z_final += resultZ3[3] * tVariation[3];
 
 				printf("\n\n %f   %f   %f   %u\n", x_final, y_final, z_final, t);
 
 				Coordenada* coordenadaNova = new Coordenada(x_final,y_final,z_final);
-				//coordenadas.push_back(coordenadaNova);
+				this->coordenadas.push_back(coordenadaNova);
 				vetores[auxliarVetor].push_back(coordenadaNova);
 				}		
-			//this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
 		}
 
 	}
