@@ -32,10 +32,6 @@ public:
 		Matrix m;
 
 		float geometryVectorX[4][4];
-		printf("\n vetor geometria %f   %f   %f   %f\n",p11->getX(), p12->getX(), p13->getX(),p14->getX());
-		printf("%f   %f   %f   %f\n",p21->getX(), p22->getX(), p23->getX(),p24->getX());
-		printf("%f   %f   %f   %f\n",p31->getX(), p32->getX(), p33->getX(),p34->getX());
-		printf("%f   %f   %f   %f\n",p41->getX(), p42->getX(), p43->getX(),p44->getX());
 
 		geometryVectorX[0][0] = p11->getX();
 		geometryVectorX[0][1] = p12->getX();
@@ -188,10 +184,6 @@ public:
 		resultZ[3][2] = 0;
 		resultZ[3][3] = 0;
 
-		printf("\n\n %f   %f   %f   %u\n", bezier[0][0], bezier[0][1], bezier[0][2], bezier[0][3]);
-		printf("\n\n %f   %f   %f   %u\n", bezier[1][0], bezier[1][1], bezier[1][2], bezier[1][3]);
-		printf("\n\n %f   %f   %f   %u\n", bezier[2][0], bezier[2][1], bezier[2][2], bezier[2][3]);
-		printf("\n\n %f   %f   %f   %u\n", bezier[3][0], bezier[3][1], bezier[3][2], bezier[3][3]);
 
 		printf("%s\n", "Matriz bezier por geometria em X");
 		
@@ -349,8 +341,6 @@ public:
 				z_final += resultZ3[2] * tVariation[2];
 				z_final += resultZ3[3] * tVariation[3];
 
-				printf("\n\n %f   %f   %f   %u\n", x_final, y_final, z_final, t);
-
 				Coordenada* coordenadaNova = new Coordenada(x_final,y_final,z_final);
 				this->coordenadas.push_back(coordenadaNova);
 				vetores[auxliarVetor].push_back(coordenadaNova);
@@ -366,11 +356,10 @@ public:
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		auxLines.clear();
 
-		
 		for(int i= 0; i<6; i++){ //( ligando pontos da esquerda pra direita)
 			for (int j= 0; j<5; j++){			
 				vector<Coordenada*> points;
-				/*printf("Ligando ponto %f %f %f \n", vetores[i].at(j)->getX(),  vetores[i].at(j)->getY(), vetores[i].at(j)->getZ());*/
+				printf("Ligando ponto %f %f %f \n", vetores[i].at(j)->getX(),  vetores[i].at(j)->getY(), vetores[i].at(j)->getZ());
     				points.push_back(vetores[i].at(j));
    				points.push_back(vetores[i].at(j+1));
     				Line* line = new Line("", points);

@@ -15,6 +15,7 @@
 #include "displayfile.h"
 #include "object3D.h"
 #include "bezierspline3D.h"
+#include "SurfaceSplineFD.h"
 
 #define Z_STUB 0
 
