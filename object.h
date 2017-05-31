@@ -110,9 +110,10 @@ public:
 		// printf("\n");
 		// result1.printMatrix3x3(translateBack);
 
-		result.multiplyMatrices(translateCenter, rotate, result1);
-		result.multiplyMatrices(result1, scale, result2);
-		result.multiplyMatrices(result2, translateBack, result3);
+                result.multiplyMatrices(rotate, scale, result2);
+//		result.multiplyMatrices(translateCenter, rotate, result1);
+//		result.multiplyMatrices(result1, scale, result2);
+//		result.multiplyMatrices(result2, translateBack, result3);
 
 		// printf("\n");
 		// result1.printMatrix3x3(result1);
@@ -125,7 +126,7 @@ public:
 			float normalizePoint[3] = {0, 0, 0};
 			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 
-			result.multiplyPointToMatrix(point, result3, normalizePoint);
+			result.multiplyPointToMatrix(point, result2, normalizePoint);
 
 			// printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1], 1));
@@ -270,7 +271,7 @@ public:
 
 
 	std::vector<Coordenada*> ortogonalize(Window window) {
-		
+		// NAO ESQUECER DE DELETAR OS PONTEIROS
 		std::vector<Coordenada*> perspectiva;
 		Matrix3D m, translateCenter, rotateY, rotateX;
 		Matrix3D result1, result2;
@@ -286,10 +287,17 @@ public:
 			float result3[4] = {0, 0, 0, 0};
 			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
 			m.multiplyPointToMatrix(point, result2, result3);
-			perspectiva.push_back(new Coordenada(point[0], point[1], point[2]));
+			perspectiva.push_back(new Coordenada(result3[0], result3[1], result3[2]));
 		}
 
-		return perspectiva;
+//                for (Coordenada* coordenada : coordenadas) {
+//                    double w = coordenada->getZ() / 1.9f + 1;
+//                    coordenada->setX(coordenada->getX() / w);
+//                    coordenada->setY(coordenada->getY() / w);
+//                    coordenada->setZ(coordenada->getZ() / w);
+//                }
+                
+		return perspectiva; 
 
 	}
 

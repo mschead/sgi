@@ -174,7 +174,9 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
   float factor_z = atof((char*)gtk_entry_get_text(angle_window_z));
 
   window.setAngleZ(factor_z);
-
+  window.setAngleY(factor_y);
+  window.setAngleX(factor_x);
+  
   for (Object* object : displayFile.getObjects()) {
     object->draw(viewport, window, cr, clippingType);
   }

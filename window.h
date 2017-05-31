@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <math.h>
 
 using namespace std;
 
@@ -16,6 +17,7 @@ public:
 		this->ymax = ymax;
 		this->xCenter = (xmin + xmax) / 2.0;
 		this->yCenter = (ymin + ymax) / 2.0;
+                this->zCenter = 0;
 	}
 
 	float getXmin() {
@@ -43,11 +45,11 @@ public:
 	}
 
 	float getZCenter() {
-		return 0;
+		return zCenter;
 	}
 
 	void setAngleZ(float angleZ) {
-		this->angleZ += angleZ;
+		this->angleZ = fmod((this->angleZ + angleZ), 360);
 	}
 
 	float getAngleZ() {
@@ -55,7 +57,7 @@ public:
 	}
 
 	void setAngleY(float angleY) {
-		this->angleY += angleY;
+		this->angleY = fmod((this->angleY + angleY), 360);
 	}
 
 	float getAngleY() {
@@ -63,7 +65,7 @@ public:
 	}
 
 	void setAngleX(float angleX) {
-		this->angleX += angleX;
+		this->angleX = fmod((this->angleX + angleX), 360);
 	}
 
 	float getAngleX() {
@@ -104,5 +106,5 @@ public:
 private:
 	float xmin, ymin, xmax, ymax;
 	float xCenter, yCenter, zCenter;
-	float angleZ, angleY, angleX = 0;
+	float angleZ = 0, angleY = 0, angleX = 0;
 };
