@@ -556,7 +556,7 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     bsplineCoordinate.clear();
   } else if (strcmp(label, "Wireframe") == 0) {
 	vector<Coordenada*> points;
-	BezierSpline3D* bezier3D = new BezierSpline3D(name, points, new Coordenada(0, 0, 0), 
+	SurfaceSplineFD* bezier3D = new SurfaceSplineFD(name, points, new Coordenada(0, 0, 0), 
       new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
       new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
       new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 

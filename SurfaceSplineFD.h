@@ -124,7 +124,7 @@ class SurfaceSplineFD : public Object {
                     matrizBSpline[0][0] = -1.0 / 6.0;
                     matrizBSpline[0][1] = 3.0 / 6.0;
                     matrizBSpline[0][2] = -3.0 / 6.0;
-                    matrizBSpline[0][3] = 1.0;
+                    matrizBSpline[0][3] = 1.0 / 6.0;
 
                     matrizBSpline[1][0] = 3.0 / 6.0;
                     matrizBSpline[1][1] = -6.0 / 6.0;
@@ -590,22 +590,55 @@ class SurfaceSplineFD : public Object {
                     }
                     
                     for (int t = 0; t < 6; t++) {
-                        drawCurveFwdDiff(DDX_T[0], DDY_T[0], DDZ_T[0], t, true);
+                        
+                        float X[4], Y[4], Z[4];
+                        
+                        for (int i = 0; i < 4; i++) {
+                            X[i] = DDX_T[0][i];
+                            Y[i] = DDY_T[0][i];
+                            Z[i] = DDZ_T[0][i];
+                        }
+                        
+                        drawCurveFwdDiff(X, Y, Z, t, true);
                         
                         DDX_T[0][0] += DDX_T[1][0];
                         DDX_T[0][1] += DDX_T[1][1];
                         DDX_T[0][2] += DDX_T[1][2];
-                        DDX_T[0][3] += DDX_T[1][3];
                         
                         DDX_T[1][0] += DDX_T[2][0];
                         DDX_T[1][1] += DDX_T[2][1];
                         DDX_T[1][2] += DDX_T[2][2];
-                        DDX_T[1][3] += DDX_T[2][3];
                         
                         DDX_T[2][0] += DDX_T[3][0];
                         DDX_T[2][1] += DDX_T[3][1];
                         DDX_T[2][2] += DDX_T[3][2];
-                        DDX_T[2][3] += DDX_T[3][3];
+                        
+                        
+                        DDY_T[0][0] += DDY_T[1][0];
+                        DDY_T[0][1] += DDY_T[1][1];
+                        DDY_T[0][2] += DDY_T[1][2];
+                        
+                        DDY_T[1][0] += DDY_T[2][0];
+                        DDY_T[1][1] += DDY_T[2][1];
+                        DDY_T[1][2] += DDY_T[2][2];
+                        
+                        DDY_T[2][0] += DDY_T[3][0];
+                        DDY_T[2][1] += DDY_T[3][1];
+                        DDY_T[2][2] += DDY_T[3][2];
+                        
+                        
+                        DDZ_T[0][0] += DDZ_T[1][0];
+                        DDZ_T[0][1] += DDZ_T[1][1];
+                        DDZ_T[0][2] += DDZ_T[1][2];
+                        
+                        DDZ_T[1][0] += DDZ_T[2][0];
+                        DDZ_T[1][1] += DDZ_T[2][1];
+                        DDZ_T[1][2] += DDZ_T[2][2];
+                        
+                        DDZ_T[2][0] += DDZ_T[3][0];
+                        DDZ_T[2][1] += DDZ_T[3][1];
+                        DDZ_T[2][2] += DDZ_T[3][2];
+                        
                     }
                 }
                 
@@ -621,22 +654,54 @@ class SurfaceSplineFD : public Object {
                     }
                     
                     for (int s = 0; s < 6; s++) {
-                        drawCurveFwdDiff(DDX_S[0], DDY_S[0], DDZ_S[0], s, false);
+                        
+                        float X[4], Y[4], Z[4];
+                        
+                        for (int i = 0; i < 4; i++) {
+                            X[i] = DDX_S[0][i];
+                            Y[i] = DDY_S[0][i];
+                            Z[i] = DDZ_S[0][i];
+                        }
+                        
+                        drawCurveFwdDiff(X, Y, Z, s, false);
                         
                         DDX_S[0][0] += DDX_S[1][0];
                         DDX_S[0][1] += DDX_S[1][1];
                         DDX_S[0][2] += DDX_S[1][2];
-                        DDX_S[0][3] += DDX_S[1][3];
                         
                         DDX_S[1][0] += DDX_S[2][0];
                         DDX_S[1][1] += DDX_S[2][1];
                         DDX_S[1][2] += DDX_S[2][2];
-                        DDX_S[1][3] += DDX_S[2][3];
                         
                         DDX_S[2][0] += DDX_S[3][0];
                         DDX_S[2][1] += DDX_S[3][1];
                         DDX_S[2][2] += DDX_S[3][2];
-                        DDX_S[2][3] += DDX_S[3][3];
+                        
+                        
+                        DDY_S[0][0] += DDY_S[1][0];
+                        DDY_S[0][1] += DDY_S[1][1];
+                        DDY_S[0][2] += DDY_S[1][2];
+                        
+                        DDY_S[1][0] += DDY_S[2][0];
+                        DDY_S[1][1] += DDY_S[2][1];
+                        DDY_S[1][2] += DDY_S[2][2];
+                        
+                        DDY_S[2][0] += DDY_S[3][0];
+                        DDY_S[2][1] += DDY_S[3][1];
+                        DDY_S[2][2] += DDY_S[3][2];
+                        
+                        
+                        DDZ_S[0][0] += DDZ_S[1][0];
+                        DDZ_S[0][1] += DDZ_S[1][1];
+                        DDZ_S[0][2] += DDZ_S[1][2];
+                        
+                        DDZ_S[1][0] += DDZ_S[2][0];
+                        DDZ_S[1][1] += DDZ_S[2][1];
+                        DDZ_S[1][2] += DDZ_S[2][2];
+                        
+                        DDZ_S[2][0] += DDZ_S[3][0];
+                        DDZ_S[2][1] += DDZ_S[3][1];
+                        DDZ_S[2][2] += DDZ_S[3][2];
                     }
                     
                 }
@@ -650,7 +715,13 @@ class SurfaceSplineFD : public Object {
                     float yOld = pontosFwdY[0];
                     float zOld = pontosFwdZ[0];
                     
-                    coordenadas.push_back(new Coordenada(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));
+                    Coordenada* c = new Coordenada(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]);
+                    coordenadas.push_back(c);
+                    if (usingVectorsT) {
+                        this->vectors_t[vector].push_back(c); 
+                    } else {
+                        this->vectors_s[vector].push_back(c);
+                    }
                     
                     printf("%s\n\n", "Comecando foward differences");
                     
@@ -697,16 +768,16 @@ class SurfaceSplineFD : public Object {
                         }
                     }
                     
-//                    for (int i = 0; i < 6; i++){ //( ligando pontos da esquerda pra direita)
-//			for (int j= 0; j < 5; j++){			
-//                            vector <Coordenada*> points;
-//                            points.push_back(this->vectors_s[i].at(j));
-//                            points.push_back(this->vectors_s[i].at(j+1));
-//                            Line* line = new Line("", points);
-//                            line->draw(viewport, window, cr, clippingType);
-//                            auxLines.push_back(line);
-//                        }
-//                    }
+                    for (int i = 0; i < 6; i++){ //( ligando pontos da esquerda pra direita)
+			for (int j= 0; j < 5; j++){			
+                            vector <Coordenada*> points;
+                            points.push_back(this->vectors_s[i].at(j));
+                            points.push_back(this->vectors_s[i].at(j+1));
+                            Line* line = new Line("", points);
+                            line->draw(viewport, window, cr, clippingType);
+                            auxLines.push_back(line);
+                        }
+                    }
                     
                     
                 }
