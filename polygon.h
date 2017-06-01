@@ -213,19 +213,86 @@ public:
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		normalizedCoordinates.clear();
 		drawNormalized(window);
+
+		for(int i = 0; i< normalizedCoordinates.size(); i++){
+		coordenadaAuxiliar.push_back(new Coordenada (normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), Z_STUB));
+		}
+
 		clipping(window, viewport);
+
+		printf("Setei o auxiliar \n\n");
+		
+		//Primeira iteracao
+		if(normalizedCoordinates.size() > 0){
+
 		normalizedCoordinates.push_back(normalizedCoordinates.at(0));
 
 		float x_inicial, y_inicial, x_final, y_final;
 
-		for(int n = 0; n < normalizedCoordinates.size()-1; n++){
+		x_inicial = normalizedCoordinates.at(0)->getX();			
+		y_inicial = normalizedCoordinates.at(0)->getY();
+
+			
+		x_final = normalizedCoordinates.at(1)->getX();
+		y_final = normalizedCoordinates.at(1)->getY();
+		bool anteriorDentro = false;
+		bool atualDentro = false;
+		bool proximoDentro = false;
+
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(x_inicial == coordenadaAuxiliar.at(i)->getX() && y_inicial == coordenadaAuxiliar.at(i)->getY()){
+			printf("comecou dentro \n\n");
+			anteriorDentro = true;
+				}
+			}
+
+			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
+			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
+			x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
+			y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
+
+			cairo_move_to(cr, x_inicial, y_inicial);
+			cairo_line_to(cr, x_final, y_final);
+			cairo_stroke(cr);
+
+		for(int n = 1; n < normalizedCoordinates.size()-1; n++){
 			x_inicial = normalizedCoordinates.at(n)->getX();			
 			y_inicial = normalizedCoordinates.at(n)->getY();
+
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(normalizedCoordinates.at(n)->getX() == coordenadaAuxiliar.at(i)->getX() && normalizedCoordinates.at(n)->getY() == coordenadaAuxiliar.at(i)->getY()){
+			printf("Atual dentro\n\n");
+			atualDentro = true;
+			i = coordenadaAuxiliar.size();
+				}else{
+				atualDentro = false;				
+				}
+			}
 			
-				x_final = normalizedCoordinates.at(n+1)->getX();
-				y_final = normalizedCoordinates.at(n+1)->getY();
+			x_final = normalizedCoordinates.at(n+1)->getX();
+			y_final = normalizedCoordinates.at(n+1)->getY();
 
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(normalizedCoordinates.at(n+1)->getX() == coordenadaAuxiliar.at(i)->getX() && normalizedCoordinates.at(n+1)->getY() == coordenadaAuxiliar.at(i)->getY()){
+			printf("Proximo dentro\n\n");
+			proximoDentro = true;
+			i = coordenadaAuxiliar.size();
+				}else{
+				proximoDentro = false;				
+				}
+			}
 
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(normalizedCoordinates.at(n-1)->getX() == coordenadaAuxiliar.at(i)->getX() && normalizedCoordinates.at(n-1)->getY() == coordenadaAuxiliar.at(i)->getY()){
+			printf("Anterior dentro, desenhar\n\n");
+			anteriorDentro = true;
+			i = coordenadaAuxiliar.size();
+				}else{
+				anteriorDentro = false;				
+				}
+			}
+
+			if(anteriorDentro&&atualDentro){
 			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
 			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
 
@@ -235,6 +302,32 @@ public:
 			cairo_move_to(cr, x_inicial, y_inicial);
 			cairo_line_to(cr, x_final, y_final);
 			cairo_stroke(cr);
+			}
+
+			if(atualDentro){
+			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
+			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
+
+			x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
+			y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
+
+			cairo_move_to(cr, x_inicial, y_inicial);
+			cairo_line_to(cr, x_final, y_final);
+			cairo_stroke(cr);
+			}
+
+			if(proximoDentro){
+			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
+			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
+
+			x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
+			y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
+
+			cairo_move_to(cr, x_inicial, y_inicial);
+			cairo_line_to(cr, x_final, y_final);
+			cairo_stroke(cr);
+			}
+		}
 		}
 	}
 
