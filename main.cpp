@@ -56,6 +56,8 @@ vector<Coordenada*> bsplineCoordinate;
 vector<Polygon*> wireframePolygons;
 vector<Coordenada*> wireframeCoordinates;
 
+vector<Coordenada*> defaultPointsSurface;
+
 
 GtkEntry *entry_x_point;
 GtkEntry *entry_y_point;
@@ -406,6 +408,50 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
   bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
+extern "C" G_MODULE_EXPORT void add_surface_bezier_event() {
+    defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 100, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 200, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(100, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(100, 100, 100));
+    defaultPointsSurface.push_back(new Coordenada(100, 200, 100));
+    defaultPointsSurface.push_back(new Coordenada(100, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(200, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(200, 100, 100));
+    defaultPointsSurface.push_back(new Coordenada(200, 200, 100));
+    defaultPointsSurface.push_back(new Coordenada(200, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(300, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 100, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 200, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 300, 0));
+}
+
+extern "C" G_MODULE_EXPORT void add_surface_bspline_event() {
+    defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 100, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 200, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(100, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(100, 100, 100));
+    defaultPointsSurface.push_back(new Coordenada(100, 200, 100));
+    defaultPointsSurface.push_back(new Coordenada(100, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(200, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(200, 100, 100));
+    defaultPointsSurface.push_back(new Coordenada(200, 200, 100));
+    defaultPointsSurface.push_back(new Coordenada(200, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(300, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 100, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 200, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 300, 0));
+}
+
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
 
   char *name = "";
@@ -556,32 +602,26 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     bspline->draw(viewport, window, cr, clippingType);
     bsplineCoordinate.clear();
   } else if (strcmp(label, "Wireframe") == 0) {
-	/*
     Object3D* wireframe = new Object3D(name, wireframePolygons, wireframeCoordinates);
     displayFile.addNewObject(wireframe);
-    wireframe->draw(viewport, window, cr, clippingType);*/
+    wireframe->draw(viewport, window, cr, clippingType);
   } else if (strcmp(label, "BezierSurface") == 0) {
 	vector<Coordenada*> points;
-    /*BezierSpline3D* spline = new HermiteSpline(name, points, new Coordenada(p11_x, p11_y, p11_z), 
-      new Coordenada(p12_x, p12_y, p12_z), new Coordenada(p13_x, p13_y, p13_z), new Coordenada(p14_x, p14_y, p14_z), new Coordenada(p21_x, p21_y, p21_z), 
-      new Coordenada(p22_x, p22_y, p22_z), new Coordenada(p23_x, p23_y, p23_z), new Coordenada(p24_x, p24_y, p24_z), new Coordenada(p31_x, p31_y, p31_z), 
-      new Coordenada(p32_x, p32_y, p32_z), new Coordenada(p33_x, p33_y, p33_z), new Coordenada(p34_x, p34_y, p34_z),  new Coordenada(p41_x, p41_y, p41_z), 
-      new Coordenada(p42_x, p42_y, p42_z), new Coordenada(p43_x, p43_y, p43_z), new Coordenada(p44_x, p44_y, p44_z));*/
-   SurfaceBezier* bezier = new SurfaceBezier(name, points, new Coordenada(0, 0, 0), 
-      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
-      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
-      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
-      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
+        SurfaceBezier* bezier = new SurfaceBezier(name, points, defaultPointsSurface.at(0),
+                defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
+                defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
+                defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
+                defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
+
       displayFile.addNewObject(bezier);
       bezier->draw(viewport, window, cr, clippingType);
-  } else if (strcmp(label, "SplineSurface") == 0) {
+  } else if (strcmp(label, "BSplineSurfaceForward") == 0) {
 	vector<Coordenada*> points;
-	SurfaceSpline* spline = new SurfaceSpline(name, points, new Coordenada(0, 0, 0), 
-      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
-      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
-      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
-      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
-	displayFile.addNewObject(spline);
+        SurfaceSpline* spline = new SurfaceSpline(name, points, defaultPointsSurface.at(0),
+                defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
+                defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
+                defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
+                defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
 	spline->draw(viewport, window, cr, clippingType);
   }
 

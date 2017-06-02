@@ -707,7 +707,7 @@
                     <property name="relief">half</property>
                     <property name="xalign">0.51999998092651367</property>
                     <property name="yalign">0.51999998092651367</property>
-                    <signal name="clicked" handler="add_point_surfaceBezier_event" swapped="no"/>
+                    <signal name="clicked" handler="add_surface_bezier_event" swapped="no"/>
                   </object>
                   <packing>
                     <property name="x">150</property>
@@ -744,7 +744,7 @@
                     <property name="receives_default">True</property>
                     <property name="xalign">0.51999998092651367</property>
                     <property name="yalign">0.51999998092651367</property>
-                    <signal name="clicked" handler="add_point_surfaceSpline_event" swapped="no"/>
+                    <signal name="clicked" handler="add_surface_bspline_event" swapped="no"/>
                   </object>
                   <packing>
                     <property name="x">250</property>
