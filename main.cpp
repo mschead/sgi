@@ -555,30 +555,29 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     bspline->draw(viewport, window, cr, clippingType);
     bsplineCoordinate.clear();
   } else if (strcmp(label, "Wireframe") == 0) {
-	vector<Coordenada*> points;
-	SurfaceSplineFD* bezier3D = new SurfaceSplineFD(name, points, new Coordenada(0, 0, 0), 
-      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
-      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
-      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
-      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
-	displayFile.addNewObject(bezier3D);
-	bezier3D->draw(viewport, window, cr, clippingType);
 	/*
     Object3D* wireframe = new Object3D(name, wireframePolygons, wireframeCoordinates);
     displayFile.addNewObject(wireframe);
     wireframe->draw(viewport, window, cr, clippingType);*/
-  } else if (strcmp(label, "BezierBicubic") == 0) {
+  } else if (strcmp(label, "SurfaceBSplineForward") == 0) {
 	vector<Coordenada*> points;
+	SurfaceSplineFD* bspline = new SurfaceSplineFD(name, points, new Coordenada(0, 0, 0), 
+      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
+      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
+      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
+      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
+	displayFile.addNewObject(bspline);
+	bspline->draw(viewport, window, cr, clippingType);
     /*BezierSpline3D* spline = new HermiteSpline(name, points, new Coordenada(p11_x, p11_y, p11_z), 
       new Coordenada(p12_x, p12_y, p12_z), new Coordenada(p13_x, p13_y, p13_z), new Coordenada(p14_x, p14_y, p14_z), new Coordenada(p21_x, p21_y, p21_z), 
       new Coordenada(p22_x, p22_y, p22_z), new Coordenada(p23_x, p23_y, p23_z), new Coordenada(p24_x, p24_y, p24_z), new Coordenada(p31_x, p31_y, p31_z), 
       new Coordenada(p32_x, p32_y, p32_z), new Coordenada(p33_x, p33_y, p33_z), new Coordenada(p34_x, p34_y, p34_z),  new Coordenada(p41_x, p41_y, p41_z), 
       new Coordenada(p42_x, p42_y, p42_z), new Coordenada(p43_x, p43_y, p43_z), new Coordenada(p44_x, p44_y, p44_z));*/
-   BezierSpline3D* spline = new BezierSpline3D(name, points, new Coordenada(0, 0, 0), 
-      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
-      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
-      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
-      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
+//   BezierSpline3D* spline = new BezierSpline3D(name, points, new Coordenada(0, 0, 0), 
+//      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
+//      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
+//      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
+//      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
   }
 
 
