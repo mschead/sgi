@@ -5,107 +5,98 @@
 #define Z_STUB 0
 
 class Polygon : public Object{
-	
+
+private:
+	std::vector<Coordenada*> coordenadaAuxiliar;
 public:
 
 	Polygon(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 	}
 
 	void clipping(Window window, Viewport viewport) {
-		int n= 1;
-		bool estavaDentro;
-		bool comecouFora;
-		vector<Coordenada*> coordenadasClippadas;
-		Coordenada* coordenadaFora = new Coordenada( -10, -10, Z_STUB);
-		float controleX;
-		float controleY;
-			if(normalizedCoordinates.at(0)->getX() <= 0.9 && normalizedCoordinates.at(0)->getX() >= -0.9 && normalizedCoordinates.at(0)->getY() <= 0.9 && normalizedCoordinates.at(0)->getY() >= -0.9){
-		printf("%s\n", " inicializando com ponto dentro");		
-		coordenadasClippadas.push_back(normalizedCoordinates.at(0));
-		estavaDentro = true;
-		comecouFora = false;
-			} else {
-			printf("%s\n", " inicializando com ponto fora");
-			comecouFora = true;
-			coordenadaFora->setX(normalizedCoordinates.at(0)->getX());
-			coordenadaFora->setY(normalizedCoordinates.at(0)->getY());
-			estavaDentro = false;
-			}
-		for( n; n < normalizedCoordinates.size(); n++){
-			if(normalizedCoordinates.at(n)->getX() <= 0.9 && normalizedCoordinates.at(n)->getX() >= -0.9 && normalizedCoordinates.at(n)->getY() <= 0.9 && normalizedCoordinates.at(n)->getY() >= -0.9){
-				if(estavaDentro){
-				printf("%s\n", " Ponto continua dentro, nada a fazer");
-				coordenadasClippadas.push_back(normalizedCoordinates.at(n));
-				estavaDentro = true;				
-				}else{
-				printf("%s\n", " Ponto estava fora, necessario clippar");
-				controleX = coordenadaFora->getX();
-				controleY = coordenadaFora->getY();
+		printf("%s\n\n", "Entrei no clipping");
+		vector<Coordenada*> clippingPolygon;
+		vector<Coordenada*> subjectPolygon;
+		vector<Coordenada*> intersection;
+		vector<Coordenada*> reverseIntersection;
 
-				clippingReta(coordenadaFora, normalizedCoordinates.at(n));
-				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
-				coordenadaFora->setX(controleX);
-				coordenadaFora->setY(controleY);
-				estavaDentro = true;
-				coordenadasClippadas.push_back(normalizedCoordinates.at(n));
+		normalizedCoordinates.push_back(new Coordenada(normalizedCoordinates.at(0)->getX(),normalizedCoordinates.at(0)->getY(), Z_STUB));
+		
+		//Identificar interseccoes
+		for( int i =0; i<normalizedCoordinates.size()-1; i++){
+			if(normalizedCoordinates.at(i)->getX() >= -0.9 && normalizedCoordinates.at(i)->getX() <= 0.9 && normalizedCoordinates.at(i)->getY() >= -0.9 && normalizedCoordinates.at(i)->getY() <= 0.9){
+			//Vertice atual dentro da window
+			printf("vertice atual dentro da window: %f  %f\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
+				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
+			//Vertice seguinte dentro da window
+			printf("vertice seguinte dentro da window: %f  %f\n\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
+				}else{
+			//Vertice seguinte fora da window
+			printf("vertice seguinte fora da window\n\n");
+				Coordenada* coordenadaPosterior = new Coordenada(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
+				clippingReta(normalizedCoordinates.at(i), coordenadaPosterior);
+				intersection.push_back(coordenadaPosterior);
+				printf("%s\n\n", "interseccao calculada, coordenada posterior adicionada ao vetor de interseccoes");
 				}
 			}else{
-				coordenadaFora->setX(normalizedCoordinates.at(n)->getX());
-				coordenadaFora->setY(normalizedCoordinates.at(n)->getY());
-				if(estavaDentro){
-				printf("%s\n", " Ponto estava dentro, necessario clippar");
-				controleX = coordenadaFora->getX();
-				controleY = coordenadaFora->getY();
-
-				clippingReta(coordenadaFora, coordenadasClippadas.back());
-				printf("%s\n", " Clipagem feita");
-				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));	
-				coordenadaFora->setX(controleX);
-				coordenadaFora->setY(controleY);
-				estavaDentro = false;
+			// Se nao estiver dentro da window verificar se o proximo pronto esta dentro
+			printf("vertice atual fora da window: %f  %f\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
+				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
+			// Proximo vertice dentro da window, calcular interseccao da coordenada anterior
+			printf("vertice seguinte dentro da window: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
+			Coordenada* coordenadaAnterior = new Coordenada(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
+			clippingReta(coordenadaAnterior, normalizedCoordinates.at(i+1));
+			intersection.push_back(coordenadaAnterior);
+			printf("%s\n\n", "interseccao calculada, coordenada anterior adicionada ao vetor de interseccoes");
+				}else{
+				// Proximo vertice fora da window, calcular se existe interseccao
+				printf("vertice seguinte fora da window: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
+				
 				}
-			
 			}
 		}
-		n = n-1;
-		if(comecouFora && estavaDentro){
-			coordenadaFora->setX(normalizedCoordinates.at(0)->getX());
-			coordenadaFora->setY(normalizedCoordinates.at(0)->getY());
-			clippingReta(coordenadaFora, coordenadasClippadas.back());
-			coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
-		}if(comecouFora && !estavaDentro){
-			float controleX2 = normalizedCoordinates.at(n)->getX();
-			float controleY2 = normalizedCoordinates.at(n)->getY();
-			controleX = coordenadaFora->getX();
-			controleY = coordenadaFora->getY();
-
-			clippingReta(coordenadaFora, normalizedCoordinates.at(n));
-			if(normalizedCoordinates.at(n)->getX() <= 0.9 && normalizedCoordinates.at(n)->getX() >= -0.9 && normalizedCoordinates.at(n)->getY() >= -0.9 && normalizedCoordinates.at(n)->getY() <= 0.9){
-			coordenadasClippadas.push_back(new Coordenada (normalizedCoordinates.at(n)->getX(),normalizedCoordinates.at(n)->getY(), Z_STUB));
-			}if(coordenadaFora->getX() <= 0.9 && coordenadaFora->getX() >= -0.9 && coordenadaFora->getY() >= -0.9 && coordenadaFora->getY() <= 0.9){
-			coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
+		printf("Numero total de interseccoes: %u\n", intersection.size());
+		int posicaoAtualDaInterseccao = 0;
+		
+		//Adicionar as interseccoes para o vetor resultante
+		for( int i =0; i<normalizedCoordinates.size()-1; i++){
+			if(normalizedCoordinates.at(i)->getX() >= -0.9 && normalizedCoordinates.at(i)->getX() <= 0.9 && normalizedCoordinates.at(i)->getY() >= -0.9 && normalizedCoordinates.at(i)->getY() <= 0.9){
+			//Vertice atual dentro da window e adicionado no clippingPolygon
+			printf("vertice atual dentro e adicionado no clippingPolygon: %f  %f\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
+			Coordenada* coordenadaAtual = new Coordenada(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
+			clippingPolygon.push_back(coordenadaAtual);
+				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
+			//Vertice seguinte dentro da window
+			printf("vertice seguinte dentro da window, nada a fazer\n");
+				}else{
+			//Vertice seguinte fora da window
+			printf("vertice seguinte fora da window, adicionar interseccao\n\n");
+			Coordenada* coordenadaAtual = new Coordenada(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
+			clippingPolygon.push_back(coordenadaAtual);
+			posicaoAtualDaInterseccao++;
+				}
+			}else{
+			// Se nao estiver dentro da window verificar se o proximo pronto esta dentro
+			printf("vertice atual fora da window: %f  %f\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
+				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
+			// Proximo vertice dentro da window, calcular interseccao da coordenada anterior
+			printf("vertice seguinte dentro da window, adiciona ponto: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
+			Coordenada* coordenadaAtual = new Coordenada(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
+			clippingPolygon.push_back(coordenadaAtual);
+			printf("vertice seguinte fora da window, adicionar interseccao \n\n");
+			posicaoAtualDaInterseccao++;
+				}else{
+				// Proximo vertice fora da window, calcular se existe interseccao
+				printf("vertice seguinte fora da window TRATAR ISSO: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
+				}
 			}
-			
-			normalizedCoordinates.at(n)->setX(controleX2);
-			normalizedCoordinates.at(n)->setY(controleY2);
-			coordenadaFora->setX(controleX);
-			coordenadaFora->setY(controleY);
-			estavaDentro = true;
-			coordenadasClippadas.push_back(normalizedCoordinates.at(n));
-		}if(!comecouFora && !estavaDentro){
-				controleX = coordenadaFora->getX();
-				controleY = coordenadaFora->getY();
-
-				clippingReta(coordenadaFora, normalizedCoordinates.at(n));
-				coordenadasClippadas.push_back(new Coordenada (coordenadaFora->getX(),coordenadaFora->getY(), Z_STUB));
-				coordenadaFora->setX(controleX);
-				coordenadaFora->setY(controleY);
-				estavaDentro = true;
 		}
-		// printf("%s\n", "Numero de vertices");
-		// printf("%u\n", coordenadasClippadas.size());
-		normalizedCoordinates = coordenadasClippadas;
+			for( int i=0; i<clippingPolygon.size();i++){
+			printf("\nCoordenada numero %u x: %f y: %f\n", i+1,clippingPolygon.at(i)->getX(), clippingPolygon.at(i)->getY());
+		}
+		normalizedCoordinates = clippingPolygon;
 	}
+
 
 
 	void clippingReta (Coordenada* coordenadaAnterior, Coordenada* coordenadaPosterior) {
@@ -222,25 +213,86 @@ public:
 	void draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 		normalizedCoordinates.clear();
 		drawNormalized(window);
-		// clipping(window, viewport);
+
+		for(int i = 0; i< normalizedCoordinates.size(); i++){
+		coordenadaAuxiliar.push_back(new Coordenada (normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), Z_STUB));
+		}
+
+		clipping(window, viewport);
+
+		printf("Setei o auxiliar \n\n");
+		
+		//Primeira iteracao
+		if(normalizedCoordinates.size() > 0){
+
+		normalizedCoordinates.push_back(normalizedCoordinates.at(0));
 
 		float x_inicial, y_inicial, x_final, y_final;
-		float x_init = normalizedCoordinates.front()->getX();
-		float y_init = normalizedCoordinates.front()->getY();
 
-		for(int n = 0; n < normalizedCoordinates.size(); n++){
-			x_inicial = normalizedCoordinates.at(n)->getX();			
-			y_inicial = normalizedCoordinates.at(n)->getY();
+		x_inicial = normalizedCoordinates.at(0)->getX();			
+		y_inicial = normalizedCoordinates.at(0)->getY();
+
 			
-			if(n == normalizedCoordinates.size() - 1){
-				x_final = x_init;
-				y_final = y_init;
-			} else {
-				x_final = normalizedCoordinates.at(n+1)->getX();
-				y_final = normalizedCoordinates.at(n+1)->getY();
+		x_final = normalizedCoordinates.at(1)->getX();
+		y_final = normalizedCoordinates.at(1)->getY();
+		bool anteriorDentro = false;
+		bool atualDentro = false;
+		bool proximoDentro = false;
+
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(x_inicial == coordenadaAuxiliar.at(i)->getX() && y_inicial == coordenadaAuxiliar.at(i)->getY()){
+			printf("comecou dentro \n\n");
+			anteriorDentro = true;
+				}
 			}
 
+			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
+			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
+			x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
+			y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
 
+			cairo_move_to(cr, x_inicial, y_inicial);
+			cairo_line_to(cr, x_final, y_final);
+			cairo_stroke(cr);
+
+		for(int n = 1; n < normalizedCoordinates.size()-1; n++){
+			x_inicial = normalizedCoordinates.at(n)->getX();			
+			y_inicial = normalizedCoordinates.at(n)->getY();
+
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(normalizedCoordinates.at(n)->getX() == coordenadaAuxiliar.at(i)->getX() && normalizedCoordinates.at(n)->getY() == coordenadaAuxiliar.at(i)->getY()){
+			printf("Atual dentro\n\n");
+			atualDentro = true;
+			i = coordenadaAuxiliar.size();
+				}else{
+				atualDentro = false;				
+				}
+			}
+			
+			x_final = normalizedCoordinates.at(n+1)->getX();
+			y_final = normalizedCoordinates.at(n+1)->getY();
+
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(normalizedCoordinates.at(n+1)->getX() == coordenadaAuxiliar.at(i)->getX() && normalizedCoordinates.at(n+1)->getY() == coordenadaAuxiliar.at(i)->getY()){
+			printf("Proximo dentro\n\n");
+			proximoDentro = true;
+			i = coordenadaAuxiliar.size();
+				}else{
+				proximoDentro = false;				
+				}
+			}
+
+			for(int i = 0; i< coordenadaAuxiliar.size(); i++){
+				if(normalizedCoordinates.at(n-1)->getX() == coordenadaAuxiliar.at(i)->getX() && normalizedCoordinates.at(n-1)->getY() == coordenadaAuxiliar.at(i)->getY()){
+			printf("Anterior dentro, desenhar\n\n");
+			anteriorDentro = true;
+			i = coordenadaAuxiliar.size();
+				}else{
+				anteriorDentro = false;				
+				}
+			}
+
+			if(anteriorDentro&&atualDentro){
 			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
 			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
 
@@ -250,6 +302,32 @@ public:
 			cairo_move_to(cr, x_inicial, y_inicial);
 			cairo_line_to(cr, x_final, y_final);
 			cairo_stroke(cr);
+			}
+
+			if(atualDentro){
+			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
+			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
+
+			x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
+			y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
+
+			cairo_move_to(cr, x_inicial, y_inicial);
+			cairo_line_to(cr, x_final, y_final);
+			cairo_stroke(cr);
+			}
+
+			if(proximoDentro){
+			x_inicial = viewport.obterXdaViewport(x_inicial, window.getXmin(), window.getXmax());
+			y_inicial = viewport.obterYdaViewport(y_inicial, window.getYmin(), window.getYmax());
+
+			x_final = viewport.obterXdaViewport(x_final, window.getXmin(), window.getXmax());
+			y_final = viewport.obterYdaViewport(y_final, window.getYmin(), window.getYmax());
+
+			cairo_move_to(cr, x_inicial, y_inicial);
+			cairo_line_to(cr, x_final, y_final);
+			cairo_stroke(cr);
+			}
+		}
 		}
 	}
 
