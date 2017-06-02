@@ -54,6 +54,7 @@ vector<Coordenada*> bsplineCoordinate;
 
 vector<Polygon*> wireframePolygons;
 vector<Coordenada*> wireframeCoordinates;
+vector<Coordenada*> splineFDBicubicCoordinates;
 
 
 GtkEntry *entry_x_point;
@@ -100,6 +101,18 @@ GtkEntry *entry_r1_z_hermite;
 GtkEntry *entry_r4_x_hermite; 
 GtkEntry *entry_r4_y_hermite;
 GtkEntry *entry_r4_z_hermite;
+
+GtkEntry *entry_x_bezierBicubic; 
+GtkEntry *entry_y_bezierBicubic;
+GtkEntry *entry_z_bezierBicubic;
+
+GtkEntry *entry_x_splineBicubic; 
+GtkEntry *entry_y_splineBicubic;
+GtkEntry *entry_z_splineBicubic;
+
+GtkEntry *entry_x_splineFDBicubic; 
+GtkEntry *entry_y_splineFDBicubic;
+GtkEntry *entry_z_splineFDBicubic;
 
 GtkEntry *entry_x_translate;
 GtkEntry *entry_y_translate;
@@ -405,6 +418,17 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
   bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
+extern "C" G_MODULE_EXPORT void add_point_bsplineFDBicubic_event() {
+  int x = atoi((char*)gtk_entry_get_text(entry_x_splineFDBicubic));
+  int y = atoi((char*)gtk_entry_get_text(entry_y_splineFDBicubic));
+  int z = atoi((char*)gtk_entry_get_text(entry_z_splineFDBicubic));
+
+  splineFDBicubicCoordinates.push_back(new Coordenada(x, y, z));
+
+  printf("X = %u  Y = %u Z = %u", x,y,z);
+  printf(" Ponto numero %u adicionado\n", splineFDBicubicCoordinates.size());
+}
+
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
 
   char *name = "";
@@ -561,13 +585,14 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     wireframe->draw(viewport, window, cr, clippingType);*/
   } else if (strcmp(label, "SurfaceBSplineForward") == 0) {
 	vector<Coordenada*> points;
-	SurfaceSplineFD* bspline = new SurfaceSplineFD(name, points, new Coordenada(0, 0, 0), 
-      new Coordenada(0, 100, 0), new Coordenada(0, 200, 0), new Coordenada(0, 300, 0), new Coordenada(100, 0, 0), 
-      new Coordenada(100, 100, 100), new Coordenada(100, 200, 100), new Coordenada(100, 300, 0), new Coordenada(200, 0, 0), 
-      new Coordenada(200, 100, 100), new Coordenada(200, 200, 100), new Coordenada(200, 300, 0),  new Coordenada(300, 0, 0), 
-      new Coordenada(300, 100, 0), new Coordenada(300, 200, 0), new Coordenada(300, 300, 0));
+	SurfaceSplineFD* bspline = new SurfaceSplineFD(name, points, splineFDBicubicCoordinates.at(0), 
+      splineFDBicubicCoordinates.at(1), splineFDBicubicCoordinates.at(2), splineFDBicubicCoordinates.at(3), splineFDBicubicCoordinates.at(4), 
+      splineFDBicubicCoordinates.at(5), splineFDBicubicCoordinates.at(6), splineFDBicubicCoordinates.at(7), splineFDBicubicCoordinates.at(8), 
+      splineFDBicubicCoordinates.at(9), splineFDBicubicCoordinates.at(10), splineFDBicubicCoordinates.at(11),  splineFDBicubicCoordinates.at(12), 
+      splineFDBicubicCoordinates.at(13), splineFDBicubicCoordinates.at(14), splineFDBicubicCoordinates.at(15));
 	displayFile.addNewObject(bspline);
 	bspline->draw(viewport, window, cr, clippingType);
+	splineFDBicubicCoordinates.clear();
     /*BezierSpline3D* spline = new HermiteSpline(name, points, new Coordenada(p11_x, p11_y, p11_z), 
       new Coordenada(p12_x, p12_y, p12_z), new Coordenada(p13_x, p13_y, p13_z), new Coordenada(p14_x, p14_y, p14_z), new Coordenada(p21_x, p21_y, p21_z), 
       new Coordenada(p22_x, p22_y, p22_z), new Coordenada(p23_x, p23_y, p23_z), new Coordenada(p24_x, p24_y, p24_z), new Coordenada(p31_x, p31_y, p31_z), 
@@ -661,6 +686,10 @@ void initializeGTKComponentes() {
   entry_x_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_translate"));
   entry_y_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_translate"));
   entry_z_translate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z_translate"));
+
+  entry_x_splineFDBicubic = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_splineFDBicubic"));
+  entry_y_splineFDBicubic = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_splineFDBicubic"));
+  entry_z_splineFDBicubic = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z_splineFDBicubic"));
 
   entry_x_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_scale"));
   entry_y_scale = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_scale"));
