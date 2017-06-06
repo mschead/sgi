@@ -441,15 +441,22 @@ extern "C" G_MODULE_EXPORT void add_point_surface_bezier_event() {
 }
 
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
-    //PENSAR NA CRIACAO ATRAVES DE POLIGONOS
     
-//    int x = atoi((char*)gtk_entry_get_text(wireframe_x1));
-//    int y = atoi((char*)gtk_entry_get_text(wireframe_y1));
-//    int z = atoi((char*)gtk_entry_get_text(wireframe_z1));
-//    
-//    bsplineCoordinate.push_back(new Coordenada(x, y, z));
+    int x = atoi((char*)gtk_entry_get_text(wireframe_x1));
+    int y = atoi((char*)gtk_entry_get_text(wireframe_y1));
+    int z = atoi((char*)gtk_entry_get_text(wireframe_z1));
+    
+    polygonCoordinate.push_back(new Coordenada(x, y, z));
 }
 
+extern "C" G_MODULE_EXPORT void add_polygon_wireframe_event() {
+    const char *name = "";
+    
+    Polygon* polygon = new Polygon(name, polygonCoordinate);
+    wireframePolygons.push_back(polygon);
+    
+    polygonCoordinate.clear();
+}
 
 extern "C" G_MODULE_EXPORT void generate_default_surface_event() {
     defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
@@ -475,7 +482,6 @@ extern "C" G_MODULE_EXPORT void generate_default_surface_event() {
 
 extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
     
-    // verificar isso aqui, pois preciso de um nome pra editar
     const char *name = "";
     
     vector<Coordenada*> coordinates_square_1;
@@ -511,8 +517,6 @@ extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
     wireframeCoordinates.push_back(c8);
     Polygon* square_2 = new Polygon(name, coordinates_square_2);
     wireframePolygons.push_back(square_2);
-    
-    
     
     
     vector<Coordenada*> coordinates_square_3;
@@ -849,7 +853,6 @@ int main(int argc, char *argv[]){
  - adicionar a projeção ortogonal
  - adicionar a projeção perspectiva
  - adicionar movimentação da window em z
- - ver se faz sentido ter scale em z para window
  - rotação em torno de um ponto arbitrário
  - se sobrar tempo, refatorar besteiras de código: matrizes, operações repetidas, ...
  

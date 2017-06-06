@@ -655,8 +655,8 @@
                     <signal name="clicked" handler="add_point_wireframe_event" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="x">68</property>
-                    <property name="y">87</property>
+                    <property name="x">9</property>
+                    <property name="y">85</property>
                   </packing>
                 </child>
                 <child>
@@ -690,6 +690,21 @@ Default</property>
                   <packing>
                     <property name="x">232</property>
                     <property name="y">20</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button4">
+                    <property name="label" translatable="yes">Create Polygon</property>
+                    <property name="width_request">116</property>
+                    <property name="height_request">29</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="add_polygon_wireframe_event" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">98</property>
+                    <property name="y">85</property>
                   </packing>
                 </child>
               </object>
