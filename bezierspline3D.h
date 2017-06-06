@@ -377,9 +377,6 @@ public:
 				}
 			}
 
-		for( int i = 0; i<auxLines.size(); i++){
-				auxLines.at(i)->draw(viewport, window, cr, 1);	
-			}
 		}
 
 private:

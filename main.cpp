@@ -32,6 +32,12 @@ static cairo_surface_t *surface = NULL;
 GtkWidget *drawing_area;
 GtkWidget *window_widget;
 
+GtkToggleButton *radio_blending;
+GtkToggleButton *radio_forward;
+
+GtkToggleButton *radio_liang;
+GtkToggleButton *radio_cohen;
+
 GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
 GtkWidget *edit_dialog;
@@ -86,6 +92,14 @@ GtkEntry *wireframe_z1;
 GtkEntry *wireframe_x2;
 GtkEntry *wireframe_y2;
 GtkEntry *wireframe_z2;
+
+GtkEntry *bezier_surface_x;
+GtkEntry *bezier_surface_y;
+GtkEntry *bezier_surface_z;
+
+GtkEntry *bspline_surface_x;
+GtkEntry *bspline_surface_y;
+GtkEntry *bspline_surface_z;
 
 GtkEntry *entry_p1_hermite;
 GtkEntry *entry_p4_hermite;
@@ -165,6 +179,7 @@ static gboolean draw_cb (GtkWidget *widget, cairo_t   *cr,  gpointer   data){
 extern "C" G_MODULE_EXPORT void clear_event(){
     clear_surface ();
     displayFile.deleteAll();
+    gtk_list_store_clear(list_store);
     
     gtk_widget_queue_draw (window_widget);
 }
@@ -409,53 +424,59 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
     bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
-extern "C" G_MODULE_EXPORT void add_surface_bezier_event() {
-    defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 100, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 200, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 300, 0));
+extern "C" G_MODULE_EXPORT void add_point_surface_bspline_event() {
+    int x = atoi((char*)gtk_entry_get_text(bspline_surface_x));
+    int y = atoi((char*)gtk_entry_get_text(bspline_surface_y));
+    int z = atoi((char*)gtk_entry_get_text(bspline_surface_z));
     
-    defaultPointsSurface.push_back(new Coordenada(100, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(100, 100, 100));
-    defaultPointsSurface.push_back(new Coordenada(100, 200, 100));
-    defaultPointsSurface.push_back(new Coordenada(100, 300, 0));
-    
-    defaultPointsSurface.push_back(new Coordenada(200, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(200, 100, 100));
-    defaultPointsSurface.push_back(new Coordenada(200, 200, 100));
-    defaultPointsSurface.push_back(new Coordenada(200, 300, 0));
-    
-    defaultPointsSurface.push_back(new Coordenada(300, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 100, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 200, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 300, 0));
+    bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
-extern "C" G_MODULE_EXPORT void add_surface_bspline_event() {
-    defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 100, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 200, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 300, 0));
+extern "C" G_MODULE_EXPORT void add_point_surface_bezier_event() {
+    int x = atoi((char*)gtk_entry_get_text(bezier_surface_x));
+    int y = atoi((char*)gtk_entry_get_text(bezier_surface_y));
+    int z = atoi((char*)gtk_entry_get_text(bezier_surface_z));
     
-    defaultPointsSurface.push_back(new Coordenada(100, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(100, 100, 100));
-    defaultPointsSurface.push_back(new Coordenada(100, 200, 100));
-    defaultPointsSurface.push_back(new Coordenada(100, 300, 0));
-    
-    defaultPointsSurface.push_back(new Coordenada(200, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(200, 100, 100));
-    defaultPointsSurface.push_back(new Coordenada(200, 200, 100));
-    defaultPointsSurface.push_back(new Coordenada(200, 300, 0));
-    
-    defaultPointsSurface.push_back(new Coordenada(300, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 100, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 200, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 300, 0));
+    bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
+    //PENSAR NA CRIACAO ATRAVES DE POLIGONOS
     
-    char *name = "";
+//    int x = atoi((char*)gtk_entry_get_text(wireframe_x1));
+//    int y = atoi((char*)gtk_entry_get_text(wireframe_y1));
+//    int z = atoi((char*)gtk_entry_get_text(wireframe_z1));
+//    
+//    bsplineCoordinate.push_back(new Coordenada(x, y, z));
+}
+
+
+extern "C" G_MODULE_EXPORT void generate_default_surface_event() {
+    defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 100, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 200, 0));
+    defaultPointsSurface.push_back(new Coordenada(0, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(100, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(100, 100, 100));
+    defaultPointsSurface.push_back(new Coordenada(100, 200, 100));
+    defaultPointsSurface.push_back(new Coordenada(100, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(200, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(200, 100, 100));
+    defaultPointsSurface.push_back(new Coordenada(200, 200, 100));
+    defaultPointsSurface.push_back(new Coordenada(200, 300, 0));
+    
+    defaultPointsSurface.push_back(new Coordenada(300, 0, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 100, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 200, 0));
+    defaultPointsSurface.push_back(new Coordenada(300, 300, 0));
+}
+
+extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
+    
+    // verificar isso aqui, pois preciso de um nome pra editar
+    const char *name = "";
     
     vector<Coordenada*> coordinates_square_1;
     Coordenada* c1 = new Coordenada(50, 100, 0);
@@ -536,9 +557,10 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     
     char* label = getCurrentLabel();
     char* entry_name = (char*) gtk_entry_get_text(entry_object_name);
-    int size = sizeof(entry_name)/sizeof(char);
-    char *name = new char[size];
-    strncpy(name, entry_name, size);
+    string *name_s = new string(entry_name);
+    const char* name = name_s->c_str(); 
+    
+    clippingType = gtk_toggle_button_get_active (radio_cohen) ? 0 : 1;
     
     if (strcmp(label, "Point") == 0) {
         int x = atoi((char*)gtk_entry_get_text(entry_x_point));
@@ -594,19 +616,29 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         vector<Coordenada*> points;
         HermiteSpline* spline = new HermiteSpline(name, points, new Coordenada(p1_x, p1_y, p1_z), 
                 new Coordenada(p4_x, p4_y, p4_z), new Coordenada(r1_x, r1_y, r1_z), new Coordenada(r4_x, r4_y, r4_z));
+        
         displayFile.addNewObject(spline);
         spline->draw(viewport, window, cr, clippingType);
+        
     } else if (strcmp(label, "BSpline") == 0) {
+        
         vector<Coordenada*> coordenadas;
         BSpline* bspline = new BSpline(name, coordenadas, bsplineCoordinate);
         displayFile.addNewObject(bspline);
         bspline->draw(viewport, window, cr, clippingType);
         bsplineCoordinate.clear();
+        
     } else if (strcmp(label, "Wireframe") == 0) {
+        
         Object3D* wireframe = new Object3D(name, wireframePolygons, wireframeCoordinates);
         displayFile.addNewObject(wireframe);
         wireframe->draw(viewport, window, cr, clippingType);
+        
+        wireframePolygons.clear();
+        wireframeCoordinates.clear();
+        
     } else if (strcmp(label, "BezierSurface") == 0) {
+        
 	vector<Coordenada*> points;
         SurfaceBezier* bezier = new SurfaceBezier(name, points, defaultPointsSurface.at(0),
                 defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
@@ -616,21 +648,44 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         
         displayFile.addNewObject(bezier);
         bezier->draw(viewport, window, cr, clippingType);
+        
+        defaultPointsSurface.clear();
+        
     } else if (strcmp(label, "BSplineSurface") == 0) {
+        
 	vector<Coordenada*> points;
-        SurfaceSpline* spline = new SurfaceSpline(name, points, defaultPointsSurface.at(0),
+        
+        if (gtk_toggle_button_get_active (radio_blending)) {
+            
+            SurfaceSpline* spline = new SurfaceSpline(name, points, defaultPointsSurface.at(0),
                 defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
                 defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
                 defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
                 defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
-	spline->draw(viewport, window, cr, clippingType);
+            
+            displayFile.addNewObject(spline);
+            spline->draw(viewport, window, cr, clippingType);
+        
+        } else {
+            
+            SurfaceSplineFD* splineFD = new SurfaceSplineFD(name, points, defaultPointsSurface.at(0),
+                defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
+                defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
+                defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
+                defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
+            
+            displayFile.addNewObject(splineFD);
+            splineFD->draw(viewport, window, cr, clippingType);
+            
+        }
+        
+        defaultPointsSurface.clear();
     }
     
     
     GtkTreeIter iter;
     gtk_list_store_append(list_store, &iter);
-    gtk_list_store_set(list_store, &iter, 0, name, 1, "teste", -1);
-    
+    gtk_list_store_set(list_store, &iter, 0, name, -1);
     
     cairo_stroke(cr);
     gtk_widget_queue_draw (window_widget);
@@ -657,7 +712,13 @@ extern "C" G_MODULE_EXPORT void create_window() {
 
 void initializeGTKComponentes() {
     gtkBuilder = gtk_builder_new();
-    gtk_builder_add_from_file(gtkBuilder, "sgi_test.glade", NULL);
+    gtk_builder_add_from_file(gtkBuilder, "sgi.glade", NULL);
+    
+    radio_blending = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_blending_bspline") );
+    radio_forward = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_forward_bspline") );
+
+    radio_liang = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_liang") );
+    radio_cohen = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_cohen") );
     
     window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "main_window") );
     drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
@@ -688,6 +749,14 @@ void initializeGTKComponentes() {
     entry_x2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x2_line"));
     entry_y2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y2_line"));
     entry_z2_line = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_z2_line"));
+    
+    bspline_surface_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_surface_x"));
+    bspline_surface_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_surface_y"));
+    bspline_surface_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bspline_surface_z"));
+    
+    bezier_surface_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bezier_surface_x"));
+    bezier_surface_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bezier_surface_y"));
+    bezier_surface_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bezier_surface_z"));
     
     wireframe_x1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_x1"));
     wireframe_y1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_y1"));
@@ -732,7 +801,7 @@ void initializeGTKComponentes() {
     
     list_objects = GTK_TREE_VIEW( gtk_builder_get_object( gtkBuilder, "list_objects" ) );
     
-    list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+    list_store = gtk_list_store_new (1, G_TYPE_STRING);
     renderer = gtk_cell_renderer_text_new ();
     gtk_tree_view_insert_column_with_attributes (list_objects,
             -1,
@@ -742,16 +811,16 @@ void initializeGTKComponentes() {
             NULL);
     
     renderer = gtk_cell_renderer_text_new ();
-    gtk_tree_view_insert_column_with_attributes (list_objects,
-            -1,
-            "Type",
-            renderer,
-            "text", 1,
-            NULL);
+//    gtk_tree_view_insert_column_with_attributes (list_objects,
+//            -1,
+//            "Type",
+//            renderer,
+//            "text", 1,
+//            NULL);
     gtk_tree_view_set_model (list_objects, GTK_TREE_MODEL (list_store));
-    gtk_tree_view_column_set_min_width ( gtk_tree_view_get_column (list_objects, 0), 100 );
-    gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 0), 0.5 );
-    gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 1), 0.5 );
+//    gtk_tree_view_column_set_min_width ( gtk_tree_view_get_column (list_objects, 0), 200 );
+//    gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 0), 0.5 );
+//    gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 1), 0.5 );
     
 }
 
@@ -771,3 +840,17 @@ int main(int argc, char *argv[]){
     gtk_main ();
     return 0;
 }
+
+
+/*
+ - testar o meu tipo de clipping
+ - arrumar o restante clipping do luanes
+ - criar forma de adicionar os poligonos para o wireframe
+ - adicionar a projeção ortogonal
+ - adicionar a projeção perspectiva
+ - adicionar movimentação da window em z
+ - ver se faz sentido ter scale em z para window
+ - rotação em torno de um ponto arbitrário
+ - se sobrar tempo, refatorar besteiras de código: matrizes, operações repetidas, ...
+ 
+ */

@@ -12,7 +12,7 @@
 		
 	public:
 
-		Line(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+		Line(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 		}
 
 		void clipping (Window window, Viewport viewport) {

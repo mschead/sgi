@@ -6,7 +6,7 @@
 class HermiteSpline : public Object {
 	
 public:
-	HermiteSpline(char* nome, vector<Coordenada*> coordenadas, 
+	HermiteSpline(const char* nome, vector<Coordenada*> coordenadas, 
 		Coordenada *p1, Coordenada *p4, Coordenada *r1, Coordenada *r4) : Object(nome, coordenadas) {
 		this->p1 = p1;
 		this->p4 = p4;
@@ -68,7 +68,7 @@ public:
 		    vector<Coordenada*> points;
 		    points.push_back(new Coordenada(coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), coordenadas.at(i)->getZ()));
 		    points.push_back(new Coordenada(coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY(), coordenadas.at(i+1)->getZ()));
-		    char* emptyName = "";
+		    const char* emptyName = "";
 		    Line* line = new Line(emptyName, points);
 		    auxLines.push_back(line);
 		    line->draw(viewport, window, cr, clippingType);

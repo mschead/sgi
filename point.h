@@ -10,7 +10,7 @@ private:
 
 public:
 
-	Point(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+	Point(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 	}
 
 	void clipping(Window window, Viewport viewport) {

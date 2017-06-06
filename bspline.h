@@ -5,7 +5,7 @@ class BSpline : public Object {
 	
 	public:
 
-		BSpline(char* nome, vector<Coordenada*> coordenadas, vector<Coordenada*> userPoints) : Object(nome, coordenadas) {
+		BSpline(const char* nome, vector<Coordenada*> coordenadas, vector<Coordenada*> userPoints) : Object(nome, coordenadas) {
 			this->userPoints = userPoints;
 			float teta = 0.01;
 
@@ -110,7 +110,7 @@ class BSpline : public Object {
 		    vector<Coordenada*> points;
 		    points.push_back(coordenadas.at(i));
 		    points.push_back(coordenadas.at(i+1));
-		    char* emptyName = "";
+		    const char* emptyName = "";
 		    Line* line = new Line(emptyName, points);
 
 		    auxLines.push_back(line);

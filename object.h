@@ -12,22 +12,28 @@ using namespace std;
 class Object {
 
 public:
-	Object(char* nome, vector<Coordenada*> coordenadas) {
+	Object(const char* nome, vector<Coordenada*> coordenadas) {
 		this->nome = nome;
 		this->coordenadas = coordenadas;
 	}
 
-	Object(char* nome) {
+	Object(const char* nome) {
 		this->nome = nome;
 	}
 
 	~Object() {
-		delete nome;
-		coordenadas.clear();
-		normalizedCoordinates.clear();
+            delete nome;
+            
+            for (Coordenada* coordinate : coordenadas) {
+                delete coordinate;
+            }
+            
+            for (Coordenada* normalizedCoordinate : normalizedCoordinates) {
+                delete normalizedCoordinate;
+            }
 	}
 
-	char* getName() {
+	const char* getName() {
 		return nome;
 	}
 
@@ -136,7 +142,7 @@ public:
 	void translate(int entryX, int entryY, int entryZ) {
 		Matrix3D m;
 		m.setTranslate(entryX, entryY, entryZ);
-		for (Coordenada* coordenada : coordenadas) {
+            for (Coordenada* coordenada : coordenadas) {
 			printf("ANTES: %f, %f, %f\n", coordenada->getX(), coordenada->getY(), coordenada->getZ());
 			float result[4] = {0, 0, 0, 0};
 			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
@@ -295,7 +301,7 @@ public:
 
 
 protected:
-	char* nome;
+	const char* nome;
 	vector<Coordenada*> coordenadas;
 	vector<Coordenada*> normalizedCoordinates;
 	

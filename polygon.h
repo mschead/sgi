@@ -10,7 +10,7 @@ private:
 	std::vector<Coordenada*> coordenadaAuxiliar;
 public:
 
-	Polygon(char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+	Polygon(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
 	}
 
 	void clipping(Window window, Viewport viewport) {
@@ -55,7 +55,7 @@ public:
 				}
 			}
 		}
-		printf("Numero total de interseccoes: %u\n", intersection.size());
+//		printf("Numero total de interseccoes: %u\n", intersection.size());
 		int posicaoAtualDaInterseccao = 0;
 		
 		//Adicionar as interseccoes para o vetor resultante

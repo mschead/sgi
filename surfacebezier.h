@@ -6,7 +6,7 @@
 class SurfaceBezier : public Object {
 	
 public:
-	SurfaceBezier(char* nome, vector<Coordenada*> coordenadas, 
+	SurfaceBezier(const char* nome, vector<Coordenada*> coordenadas, 
 		Coordenada *p11, Coordenada *p12, Coordenada *p13, Coordenada *p14, Coordenada *p21, Coordenada *p22,Coordenada *p23,Coordenada *p24,Coordenada *p31,Coordenada *p32,Coordenada *p33,Coordenada *p34,Coordenada *p41,Coordenada *p42, Coordenada *p43, Coordenada *p44) : Object(nome, coordenadas) {	
 		printf("%s\n", "entrei no construtor");
 		this->p11 = p11;
@@ -188,10 +188,6 @@ public:
 		resultZ[3][2] = 0;
 		resultZ[3][3] = 0;
 
-		printf("\n\n %f   %f   %f   %u\n", bezier[0][0], bezier[0][1], bezier[0][2], bezier[0][3]);
-		printf("\n\n %f   %f   %f   %u\n", bezier[1][0], bezier[1][1], bezier[1][2], bezier[1][3]);
-		printf("\n\n %f   %f   %f   %u\n", bezier[2][0], bezier[2][1], bezier[2][2], bezier[2][3]);
-		printf("\n\n %f   %f   %f   %u\n", bezier[3][0], bezier[3][1], bezier[3][2], bezier[3][3]);
 
 		printf("%s\n", "Matriz bezier por geometria em X");
 		

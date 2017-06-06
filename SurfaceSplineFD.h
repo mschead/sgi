@@ -23,7 +23,7 @@
 class SurfaceSplineFD : public Object {
     
     public:
-        SurfaceSplineFD(char* nome, vector<Coordenada*> coordenadas, 
+        SurfaceSplineFD(const char* nome, vector<Coordenada*> coordenadas, 
 		Coordenada *p11, Coordenada *p12, Coordenada *p13, Coordenada *p14, 
                 Coordenada *p21, Coordenada *p22, Coordenada *p23, Coordenada *p24, 
                 Coordenada *p31, Coordenada *p32, Coordenada *p33, Coordenada *p34, 

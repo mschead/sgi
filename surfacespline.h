@@ -6,7 +6,7 @@
 class SurfaceSpline : public Object {
 	
 public:
-	SurfaceSpline(char* nome, vector<Coordenada*> coordenadas, 
+	SurfaceSpline(const char* nome, vector<Coordenada*> coordenadas, 
 		Coordenada *p11, Coordenada *p12, Coordenada *p13, Coordenada *p14, Coordenada *p21, Coordenada *p22,Coordenada *p23,Coordenada *p24,Coordenada *p31,Coordenada *p32,Coordenada *p33,Coordenada *p34,Coordenada *p41,Coordenada *p42, Coordenada *p43, Coordenada *p44) : Object(nome, coordenadas) {	
 		printf("%s\n", "entrei no construtor");
 		this->p11 = p11;
