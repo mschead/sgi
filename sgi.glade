@@ -1555,6 +1555,7 @@ Default</property>
             <property name="active">True</property>
             <property name="draw_indicator">True</property>
             <property name="group">radio_liang</property>
+            <signal name="toggled" handler="radio_clipping_event" swapped="no"/>
           </object>
           <packing>
             <property name="x">349</property>

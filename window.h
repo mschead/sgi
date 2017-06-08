@@ -16,6 +16,8 @@ public:
 		this->ymax = ymax;
 		this->xCenter = (xmin + xmax) / 2.0;
 		this->yCenter = (ymin + ymax) / 2.0;
+                printf("%f, %f\n", xCenter, yCenter);
+                printf("%f, %f, %f, %f\n", xmin, xmax, ymin, ymax);
 	}
 
 	float getXmin() {
@@ -104,5 +106,5 @@ public:
 private:
 	float xmin, ymin, xmax, ymax;
 	float xCenter, yCenter, zCenter;
-	float angleZ, angleY, angleX = 0;
+	float angleZ = 0, angleY = 0, angleX = 0;
 };

@@ -193,6 +193,8 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
     float factor_z = atof((char*)gtk_entry_get_text(angle_window_z));
     
     window.setAngleZ(factor_z);
+    window.setAngleY(factor_y);
+    window.setAngleX(factor_x);
     
     for (Object* object : displayFile.getObjects()) {
         object->draw(viewport, window, cr, clippingType);
@@ -201,14 +203,8 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
     gtk_widget_queue_draw (window_widget);
 }
 
-extern "C" G_MODULE_EXPORT void clipping_event() {
-    clippingType = 0;
-    printf("%s\n", " Clipping type setado para 0");
-}
-
-extern "C" G_MODULE_EXPORT void clipping_event2() {
-    clippingType = 1;
-    printf("%s\n", " Clipping type setado para 1");
+extern "C" G_MODULE_EXPORT void radio_clipping_event() {
+    clippingType = gtk_toggle_button_get_active (radio_cohen) ? 0 : 1;
 }
 
 
@@ -564,8 +560,6 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
     string *name_s = new string(entry_name);
     const char* name = name_s->c_str(); 
     
-    clippingType = gtk_toggle_button_get_active (radio_cohen) ? 0 : 1;
-    
     if (strcmp(label, "Point") == 0) {
         int x = atoi((char*)gtk_entry_get_text(entry_x_point));
         int y = atoi((char*)gtk_entry_get_text(entry_y_point));
@@ -847,13 +841,15 @@ int main(int argc, char *argv[]){
 
 
 /*
- - testar o meu tipo de clipping
- - arrumar o restante clipping do luanes
+ - arrumar clippings
  - criar forma de adicionar os poligonos para o wireframe
  - adicionar a projeção ortogonal
  - adicionar a projeção perspectiva
  - adicionar movimentação da window em z
  - rotação em torno de um ponto arbitrário
+ * refatorar:
+ * matrizes
+ * adicionar retas no lugar
  - se sobrar tempo, refatorar besteiras de código: matrizes, operações repetidas, ...
  
  */

@@ -67,7 +67,7 @@ public:
 	void drawNormalized(Window window) {
 		vector<Coordenada*> ortogonalized = ortogonalize(window);
 
-		Matrix translateCenter, rotate, scale, translateBack;
+		Matrix translateCenter, rotate, scale;
 
 		Matrix result1, result2, result3, result;
 
@@ -118,7 +118,7 @@ public:
 
 		result.multiplyMatrices(translateCenter, rotate, result1);
 		result.multiplyMatrices(result1, scale, result2);
-		result.multiplyMatrices(result2, translateBack, result3);
+//                result.multiplyMatrices(result2, translateCenter, result1);
 
 		// printf("\n");
 		// result1.printMatrix3x3(result1);
@@ -131,7 +131,7 @@ public:
 			float normalizePoint[3] = {0, 0, 0};
 			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 
-			result.multiplyPointToMatrix(point, result3, normalizePoint);
+			result.multiplyPointToMatrix(point, result2, normalizePoint);
 
 			// printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1], 1));
@@ -281,7 +281,7 @@ public:
 		Matrix3D m, translateCenter, rotateY, rotateX;
 		Matrix3D result1, result2;
 
-		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0 * window.getZCenter());
+		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0);
 		rotateY.setRotateY(-1 * window.getAngleY());
 		rotateX.setRotateX(-1 * window.getAngleX());
 
@@ -299,6 +299,10 @@ public:
 
 	}
 
+        
+        // 2D: TranslateBack(x, y) * rotateZ * scale
+        // 3D: (TranslateBack(x, y, z) * rotateX * rotateY) * rotateZ * scale
+        
 
 protected:
 	const char* nome;
