@@ -116,8 +116,8 @@ public:
 		// printf("\n");
 		// result1.printMatrix3x3(translateBack);
 
-		result.multiplyMatrices(translateCenter, rotate, result1);
-		result.multiplyMatrices(result1, scale, result2);
+//		result.multiplyMatrices(translateCenter, rotate, result1);
+//		result.multiplyMatrices(rotate, scale, result2);
 //                result.multiplyMatrices(result2, translateCenter, result1);
 
 		// printf("\n");
@@ -129,11 +129,12 @@ public:
 
 		for (Coordenada* coordenada : ortogonalized) {
 			float normalizePoint[3] = {0, 0, 0};
+                        // verificar essa coordenada aqui
 			float point[3] = {coordenada->getX(), coordenada->getY(), 1};
 
-			result.multiplyPointToMatrix(point, result2, normalizePoint);
-
-			// printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
+			result.multiplyPointToMatrix(point, scale, normalizePoint);
+                        
+                        printf("%f, %f\n", normalizePoint[0], normalizePoint[1]);
 			normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1], 1));
 		}
 
@@ -278,31 +279,34 @@ public:
 	std::vector<Coordenada*> ortogonalize(Window window) {
 		
 		std::vector<Coordenada*> perspectiva;
-		Matrix3D m, translateCenter, rotateY, rotateX;
-		Matrix3D result1, result2;
+		Matrix3D m, translateCenter, rotateZ, rotateY, rotateX;
+		Matrix3D result1, result2, result3;
+                result1.setZero();
+                result2.setZero();
+                result3.setZero();
 
-		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0);
+                // LEMBRAR DE COLOCAR O Z
+		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), 0.0);
 		rotateY.setRotateY(-1 * window.getAngleY());
 		rotateX.setRotateX(-1 * window.getAngleX());
+                rotateZ.setRotateZ(-1 * window.getAngleZ());
 
-		m.multiplyMatrices(translateCenter, rotateY, result1);
-		m.multiplyMatrices(result1, rotateX, result2);
-
+		m.multiplyMatrices(translateCenter, rotateX, result1);
+		m.multiplyMatrices(result1, rotateY, result2);
+                m.multiplyMatrices(result2, rotateZ, result3);
+                
 		for (Coordenada* coordenada : coordenadas) {
-			float result3[4] = {0, 0, 0, 0};
-			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
-			m.multiplyPointToMatrix(point, result2, result3);
-			perspectiva.push_back(new Coordenada(point[0], point[1], point[2]));
+			float result4[4] = {0, 0, 0, 0};
+			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1.0};
+			m.multiplyPointToMatrix(point, result3, result4);
+
+                        perspectiva.push_back(new Coordenada(result4[0], result4[1], result4[2]));
 		}
 
 		return perspectiva;
 
 	}
 
-        
-        // 2D: TranslateBack(x, y) * rotateZ * scale
-        // 3D: (TranslateBack(x, y, z) * rotateX * rotateY) * rotateZ * scale
-        
 
 protected:
 	const char* nome;
