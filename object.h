@@ -277,30 +277,37 @@ public:
 
 
 	std::vector<Coordenada*> ortogonalize(Window window) {
-		
+            
 		std::vector<Coordenada*> perspectiva;
-		Matrix3D m, translateCenter, rotateZ, rotateY, rotateX;
-		Matrix3D result1, result2, result3;
+		Matrix3D m, translateCenter, rotateZ, rotateY, rotateX, projecao;
+		Matrix3D result1, result2, result3, result4;
                 result1.setZero();
                 result2.setZero();
                 result3.setZero();
+                result4.setZero();
 
-                // LEMBRAR DE COLOCAR O Z
-		translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), 0.0);
+                if (!window.getProjecaoType()) {
+                    translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0 * window.getZPos());
+                } else {
+                    translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -189.0);
+                    projecao.setProjecaoPerspectiva(-189.0);
+                }
+                
 		rotateY.setRotateY(-1 * window.getAngleY());
 		rotateX.setRotateX(-1 * window.getAngleX());
                 rotateZ.setRotateZ(-1 * window.getAngleZ());
-
+                
 		m.multiplyMatrices(translateCenter, rotateX, result1);
 		m.multiplyMatrices(result1, rotateY, result2);
                 m.multiplyMatrices(result2, rotateZ, result3);
+                m.multiplyMatrices(result3, projecao, result4);
                 
 		for (Coordenada* coordenada : coordenadas) {
-			float result4[4] = {0, 0, 0, 0};
+			float result5[4] = {0, 0, 0, 0};
 			float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1.0};
-			m.multiplyPointToMatrix(point, result3, result4);
+			m.multiplyPointToMatrix(point, result4, result5);
 
-                        perspectiva.push_back(new Coordenada(result4[0], result4[1], result4[2]));
+                        perspectiva.push_back(new Coordenada(result5[0] / result5[3], result5[1] / result5[3], result5[3] / result5[3]));
 		}
 
 		return perspectiva;

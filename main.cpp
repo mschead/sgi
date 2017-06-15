@@ -38,6 +38,9 @@ GtkToggleButton *radio_forward;
 GtkToggleButton *radio_liang;
 GtkToggleButton *radio_cohen;
 
+GtkToggleButton *radio_ortogonal;
+GtkToggleButton *radio_perspectiva;
+
 GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
 GtkWidget *edit_dialog;
@@ -205,6 +208,20 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
 
 extern "C" G_MODULE_EXPORT void radio_clipping_event() {
     clippingType = gtk_toggle_button_get_active (radio_cohen) ? 0 : 1;
+}
+
+extern "C" G_MODULE_EXPORT void radio_projecao_event() {
+    cairo_t *cr = cairo_create (surface);
+    clear_surface();
+    
+    int projecaoType = gtk_toggle_button_get_active (radio_ortogonal) ? 0 : 1;
+    window.setProjecaoType(projecaoType);
+    
+    for (Object* object : displayFile.getObjects()) {
+        object->draw(viewport, window, cr, clippingType);
+    }
+    
+    gtk_widget_queue_draw (window_widget);
 }
 
 
@@ -717,6 +734,9 @@ void initializeGTKComponentes() {
 
     radio_liang = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_liang") );
     radio_cohen = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_cohen") );
+    
+    radio_ortogonal = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_ortogonal") );
+    radio_perspectiva = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_perspectiva") );
     
     window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "main_window") );
     drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );

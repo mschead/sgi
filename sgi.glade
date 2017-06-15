@@ -970,6 +970,16 @@ Default</property>
       </object>
     </child>
   </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="edit_window">
     <property name="can_focus">False</property>
     <child>
@@ -1577,6 +1587,42 @@ Default</property>
           <packing>
             <property name="x">424</property>
             <property name="y">425</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="radio_perspectiva">
+            <property name="label" translatable="yes">perspectiva</property>
+            <property name="width_request">105</property>
+            <property name="height_request">22</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="xalign">0</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+            <property name="group">radio_ortogonal</property>
+          </object>
+          <packing>
+            <property name="x">353</property>
+            <property name="y">470</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="radio_ortogonal">
+            <property name="label" translatable="yes">ortogonal</property>
+            <property name="width_request">93</property>
+            <property name="height_request">22</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="xalign">0</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+            <signal name="toggled" handler="radio_projecao_event" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">238</property>
+            <property name="y">469</property>
           </packing>
         </child>
       </object>

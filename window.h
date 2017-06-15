@@ -16,6 +16,7 @@ public:
 		this->ymax = ymax;
 		this->xCenter = (xmin + xmax) / 2.0;
 		this->yCenter = (ymin + ymax) / 2.0;
+                this->wPos = 0.0;
                 printf("%f, %f\n", xCenter, yCenter);
                 printf("%f, %f, %f, %f\n", xmin, xmax, ymin, ymax);
 	}
@@ -75,9 +76,16 @@ public:
 	void refreshCenter() {
 		xCenter = (xmin + xmax) / 2.0;
 		yCenter = (ymin + ymax) / 2.0;
-		// zCenter = ()
 	}
 
+        void setZPos(float zPos) {
+            this->wPos = zPos;
+        }
+        
+        float getZPos() {
+            return this->wPos;
+        }
+        
 	void setXmin(float xmin) {
 		this->xmin += xmin;
 	}
@@ -102,9 +110,17 @@ public:
 		return this->ymax - this->ymin;
 	}
 
+        void setProjecaoType(int type) {
+            this->projecaoType = type;
+        }
+        
+        int getProjecaoType() {
+            return projecaoType;
+        }
 
 private:
 	float xmin, ymin, xmax, ymax;
-	float xCenter, yCenter, zCenter;
+	float xCenter, yCenter, zCenter, wPos;
 	float angleZ = 0, angleY = 0, angleX = 0;
+        int projecaoType = 0;
 };

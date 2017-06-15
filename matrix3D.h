@@ -65,6 +65,10 @@ public:
 		identity[1][1] = cos (angleRad);
 	}
 
+        void setProjecaoPerspectiva(float zCop) {
+            identity[2][3] = 1.0 / zCop;
+            identity[3][3] = 0.0;
+        }
 
 	void setZero() {
 		for (int i = 0; i < 4; i++) {

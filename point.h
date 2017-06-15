@@ -22,7 +22,7 @@ public:
 	}
 
 	// se for virtual, pode dar erro, verificar
-	void virtual draw(Viewport viewport, Window window, cairo_t *cr,int clippingType) {
+	void virtual draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
 	  normalizedCoordinates.clear();
 	  drawNormalized(window);
 	  desenhar = true;
