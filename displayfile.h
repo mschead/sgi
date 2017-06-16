@@ -4,38 +4,38 @@
 using namespace std;
 
 class Displayfile {
-	
+    
 public:
-
-	void addNewObject(Object* object) {
-		displayFile.push_back(object);
-	}
-
-	Object* getObject() {
-		return displayFile.front();
-	}
-
-	list<Object*> getObjects() {
-		return displayFile;
-	}
-
-	int getSize() {
-		return displayFile.size();
-	}
-
+    
+    void addNewObject(Object* object) {
+        displayFile.push_back(object);
+    }
+    
+    Object* getObject() {
+        return displayFile.front();
+    }
+    
+    list<Object*> getObjects() {
+        return displayFile;
+    }
+    
+    int getSize() {
+        return displayFile.size();
+    }
+    
     void deleteAll() {
-		displayFile.clear();
-	}
-
-	Object* getObjectByName(char* name) {
-		for (Object* object : displayFile) {
-			if (strcmp(object->getName(), name) == 0) {
-				return object;
-			}
-		}
-	}
-
+        displayFile.clear();
+    }
+    
+    Object* getObjectByName(char* name) {
+        for (Object* object : displayFile) {
+            if (strcmp(object->getName(), name) == 0) {
+                return object;
+            }
+        }
+    }
+    
 private:
-	list<Object*> displayFile;
-
+    list<Object*> displayFile;
+    
 };

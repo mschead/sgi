@@ -673,21 +673,21 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         if (gtk_toggle_button_get_active (radio_blending)) {
             
             SurfaceSpline* spline = new SurfaceSpline(name, points, defaultPointsSurface.at(0),
-                defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
-                defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
-                defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
-                defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
+                    defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
+                    defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
+                    defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
+                    defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
             
             displayFile.addNewObject(spline);
             spline->draw(viewport, window, cr, clippingType);
-        
+            
         } else {
             
             SurfaceSplineFD* splineFD = new SurfaceSplineFD(name, points, defaultPointsSurface.at(0),
-                defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
-                defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
-                defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
-                defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
+                    defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
+                    defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
+                    defaultPointsSurface.at(8), defaultPointsSurface.at(9), defaultPointsSurface.at(10), defaultPointsSurface.at(11),
+                    defaultPointsSurface.at(12), defaultPointsSurface.at(13), defaultPointsSurface.at(14), defaultPointsSurface.at(15));
             
             displayFile.addNewObject(splineFD);
             splineFD->draw(viewport, window, cr, clippingType);
@@ -731,7 +731,7 @@ void initializeGTKComponentes() {
     
     radio_blending = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_blending_bspline") );
     radio_forward = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_forward_bspline") );
-
+    
     radio_liang = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_liang") );
     radio_cohen = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_cohen") );
     
@@ -829,16 +829,7 @@ void initializeGTKComponentes() {
             NULL);
     
     renderer = gtk_cell_renderer_text_new ();
-//    gtk_tree_view_insert_column_with_attributes (list_objects,
-//            -1,
-//            "Type",
-//            renderer,
-//            "text", 1,
-//            NULL);
     gtk_tree_view_set_model (list_objects, GTK_TREE_MODEL (list_store));
-//    gtk_tree_view_column_set_min_width ( gtk_tree_view_get_column (list_objects, 0), 200 );
-//    gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 0), 0.5 );
-//    gtk_tree_view_column_set_alignment ( gtk_tree_view_get_column (list_objects, 1), 0.5 );
     
 }
 
@@ -859,17 +850,3 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-
-/*
- - arrumar clippings
- - criar forma de adicionar os poligonos para o wireframe
- - adicionar a projeção ortogonal
- - adicionar a projeção perspectiva
- - adicionar movimentação da window em z
- - rotação em torno de um ponto arbitrário
- * refatorar:
- * matrizes
- * adicionar retas no lugar
- - se sobrar tempo, refatorar besteiras de código: matrizes, operações repetidas, ...
- 
- */

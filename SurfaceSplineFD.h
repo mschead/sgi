@@ -125,22 +125,22 @@ class SurfaceSplineFD : public Object {
                     matrizBSpline[0][1] = 3.0 / 6.0;
                     matrizBSpline[0][2] = -3.0 / 6.0;
                     matrizBSpline[0][3] = 1.0 / 6.0;
-
+                    
                     matrizBSpline[1][0] = 3.0 / 6.0;
                     matrizBSpline[1][1] = -6.0 / 6.0;
                     matrizBSpline[1][2] = 3.0 / 6.0;
                     matrizBSpline[1][3] = 0.0;
-
+                    
                     matrizBSpline[2][0] = -3.0 / 6.0;
                     matrizBSpline[2][1] = 0.0;
                     matrizBSpline[2][2] = 3.0 / 6.0;
                     matrizBSpline[2][3] = 0.0;
-
+                    
                     matrizBSpline[3][0] = 1.0 / 6.0;
                     matrizBSpline[3][1] = 4.0 / 6.0;
                     matrizBSpline[3][2] = 1.0 / 6.0;
                     matrizBSpline[3][3] = 0.0;
-
+                    
                     
                     float resultX[4][4];
                     resultX[0][0] = 0;
@@ -209,15 +209,10 @@ class SurfaceSplineFD : public Object {
                     
                     m.multiplyMatrices4x4by4x4(matrizBSpline, geometryVectorX, resultX);
                     
-                    //printf("%s\n", "Matriz bezier por geometria em Y");
                     m.multiplyMatrices4x4by4x4(matrizBSpline, geometryVectorY, resultY);
                     
-                    //printf("%s\n", "Matriz bezier por geometria em Z");
                     m.multiplyMatrices4x4by4x4(matrizBSpline, geometryVectorZ, resultZ);
                     
-                    //printf("%s\n", "multipliquei bezier");
-
-
                     
                     float matrizBSplineTransposta[4][4];
                     
@@ -225,17 +220,17 @@ class SurfaceSplineFD : public Object {
                     matrizBSplineTransposta[0][1] = 3.0 / 6.0;
                     matrizBSplineTransposta[0][2] = -3.0 / 6.0;
                     matrizBSplineTransposta[0][3] = 1.0 / 6.0;
-
+                    
                     matrizBSplineTransposta[1][0] = 3.0 / 6.0;
                     matrizBSplineTransposta[1][1] = -6.0 / 6.0;
                     matrizBSplineTransposta[1][2] = 0.0 ;
                     matrizBSplineTransposta[1][3] = 4.0 / 6.0;
-
+                    
                     matrizBSplineTransposta[2][0] = -3.0 / 6.0;
                     matrizBSplineTransposta[2][1] = 3.0 / 6.0;
                     matrizBSplineTransposta[2][2] = 3.0 / 6.0;
                     matrizBSplineTransposta[2][3] = 1.0 / 6.0;
-
+                    
                     matrizBSplineTransposta[3][0] = 1.0 / 6.0;
                     matrizBSplineTransposta[3][1] = 0.0;
                     matrizBSplineTransposta[3][2] = 0.0;
@@ -307,9 +302,7 @@ class SurfaceSplineFD : public Object {
                     
                     
                     m.multiplyMatrices4x4by4x4(resultX, matrizBSplineTransposta, resultX2);
-                    //printf("%s\n", "Matriz beziertransposta por resultY");
                     m.multiplyMatrices4x4by4x4(resultY, matrizBSplineTransposta, resultY2);
-                    //printf("%s\n", "Matriz beziertransposta por resultZ");
                     m.multiplyMatrices4x4by4x4(resultZ, matrizBSplineTransposta, resultZ2);
                     
                     // MATRIZ DOS DELTAS
@@ -507,7 +500,7 @@ class SurfaceSplineFD : public Object {
                     DDX_transposta[0][1] = DDX[1][0];
                     DDX_transposta[0][2] = DDX[2][0];
                     DDX_transposta[0][3] = DDX[3][0];
-
+                    
                     DDX_transposta[1][0] = DDX[0][1];
                     DDX_transposta[1][1] = DDX[1][1];
                     DDX_transposta[1][2] = DDX[2][1];
@@ -531,7 +524,7 @@ class SurfaceSplineFD : public Object {
                     DDY_transposta[0][1] = DDY[1][0];
                     DDY_transposta[0][2] = DDY[2][0];
                     DDY_transposta[0][3] = DDY[3][0];
-
+                    
                     DDY_transposta[1][0] = DDY[0][1];
                     DDY_transposta[1][1] = DDY[1][1];
                     DDY_transposta[1][2] = DDY[2][1];
@@ -555,7 +548,7 @@ class SurfaceSplineFD : public Object {
                     DDZ_transposta[0][1] = DDZ[1][0];
                     DDZ_transposta[0][2] = DDZ[2][0];
                     DDZ_transposta[0][3] = DDZ[3][0];
-
+                    
                     DDZ_transposta[1][0] = DDZ[0][1];
                     DDZ_transposta[1][1] = DDZ[1][1];
                     DDZ_transposta[1][2] = DDZ[2][1];
