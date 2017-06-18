@@ -37,6 +37,10 @@ public:
         z = coordenada[2];
     }
     
+    bool operator==(const Coordenada& c) {
+        return x == c.x && y == c.y && z == c.z;
+    }
+    
 private:
     float x;
     float y;

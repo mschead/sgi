@@ -567,14 +567,14 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkEntry" id="wireframe_x1">
+                  <object class="GtkEntry" id="wireframe_x">
                     <property name="width_request">60</property>
                     <property name="height_request">29</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">0</property>
                     <property name="max_width_chars">0</property>
-                    <property name="placeholder_text" translatable="yes">x1</property>
+                    <property name="placeholder_text" translatable="yes">x</property>
                   </object>
                   <packing>
                     <property name="x">5</property>
@@ -582,7 +582,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="wireframe_y1">
+                  <object class="GtkEntry" id="wireframe_y">
                     <property name="width_request">60</property>
                     <property name="height_request">29</property>
                     <property name="visible">True</property>
@@ -590,7 +590,7 @@
                     <property name="width_chars">0</property>
                     <property name="max_width_chars">0</property>
                     <property name="secondary_icon_tooltip_text" translatable="yes">33</property>
-                    <property name="placeholder_text" translatable="yes">y1</property>
+                    <property name="placeholder_text" translatable="yes">y</property>
                   </object>
                   <packing>
                     <property name="x">80</property>
@@ -598,50 +598,18 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="wireframe_z1">
+                  <object class="GtkEntry" id="wireframe_z">
                     <property name="width_request">60</property>
                     <property name="height_request">29</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">0</property>
                     <property name="max_width_chars">0</property>
-                    <property name="placeholder_text" translatable="yes">z1</property>
+                    <property name="placeholder_text" translatable="yes">z</property>
                   </object>
                   <packing>
                     <property name="x">155</property>
                     <property name="y">10</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="wireframe_x2">
-                    <property name="width_request">60</property>
-                    <property name="height_request">29</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="width_chars">0</property>
-                    <property name="max_width_chars">0</property>
-                    <property name="placeholder_text" translatable="yes">x2</property>
-                  </object>
-                  <packing>
-                    <property name="x">5</property>
-                    <property name="y">50</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="wireframe_y2">
-                    <property name="width_request">60</property>
-                    <property name="height_request">29</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="width_chars">0</property>
-                    <property name="max_width_chars">0</property>
-                    <property name="shadow_type">out</property>
-                    <property name="placeholder_text" translatable="yes">y2</property>
-                    <property name="input_purpose">phone</property>
-                  </object>
-                  <packing>
-                    <property name="x">80</property>
-                    <property name="y">50</property>
                   </packing>
                 </child>
                 <child>
@@ -655,25 +623,8 @@
                     <signal name="clicked" handler="add_point_wireframe_event" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="x">9</property>
-                    <property name="y">85</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="wireframe_z2">
-                    <property name="width_request">60</property>
-                    <property name="height_request">29</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="width_chars">0</property>
-                    <property name="max_width_chars">0</property>
-                    <property name="shadow_type">out</property>
-                    <property name="placeholder_text" translatable="yes">z2</property>
-                    <property name="input_purpose">phone</property>
-                  </object>
-                  <packing>
-                    <property name="x">155</property>
-                    <property name="y">50</property>
+                    <property name="x">6</property>
+                    <property name="y">46</property>
                   </packing>
                 </child>
                 <child>
@@ -688,8 +639,8 @@ Default</property>
                     <signal name="clicked" handler="generate_default_wireframe_event" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="x">232</property>
-                    <property name="y">20</property>
+                    <property name="x">227</property>
+                    <property name="y">15</property>
                   </packing>
                 </child>
                 <child>
@@ -704,7 +655,7 @@ Default</property>
                   </object>
                   <packing>
                     <property name="x">98</property>
-                    <property name="y">85</property>
+                    <property name="y">46</property>
                   </packing>
                 </child>
               </object>

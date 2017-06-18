@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdio.h>
 #include <string.h>
+#include <algorithm>
 #include "viewport.h"
 #include "window.h"
 #include "line.h"
@@ -89,9 +90,9 @@ GtkEntry *entry_x2_line;
 GtkEntry *entry_y2_line;
 GtkEntry *entry_z2_line;
 
-GtkEntry *wireframe_x1;
-GtkEntry *wireframe_y1;
-GtkEntry *wireframe_z1;
+GtkEntry *wireframe_x;
+GtkEntry *wireframe_y;
+GtkEntry *wireframe_z;
 GtkEntry *wireframe_x2;
 GtkEntry *wireframe_y2;
 GtkEntry *wireframe_z2;
@@ -467,13 +468,25 @@ extern "C" G_MODULE_EXPORT void add_point_surface_bezier_event() {
     bsplineCoordinate.push_back(new Coordenada(x, y, z));
 }
 
+Coordenada* getCoordinate(Coordenada toCheck) {
+    for (Coordenada* c : wireframeCoordinates) {
+        Coordenada d(1, 2, 3);
+        if (d == toCheck) {
+            return c;
+        }
+    }
+    return new Coordenada(toCheck.getX(), toCheck.getY(), toCheck.getZ());
+}
+
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
     
-    int x = atoi((char*)gtk_entry_get_text(wireframe_x1));
-    int y = atoi((char*)gtk_entry_get_text(wireframe_y1));
-    int z = atoi((char*)gtk_entry_get_text(wireframe_z1));
-    
-    polygonCoordinate.push_back(new Coordenada(x, y, z));
+    int x = atoi((char*)gtk_entry_get_text(wireframe_x));
+    int y = atoi((char*)gtk_entry_get_text(wireframe_y));
+    int z = atoi((char*)gtk_entry_get_text(wireframe_z));
+
+    Coordenada* c = getCoordinate(Coordenada(x, y, z));
+    wireframeCoordinates.push_back(c);
+    polygonCoordinate.push_back(c);
 }
 
 extern "C" G_MODULE_EXPORT void add_polygon_wireframe_event() {
@@ -790,12 +803,9 @@ void initializeGTKComponentes() {
     bezier_surface_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bezier_surface_y"));
     bezier_surface_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "bezier_surface_z"));
     
-    wireframe_x1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_x1"));
-    wireframe_y1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_y1"));
-    wireframe_z1 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_z1"));
-    wireframe_x2 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_x2"));
-    wireframe_y2 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_y2"));
-    wireframe_z2 = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_z2"));
+    wireframe_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_x"));
+    wireframe_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_y"));
+    wireframe_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "wireframe_z"));
     
     entry_x_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_x_point"));
     entry_y_point = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_point"));
@@ -863,11 +873,3 @@ int main(int argc, char *argv[]){
     gtk_main ();
     return 0;
 }
-
-/*
- - arrumar clippings
- - criar forma de adicionar os poligonos para o wireframe
- - adicionar movimentação da window em z
- - rotação em torno de um ponto arbitrário
- - se sobrar tempo, refatorar besteiras de código: matrizes, operações repetidas, ...
- */
