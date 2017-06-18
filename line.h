@@ -170,7 +170,7 @@ public:
     }
     
     
-    bool clipping2(Window window, Viewport viewport) {
+    bool liang_barsky(Window window, Viewport viewport) {
         Coordenada* pontoR1 = normalizedCoordinates.at(0);
         Coordenada* pontoR2 = normalizedCoordinates.at(1);
 
@@ -257,9 +257,10 @@ public:
         drawNormalized(window);
         desenhar = true;
         
-        if (clippingType == 0) {
-            clipping2(window, viewport);
+        if (clippingType == 1) {
+            liang_barsky(window, viewport);
         } else {
+            // cohen_sutherland
             clipping(window, viewport);
         }
         
