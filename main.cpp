@@ -207,7 +207,17 @@ extern "C" G_MODULE_EXPORT void rotate_window() {
 }
 
 extern "C" G_MODULE_EXPORT void radio_clipping_event() {
+    cairo_t *cr = cairo_create (surface);
+    clear_surface();
+    
     clippingType = gtk_toggle_button_get_active (radio_cohen) ? 0 : 1;
+    
+    for (Object* object : displayFile.getObjects()) {
+        object->draw(viewport, window, cr, clippingType);
+    }
+    
+    gtk_widget_queue_draw (window_widget);
+    
 }
 
 extern "C" G_MODULE_EXPORT void radio_projecao_event() {
@@ -384,6 +394,10 @@ extern "C" G_MODULE_EXPORT void scale_object(){
     float entryX = atof((char*)gtk_entry_get_text(entry_x_scale));
     float entryY = atof((char*)gtk_entry_get_text(entry_y_scale));
     float entryZ = atof((char*)gtk_entry_get_text(entry_z_scale));
+    
+    entryX = entryX ? entryX : 1.0;
+    entryY = entryY ? entryY : 1.0;
+    entryZ = entryZ ? entryZ : 1.0;
     
     toEdit->scale(entryX, entryY, entryZ);
     
@@ -850,3 +864,10 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
+/*
+ - arrumar clippings
+ - criar forma de adicionar os poligonos para o wireframe
+ - adicionar movimentação da window em z
+ - rotação em torno de um ponto arbitrário
+ - se sobrar tempo, refatorar besteiras de código: matrizes, operações repetidas, ...
+ */

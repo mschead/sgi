@@ -5,25 +5,25 @@ class Matrix3D {
     
 public:
     Matrix3D() {
-        identity[0][0] = 1;
-        identity[1][0] = 0;
-        identity[2][0] = 0;
-        identity[3][0] = 0;
+        identity[0][0] = 1.0;
+        identity[1][0] = 0.0;
+        identity[2][0] = 0.0;
+        identity[3][0] = 0.0;
         
-        identity[0][1] = 0;
-        identity[1][1] = 1;
-        identity[2][1] = 0;
-        identity[3][1] = 0;
+        identity[0][1] = 0.0;
+        identity[1][1] = 1.0;
+        identity[2][1] = 0.0;
+        identity[3][1] = 0.0;
         
-        identity[0][2] = 0;
-        identity[1][2] = 0;
-        identity[2][2] = 1;
-        identity[3][2] = 0;
+        identity[0][2] = 0.0;
+        identity[1][2] = 0.0;
+        identity[2][2] = 1.0;
+        identity[3][2] = 0.0;
         
-        identity[0][3] = 0;
-        identity[1][3] = 0;
-        identity[2][3] = 0;
-        identity[3][3] = 1;
+        identity[0][3] = 0.0;
+        identity[1][3] = 0.0;
+        identity[2][3] = 0.0;
+        identity[3][3] = 1.0;
     }
     
     void setTranslate(float entryX, float entryY, float entryZ) {

@@ -173,6 +173,12 @@ public:
     bool clipping2(Window window, Viewport viewport) {
         Coordenada* pontoR1 = normalizedCoordinates.at(0);
         Coordenada* pontoR2 = normalizedCoordinates.at(1);
+
+        if (pontoR1->getX() > pontoR2->getX()) {
+            Coordenada* pontoAux = pontoR1;
+            pontoR1 = pontoR2;
+            pontoR2 = pontoAux;
+        } 
         
         float p2 = pontoR2->getX() - pontoR1->getX();
         float p1 = -1.0 * p2;
