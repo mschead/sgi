@@ -7,21 +7,21 @@
 class Polygon : public Object{
 
 private:
-	std::vector<Coordenada*> coordenadaAuxiliar;
+	std::vector<Point*> coordenadaAuxiliar;
 	bool desenhar;
 public:
 
-	Polygon(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+	Polygon(const char* nome, vector<Point*> coordenadas) : Object(nome, coordenadas) {
 	}
 
 	void clipping(Window window, Viewport viewport) {
 		printf("%s\n\n", "Entrei no clipping");
-		vector<Coordenada*> clippingPolygon;
-		vector<Coordenada*> subjectPolygon;
-		vector<Coordenada*> intersection;
-		vector<Coordenada*> reverseIntersection;
+		vector<Point*> clippingPolygon;
+		vector<Point*> subjectPolygon;
+		vector<Point*> intersection;
+		vector<Point*> reverseIntersection;
 
-		normalizedCoordinates.push_back(new Coordenada(normalizedCoordinates.at(0)->getX(),normalizedCoordinates.at(0)->getY(), Z_STUB));
+		normalizedCoordinates.push_back(new Point(normalizedCoordinates.at(0)->getX(),normalizedCoordinates.at(0)->getY(), Z_STUB));
 		
 		//Identificar interseccoes
 		for( int i =0; i<normalizedCoordinates.size()-1; i++){
@@ -34,7 +34,7 @@ public:
 				}else{
 			//Vertice seguinte fora da window
 			printf("vertice seguinte fora da window\n");
-				Coordenada* coordenadaPosterior = new Coordenada(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
+				Point* coordenadaPosterior = new Point(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
 				clippingReta(normalizedCoordinates.at(i), coordenadaPosterior);
 				intersection.push_back(coordenadaPosterior);
 				printf("%s\n", "interseccao calculada, coordenada posterior adicionada ao vetor de interseccoes\n");
@@ -45,15 +45,15 @@ public:
 				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
 			// Proximo vertice dentro da window, calcular interseccao da coordenada anterior
 			printf("vertice seguinte dentro da window: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
-			Coordenada* coordenadaAnterior = new Coordenada(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
+			Point* coordenadaAnterior = new Point(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
 			clippingReta(coordenadaAnterior, normalizedCoordinates.at(i+1));
 			intersection.push_back(coordenadaAnterior);
 			printf("%s\n", "interseccao calculada, coordenada anterior adicionada ao vetor de interseccoes\n\n");
 				}else{
 				// Proximo vertice fora da window, calcular se existe interseccao
 				printf("vertice seguinte fora da window, TRATAR ISSO: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
-				Coordenada* coordenadaAnterior = new Coordenada(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
-				Coordenada* coordenadaPosterior = new Coordenada(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
+				Point* coordenadaAnterior = new Point(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
+				Point* coordenadaPosterior = new Point(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
 				desenhar = true;
 				clippingReta(coordenadaAnterior, coordenadaPosterior);
 				if(desenhar){
@@ -73,7 +73,7 @@ public:
 			if(normalizedCoordinates.at(i)->getX() >= -0.9 && normalizedCoordinates.at(i)->getX() <= 0.9 && normalizedCoordinates.at(i)->getY() >= -0.9 && normalizedCoordinates.at(i)->getY() <= 0.9){
 			//Vertice atual dentro da window e adicionado no clippingPolygon
 			printf("vertice atual dentro e adicionado no clippingPolygon: %f  %f\n", normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY());
-			Coordenada* coordenadaAtual = new Coordenada(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
+			Point* coordenadaAtual = new Point(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
 			clippingPolygon.push_back(coordenadaAtual);
 				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
 			//Vertice seguinte dentro da window
@@ -81,7 +81,7 @@ public:
 				}else{
 			//Vertice seguinte fora da window
 			printf("vertice seguinte fora da window, adicionar interseccao\n\n");
-			Coordenada* coordenadaAtual = new Coordenada(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
+			Point* coordenadaAtual = new Point(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
 			clippingPolygon.push_back(coordenadaAtual);
 			posicaoAtualDaInterseccao++;
 				}
@@ -91,23 +91,23 @@ public:
 				if(normalizedCoordinates.at(i+1)->getX() >= -0.9 && normalizedCoordinates.at(i+1)->getX() <= 0.9 && normalizedCoordinates.at(i+1)->getY() >= -0.9 && normalizedCoordinates.at(i+1)->getY() <= 0.9){
 			// Proximo vertice dentro da window, calcular interseccao da coordenada anterior
 			printf("vertice seguinte dentro da window, adiciona ponto: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
-			Coordenada* coordenadaAtual = new Coordenada(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
+			Point* coordenadaAtual = new Point(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
 			clippingPolygon.push_back(coordenadaAtual);
 			printf("vertice seguinte fora da window, adicionar interseccao \n\n");
 			posicaoAtualDaInterseccao++;
 				}else{
 				// Proximo vertice fora da window, calcular se existe interseccao
 				printf("vertice seguinte fora da window TRATAR ISSO: %f  %f\n", normalizedCoordinates.at(i+1)->getX(), normalizedCoordinates.at(i+1)->getY());
-				Coordenada* coordenadaAnterior = new Coordenada(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
-				Coordenada* coordenadaPosterior = new Coordenada(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
+				Point* coordenadaAnterior = new Point(normalizedCoordinates.at(i)->getX(),normalizedCoordinates.at(i)->getY(), Z_STUB);
+				Point* coordenadaPosterior = new Point(normalizedCoordinates.at(i+1)->getX(),normalizedCoordinates.at(i+1)->getY(), Z_STUB);
 				desenhar = true;
 				clippingReta(coordenadaAnterior, coordenadaPosterior);
 				printf("Deveria adicionar\n");
 				if(desenhar){
-				Coordenada* coordenadaAtual = new Coordenada(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
+				Point* coordenadaAtual = new Point(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
 				clippingPolygon.push_back(coordenadaAtual);
 				posicaoAtualDaInterseccao++;
-				Coordenada* coordenadaPosterior = new Coordenada(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
+				Point* coordenadaPosterior = new Point(intersection.at(posicaoAtualDaInterseccao)->getX(),intersection.at(posicaoAtualDaInterseccao)->getY(), Z_STUB);
 				clippingPolygon.push_back(coordenadaPosterior);
 				posicaoAtualDaInterseccao++;
 				printf("Adicionei\n");
@@ -123,7 +123,7 @@ public:
 
 
 
-	void clippingReta (Coordenada* coordenadaAnterior, Coordenada* coordenadaPosterior) {
+	void clippingReta (Point* coordenadaAnterior, Point* coordenadaPosterior) {
 		float coeficienteAngularX;
 		float coeficienteAngularY;
 
@@ -132,7 +132,7 @@ public:
 		int rc2[4] = {0, 0, 0, 0};
 
 		// Primeiro ponto
-		Coordenada* c1 = coordenadaAnterior;
+		Point* c1 = coordenadaAnterior;
 		
 		rc1[0] = c1->getY() <= 0.9 ? 0 : 1;
 		rc1[1] = c1->getY() >= -0.9 ? 0 : 1;
@@ -140,7 +140,7 @@ public:
 		rc1[3] = c1->getX() >= -0.9 ? 0 : 1;
 
 		// Segundo ponto
-		Coordenada* c2 = coordenadaPosterior;
+		Point* c2 = coordenadaPosterior;
 
 		rc2[0] = c2->getY() <= 0.9 ? 0 : 1;
 		rc2[1] = c2->getY() >= -0.9 ? 0 : 1;
@@ -247,7 +247,7 @@ public:
 		drawNormalized(window);
 
 		for(int i = 0; i< normalizedCoordinates.size(); i++){
-		coordenadaAuxiliar.push_back(new Coordenada (normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), Z_STUB));
+		coordenadaAuxiliar.push_back(new Point (normalizedCoordinates.at(i)->getX(), normalizedCoordinates.at(i)->getY(), Z_STUB));
 		}
 
 		clipping(window, viewport);

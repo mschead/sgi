@@ -8,7 +8,7 @@
 #include "viewport.h"
 #include "window.h"
 #include "line.h"
-#include "point.h"
+#include "dot.h"
 #include "polygon.h"
 #include "hermitespline.h"
 #include "bspline.h"
@@ -16,7 +16,7 @@
 #include "displayfile.h"
 #include "object3D.h"
 #include "bezierspline3D.h"
-#include "SurfaceSplineFD.h"
+#include "surfacesplineFD.h"
 #include "surfacespline.h"
 #include "surfacebezier.h"
 
@@ -46,7 +46,6 @@ GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
 GtkWidget *edit_dialog;
 
-GtkWidget *console;
 GtkNotebook *notebook;
 
 GtkListStore *list_store;
@@ -61,13 +60,13 @@ GtkEntry* entry_z_angle;
 
 GtkListStore *pointsPolygon;
 
-vector<Coordenada*> polygonCoordinate;
-vector<Coordenada*> bsplineCoordinate;
+vector<Point*> polygonCoordinate;
+vector<Point*> bsplineCoordinate;
 
 vector<Polygon*> wireframePolygons;
-vector<Coordenada*> wireframeCoordinates;
+vector<Point*> wireframeCoordinates;
 
-vector<Coordenada*> defaultPointsSurface;
+vector<Point*> defaultPointsSurface;
 
 
 GtkEntry *entry_x_point;
@@ -135,7 +134,10 @@ GtkEntry *entry_x_rotate;
 GtkEntry *entry_y_rotate;
 
 GtkEntry *zoom_factor;
-GtkEntry *step_factor;
+
+GtkEntry *move_window_x;
+GtkEntry *move_window_y;
+GtkEntry *move_window_z;
 
 GtkEntry *angle_window_x;
 GtkEntry *angle_window_y;
@@ -236,63 +238,19 @@ extern "C" G_MODULE_EXPORT void radio_projecao_event() {
 }
 
 
-/* Mover window para esquerda */
-extern "C" G_MODULE_EXPORT void left_window() {
+extern "C" G_MODULE_EXPORT void move_window() {
     cairo_t *cr = cairo_create (surface);
     clear_surface();
     
-    int factor = atoi((char*)gtk_entry_get_text(step_factor));
-    window.setXmin(-1.0 * factor);
-    window.setXmax(-1.0 * factor);
-    window.refreshCenter();
+    float x = atof((char*)gtk_entry_get_text(move_window_x));
+    float y = atof((char*)gtk_entry_get_text(move_window_y));
+    float z = atof((char*)gtk_entry_get_text(move_window_z));
     
-    for (Object* object : displayFile.getObjects()) {
-        object->draw(viewport, window, cr, clippingType);
-    }
-    
-    gtk_widget_queue_draw (window_widget);
-}
-
-/* Mover window para direita */
-extern "C" G_MODULE_EXPORT void right_window() {
-    cairo_t *cr = cairo_create (surface);
-    clear_surface();
-    
-    int factor = atoi((char*)gtk_entry_get_text(step_factor));
-    window.setXmin(factor);
-    window.setXmax(factor);
-    window.refreshCenter();
-    
-    for (Object* object : displayFile.getObjects()) {
-        object->draw(viewport, window, cr, clippingType);
-    }
-    
-    gtk_widget_queue_draw (window_widget);
-}
-
-extern "C" G_MODULE_EXPORT void up_window() {
-    cairo_t *cr = cairo_create (surface);
-    clear_surface();
-    
-    int factor = atoi((char*)gtk_entry_get_text(step_factor));
-    window.setYmin(factor);
-    window.setYmax(factor);
-    window.refreshCenter();
-    
-    for (Object* object : displayFile.getObjects()) {
-        object->draw(viewport, window, cr, clippingType);
-    }
-    
-    gtk_widget_queue_draw (window_widget);
-}
-
-extern "C" G_MODULE_EXPORT void down_window() {
-    cairo_t *cr = cairo_create (surface);
-    clear_surface();
-    
-    int factor = atoi((char*)gtk_entry_get_text(step_factor));
-    window.setYmin(-1 * factor);
-    window.setYmax(-1 * factor);
+    window.setXmin(x);
+    window.setXmax(x);
+    window.setYmin(y);
+    window.setYmax(y);
+    window.setZPos(z);
     window.refreshCenter();
     
     for (Object* object : displayFile.getObjects()) {
@@ -441,7 +399,7 @@ extern "C" G_MODULE_EXPORT void add_point_event() {
     int y = atoi((char*) gtk_entry_get_text(polygon_y));
     int z = atoi((char*) gtk_entry_get_text(polygon_z));
     
-    polygonCoordinate.push_back(new Coordenada(x, y, z));
+    polygonCoordinate.push_back(new Point(x, y, z));
 }
 
 extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
@@ -449,7 +407,7 @@ extern "C" G_MODULE_EXPORT void add_point_bspline_event() {
     int y = atoi((char*)gtk_entry_get_text(bspline_y));
     int z = atoi((char*)gtk_entry_get_text(bspline_z));
     
-    bsplineCoordinate.push_back(new Coordenada(x, y, z));
+    bsplineCoordinate.push_back(new Point(x, y, z));
 }
 
 extern "C" G_MODULE_EXPORT void add_point_surface_bspline_event() {
@@ -457,7 +415,7 @@ extern "C" G_MODULE_EXPORT void add_point_surface_bspline_event() {
     int y = atoi((char*)gtk_entry_get_text(bspline_surface_y));
     int z = atoi((char*)gtk_entry_get_text(bspline_surface_z));
     
-    bsplineCoordinate.push_back(new Coordenada(x, y, z));
+    bsplineCoordinate.push_back(new Point(x, y, z));
 }
 
 extern "C" G_MODULE_EXPORT void add_point_surface_bezier_event() {
@@ -465,17 +423,17 @@ extern "C" G_MODULE_EXPORT void add_point_surface_bezier_event() {
     int y = atoi((char*)gtk_entry_get_text(bezier_surface_y));
     int z = atoi((char*)gtk_entry_get_text(bezier_surface_z));
     
-    bsplineCoordinate.push_back(new Coordenada(x, y, z));
+    bsplineCoordinate.push_back(new Point(x, y, z));
 }
 
-Coordenada* getCoordinate(Coordenada toCheck) {
-    for (Coordenada* c : wireframeCoordinates) {
-        Coordenada d(1, 2, 3);
+Point* getCoordinate(Point toCheck) {
+    for (Point* c : wireframeCoordinates) {
+        Point d(1, 2, 3);
         if (d == toCheck) {
             return c;
         }
     }
-    return new Coordenada(toCheck.getX(), toCheck.getY(), toCheck.getZ());
+    return new Point(toCheck.getX(), toCheck.getY(), toCheck.getZ());
 }
 
 extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
@@ -484,7 +442,7 @@ extern "C" G_MODULE_EXPORT void add_point_wireframe_event() {
     int y = atoi((char*)gtk_entry_get_text(wireframe_y));
     int z = atoi((char*)gtk_entry_get_text(wireframe_z));
 
-    Coordenada* c = getCoordinate(Coordenada(x, y, z));
+    Point* c = getCoordinate(Point(x, y, z));
     wireframeCoordinates.push_back(c);
     polygonCoordinate.push_back(c);
 }
@@ -499,39 +457,39 @@ extern "C" G_MODULE_EXPORT void add_polygon_wireframe_event() {
 }
 
 extern "C" G_MODULE_EXPORT void generate_default_surface_event() {
-    defaultPointsSurface.push_back(new Coordenada(0, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 100, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 200, 0));
-    defaultPointsSurface.push_back(new Coordenada(0, 300, 0));
+    defaultPointsSurface.push_back(new Point(0, 0, 0));
+    defaultPointsSurface.push_back(new Point(0, 100, 0));
+    defaultPointsSurface.push_back(new Point(0, 200, 0));
+    defaultPointsSurface.push_back(new Point(0, 300, 0));
     
-    defaultPointsSurface.push_back(new Coordenada(100, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(100, 100, 100));
-    defaultPointsSurface.push_back(new Coordenada(100, 200, 100));
-    defaultPointsSurface.push_back(new Coordenada(100, 300, 0));
+    defaultPointsSurface.push_back(new Point(100, 0, 0));
+    defaultPointsSurface.push_back(new Point(100, 100, 100));
+    defaultPointsSurface.push_back(new Point(100, 200, 100));
+    defaultPointsSurface.push_back(new Point(100, 300, 0));
     
-    defaultPointsSurface.push_back(new Coordenada(200, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(200, 100, 100));
-    defaultPointsSurface.push_back(new Coordenada(200, 200, 100));
-    defaultPointsSurface.push_back(new Coordenada(200, 300, 0));
+    defaultPointsSurface.push_back(new Point(200, 0, 0));
+    defaultPointsSurface.push_back(new Point(200, 100, 100));
+    defaultPointsSurface.push_back(new Point(200, 200, 100));
+    defaultPointsSurface.push_back(new Point(200, 300, 0));
     
-    defaultPointsSurface.push_back(new Coordenada(300, 0, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 100, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 200, 0));
-    defaultPointsSurface.push_back(new Coordenada(300, 300, 0));
+    defaultPointsSurface.push_back(new Point(300, 0, 0));
+    defaultPointsSurface.push_back(new Point(300, 100, 0));
+    defaultPointsSurface.push_back(new Point(300, 200, 0));
+    defaultPointsSurface.push_back(new Point(300, 300, 0));
 }
 
 extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
     
     const char *name = "";
     
-    vector<Coordenada*> coordinates_square_1;
-    Coordenada* c1 = new Coordenada(50, 100, 0);
+    vector<Point*> coordinates_square_1;
+    Point* c1 = new Point(50, 100, 0);
     coordinates_square_1.push_back(c1);
-    Coordenada* c2 = new Coordenada(100, 100, 0);
+    Point* c2 = new Point(100, 100, 0);
     coordinates_square_1.push_back(c2);
-    Coordenada* c3 = new Coordenada(100, 50, 0);
+    Point* c3 = new Point(100, 50, 0);
     coordinates_square_1.push_back(c3);
-    Coordenada* c4 = new Coordenada(50, 50, 0);
+    Point* c4 = new Point(50, 50, 0);
     coordinates_square_1.push_back(c4);
     
     wireframeCoordinates.push_back(c1);
@@ -541,14 +499,14 @@ extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
     Polygon* square_1 = new Polygon(name, coordinates_square_1);
     wireframePolygons.push_back(square_1);
     
-    vector<Coordenada*> coordinates_square_2;
-    Coordenada* c5 = new Coordenada(100, 100, 0);
+    vector<Point*> coordinates_square_2;
+    Point* c5 = new Point(100, 100, 0);
     coordinates_square_2.push_back(c5);
-    Coordenada* c6 = new Coordenada(100, 100, 50);
+    Point* c6 = new Point(100, 100, 50);
     coordinates_square_2.push_back(c6);
-    Coordenada *c7 = new Coordenada(100, 50, 50);
+    Point *c7 = new Point(100, 50, 50);
     coordinates_square_2.push_back(c7);
-    Coordenada *c8 = new Coordenada(100, 50, 0);
+    Point *c8 = new Point(100, 50, 0);
     coordinates_square_2.push_back(c8);
     
     wireframeCoordinates.push_back(c5);
@@ -559,14 +517,14 @@ extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
     wireframePolygons.push_back(square_2);
     
     
-    vector<Coordenada*> coordinates_square_3;
-    Coordenada* c9 = new Coordenada(50, 100, 0);
+    vector<Point*> coordinates_square_3;
+    Point* c9 = new Point(50, 100, 0);
     coordinates_square_3.push_back(c9);
-    Coordenada* c10 = new Coordenada(50, 100, 50);
+    Point* c10 = new Point(50, 100, 50);
     coordinates_square_3.push_back(c10);
-    Coordenada* c11 = new Coordenada(50, 50, 50);
+    Point* c11 = new Point(50, 50, 50);
     coordinates_square_3.push_back(c11);
-    Coordenada* c12 = new Coordenada(50, 50, 0);
+    Point* c12 = new Point(50, 50, 0);
     coordinates_square_3.push_back(c12);
     
     wireframeCoordinates.push_back(c9);
@@ -577,14 +535,14 @@ extern "C" G_MODULE_EXPORT void generate_default_wireframe_event() {
     wireframePolygons.push_back(square_3);
     
     
-    vector<Coordenada*> coordinates_square_4;
-    Coordenada* c13 = new Coordenada(100, 100, 50);
+    vector<Point*> coordinates_square_4;
+    Point* c13 = new Point(100, 100, 50);
     coordinates_square_4.push_back(c13);
-    Coordenada* c14 = new Coordenada(50, 100, 50);
+    Point* c14 = new Point(50, 100, 50);
     coordinates_square_4.push_back(c14);
-    Coordenada* c15 = new Coordenada(50, 50, 50);
+    Point* c15 = new Point(50, 50, 50);
     coordinates_square_4.push_back(c15);
-    Coordenada* c16 = new Coordenada(100, 50, 50);
+    Point* c16 = new Point(100, 50, 50);
     coordinates_square_4.push_back(c16);
     
     wireframeCoordinates.push_back(c13);
@@ -609,9 +567,9 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         int y = atoi((char*)gtk_entry_get_text(entry_y_point));
         int z = atoi((char*)gtk_entry_get_text(entry_z_point));
         
-        vector<Coordenada*> points;
-        points.push_back(new Coordenada(x, y, z));
-        Point* point = new Point(name, points);
+        vector<Point*> points;
+        points.push_back(new Point(x, y, z));
+        Dot* point = new Dot(name, points);
         displayFile.addNewObject(point);
         point->draw(viewport, window, cr, clippingType);
         
@@ -624,9 +582,9 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         int y2 = atoi((char*)gtk_entry_get_text(entry_y2_line));
         int z2 = atoi((char*)gtk_entry_get_text(entry_z2_line));
         
-        vector<Coordenada*> points;
-        points.push_back(new Coordenada(x1, y1, z1));
-        points.push_back(new Coordenada(x2, y2, z2));
+        vector<Point*> points;
+        points.push_back(new Point(x1, y1, z1));
+        points.push_back(new Point(x2, y2, z2));
         Line* line = new Line(name, points);
         displayFile.addNewObject(line);
         line->draw(viewport, window, cr, clippingType);
@@ -655,16 +613,16 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         int r4_z = atoi((char*)gtk_entry_get_text(entry_r4_z_hermite));
         
         
-        vector<Coordenada*> points;
-        HermiteSpline* spline = new HermiteSpline(name, points, new Coordenada(p1_x, p1_y, p1_z), 
-                new Coordenada(p4_x, p4_y, p4_z), new Coordenada(r1_x, r1_y, r1_z), new Coordenada(r4_x, r4_y, r4_z));
+        vector<Point*> points;
+        HermiteSpline* spline = new HermiteSpline(name, points, new Point(p1_x, p1_y, p1_z), 
+                new Point(p4_x, p4_y, p4_z), new Point(r1_x, r1_y, r1_z), new Point(r4_x, r4_y, r4_z));
         
         displayFile.addNewObject(spline);
         spline->draw(viewport, window, cr, clippingType);
         
     } else if (strcmp(label, "BSpline") == 0) {
         
-        vector<Coordenada*> coordenadas;
+        vector<Point*> coordenadas;
         BSpline* bspline = new BSpline(name, coordenadas, bsplineCoordinate);
         displayFile.addNewObject(bspline);
         bspline->draw(viewport, window, cr, clippingType);
@@ -681,7 +639,7 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         
     } else if (strcmp(label, "BezierSurface") == 0) {
         
-	vector<Coordenada*> points;
+	vector<Point*> points;
         SurfaceBezier* bezier = new SurfaceBezier(name, points, defaultPointsSurface.at(0),
                 defaultPointsSurface.at(1), defaultPointsSurface.at(2), defaultPointsSurface.at(3),
                 defaultPointsSurface.at(4), defaultPointsSurface.at(5), defaultPointsSurface.at(6), defaultPointsSurface.at(7),
@@ -695,7 +653,7 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
         
     } else if (strcmp(label, "BSplineSurface") == 0) {
         
-	vector<Coordenada*> points;
+	vector<Point*> points;
         
         if (gtk_toggle_button_get_active (radio_blending)) {
             
@@ -737,11 +695,11 @@ extern "C" G_MODULE_EXPORT void add_confirm_event() {
 
 extern "C" G_MODULE_EXPORT void create_window() {
     cairo_t *cr = cairo_create (surface);
-    vector<Coordenada*> coordenadas;
-    coordenadas.push_back(new Coordenada(-0.9, -0.9, Z_STUB));
-    coordenadas.push_back(new Coordenada(0.9, -0.9, Z_STUB));
-    coordenadas.push_back(new Coordenada(0.9, 0.9, Z_STUB));
-    coordenadas.push_back(new Coordenada(-0.9, 0.9, Z_STUB));
+    vector<Point*> coordenadas;
+    coordenadas.push_back(new Point(-0.9, -0.9, Z_STUB));
+    coordenadas.push_back(new Point(0.9, -0.9, Z_STUB));
+    coordenadas.push_back(new Point(0.9, 0.9, Z_STUB));
+    coordenadas.push_back(new Point(-0.9, 0.9, Z_STUB));
     Canvas* canvas = new Canvas("window", coordenadas);
     displayFile.addNewObject(canvas);
     canvas->draw(viewport, window, cr, clippingType);
@@ -770,7 +728,6 @@ void initializeGTKComponentes() {
     add_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "add_window"));
     edit_dialog = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "edit_window"));
     
-    //console = GTK_WIDGET( gtk_builder_get_object ( GTK_BUILDER(gtkBuilder), "console"));
     notebook = GTK_NOTEBOOK ( gtk_builder_get_object (GTK_BUILDER (gtkBuilder), "add_notebook"));
     
     entry_object_name = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_object_name"));
@@ -831,7 +788,10 @@ void initializeGTKComponentes() {
     entry_y_rotate = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "entry_y_rotate"));
     
     zoom_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "zoom_factor"));
-    step_factor = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "step_factor"));
+    
+    move_window_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "move_window_x"));
+    move_window_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "move_window_y"));
+    move_window_z = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "move_window_z"));
     
     angle_window_x = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_window_x"));
     angle_window_y = GTK_ENTRY ( gtk_builder_get_object (GTK_BUILDER(gtkBuilder), "angle_window_y"));

@@ -6,8 +6,8 @@
 class HermiteSpline : public Object {
     
     public:
-	HermiteSpline(const char* nome, vector<Coordenada*> coordenadas, 
-		Coordenada *p1, Coordenada *p4, Coordenada *r1, Coordenada *r4) : Object(nome, coordenadas) {
+	HermiteSpline(const char* nome, vector<Point*> coordenadas, 
+		Point *p1, Point *p4, Point *r1, Point *r4) : Object(nome, coordenadas) {
                     this->p1 = p1;
                     this->p4 = p4;
                     this->r1 = r1;
@@ -50,7 +50,7 @@ class HermiteSpline : public Object {
 			}
                         
 			// printf("%f, %f\n", x_final, y_final);
-			this->coordenadas.push_back(new Coordenada(x_final, y_final, z_final));
+			this->coordenadas.push_back(new Point(x_final, y_final, z_final));
                     }
                     
                 }
@@ -63,9 +63,9 @@ class HermiteSpline : public Object {
                     auxLines.clear();
                     
                     for (int i = 0; i < coordenadas.size() - 1; i++) {
-                        vector<Coordenada*> points;
-                        points.push_back(new Coordenada(coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), coordenadas.at(i)->getZ()));
-                        points.push_back(new Coordenada(coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY(), coordenadas.at(i+1)->getZ()));
+                        vector<Point*> points;
+                        points.push_back(new Point(coordenadas.at(i)->getX(), coordenadas.at(i)->getY(), coordenadas.at(i)->getZ()));
+                        points.push_back(new Point(coordenadas.at(i+1)->getX(), coordenadas.at(i+1)->getY(), coordenadas.at(i+1)->getZ()));
                         const char* emptyName = "";
                         Line* line = new Line(emptyName, points);
                         auxLines.push_back(line);
@@ -75,7 +75,7 @@ class HermiteSpline : public Object {
                 }
                 
                 private:
-                    Coordenada *p1, *p4, *r1, *r4;
+                    Point *p1, *p4, *r1, *r4;
                     std::vector<Line*> auxLines;
                     
                     

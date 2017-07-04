@@ -9,7 +9,7 @@ using namespace std;
 class Object3D : public Object {
     
 public:
-    Object3D(const char* nome, vector<Polygon*> wireframePolygons, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+    Object3D(const char* nome, vector<Polygon*> wireframePolygons, vector<Point*> coordenadas) : Object(nome, coordenadas) {
         this->nome = nome;
         this->wireframePolygons = wireframePolygons;
     }

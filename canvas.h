@@ -7,7 +7,7 @@ class Canvas : public Object {
     
     public:
         
-	Canvas(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+	Canvas(const char* nome, vector<Point*> coordenadas) : Object(nome, coordenadas) {
 	}
         
 	void clipping(Window window, Viewport viewport) {

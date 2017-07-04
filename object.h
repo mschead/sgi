@@ -2,7 +2,7 @@
 #define _OBJECT_H_
 
 #include <vector>
-#include "coordenada.h"
+#include "point.h"
 #include "matriz.h"
 #include <math.h>
 #include "matrix3D.h"
@@ -12,7 +12,7 @@ using namespace std;
 class Object {
     
 public:
-    Object(const char* nome, vector<Coordenada*> coordenadas) {
+    Object(const char* nome, vector<Point*> coordenadas) {
         this->nome = nome;
         this->coordenadas = coordenadas;
     }
@@ -24,11 +24,11 @@ public:
     ~Object() {
         delete nome;
         
-        for (Coordenada* coordinate : coordenadas) {
+        for (Point* coordinate : coordenadas) {
             delete coordinate;
         }
         
-        for (Coordenada* normalizedCoordinate : normalizedCoordinates) {
+        for (Point* normalizedCoordinate : normalizedCoordinates) {
             delete normalizedCoordinate;
         }
     }
@@ -37,7 +37,7 @@ public:
         return nome;
     }
     
-    vector<Coordenada*> getPoints() {
+    vector<Point*> getPoints() {
         return coordenadas;
     }
     
@@ -45,12 +45,12 @@ public:
     
     virtual void clipping (Window window, Viewport viewport) = 0;
     
-    Coordenada pontoMedio() {
+    Point pontoMedio() {
         float x = 0;
         float y = 0;
         float z = 0;
         
-        for (Coordenada* coordenada : coordenadas) {
+        for (Point* coordenada : coordenadas) {
             x += coordenada->getX();
             y += coordenada->getY();
             z += coordenada->getZ();
@@ -60,12 +60,12 @@ public:
         y = y / coordenadas.size();
         z = z / coordenadas.size();
         
-        Coordenada c(x, y, z);
+        Point c(x, y, z);
         return c;
     }
     
     void drawNormalized(Window window) {
-        vector<Coordenada*> ortogonalized = ortogonalize(window);
+        vector<Point*> ortogonalized = ortogonalize(window);
         
         Matrix scale;
         float t1, t2;
@@ -80,11 +80,11 @@ public:
         
         scale.setScale(t1, t2);
         
-        for (Coordenada* coordenada : ortogonalized) {
+        for (Point* coordenada : ortogonalized) {
             float normalizePoint[3] = {0, 0, 0};
             float point[3] = {coordenada->getX(), coordenada->getY(), 1};
             scale.multiplyPointToMatrix(point, scale, normalizePoint);
-            normalizedCoordinates.push_back(new Coordenada(normalizePoint[0], normalizePoint[1], 1));
+            normalizedCoordinates.push_back(new Point(normalizePoint[0], normalizePoint[1], 1));
         }
         
     }
@@ -92,7 +92,7 @@ public:
     void translate(int entryX, int entryY, int entryZ) {
         Matrix3D m;
         m.setTranslate(entryX, entryY, entryZ);
-        for (Coordenada* coordenada : coordenadas) {
+        for (Point* coordenada : coordenadas) {
             float result[4] = {0, 0, 0, 0};
             float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
             m.multiplyPointToMatrix(point, m, result);
@@ -102,7 +102,7 @@ public:
     }
     
     void scale(float entryX, float entryY, float entryZ) {
-        Coordenada pontoMedio = this->pontoMedio();
+        Point pontoMedio = this->pontoMedio();
         
         Matrix3D m1, m2, m3, result1, result2;
         
@@ -116,7 +116,7 @@ public:
         m1.multiplyMatrices(m1, m2, result1);
         m1.multiplyMatrices(result1, m3, result2);
         
-        for (Coordenada* coordenada : coordenadas) {
+        for (Point* coordenada : coordenadas) {
             float result3[4] = {0, 0, 0, 0};
             float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
             m1.multiplyPointToMatrix(point, result2, result3);
@@ -127,7 +127,7 @@ public:
     
     void rotate(int angX, int angY, int angZ) {
         
-        Coordenada pontoMedio = this->pontoMedio();
+        Point pontoMedio = this->pontoMedio();
         
         Matrix3D m1, matrixX, matrixY, matrixZ, m3, resultX, resultY, resultZ, finalResult;
         
@@ -158,7 +158,7 @@ public:
         resultY.printMatrix4x4(resultY);
         resultZ.printMatrix4x4(resultZ);
         
-        for (Coordenada* coordenada : coordenadas) {
+        for (Point* coordenada : coordenadas) {
             float finalPoint[4] = {0, 0, 0, 0};
             float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1};
             m1.multiplyPointToMatrix(point, finalResult, finalPoint);
@@ -192,7 +192,7 @@ public:
         
         // m1.printMatrix3x3(result2);
         
-        for (Coordenada* coordenada : coordenadas) {
+        for (Point* coordenada : coordenadas) {
             float result3[3] = {0, 0, 0};
             float point[3] = {coordenada->getX(), coordenada->getY(), 1};
             m1.multiplyPointToMatrix(point, result2, result3);
@@ -202,9 +202,9 @@ public:
     }
     
     
-    std::vector<Coordenada*> ortogonalize(Window window) {
+    std::vector<Point*> ortogonalize(Window window) {
         
-        std::vector<Coordenada*> perspectiva;
+        std::vector<Point*> perspectiva;
         Matrix3D m, translateCenter, rotateZ, rotateY, rotateX, projecao;
         Matrix3D result1, result2, result3, result4;
         result1.setZero();
@@ -215,7 +215,7 @@ public:
         if (!window.getProjecaoType()) {
             translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0 * window.getZPos());
         } else {
-            translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -189.0);
+            translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -189.0 + window.getZPos());
             projecao.setProjecaoPerspectiva(-189.0);
         }
         
@@ -228,12 +228,12 @@ public:
         m.multiplyMatrices(result2, rotateZ, result3);
         m.multiplyMatrices(result3, projecao, result4);
         
-        for (Coordenada* coordenada : coordenadas) {
+        for (Point* coordenada : coordenadas) {
             float result5[4] = {0, 0, 0, 0};
             float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1.0};
             m.multiplyPointToMatrix(point, result4, result5);
             
-            perspectiva.push_back(new Coordenada(result5[0] / result5[3], result5[1] / result5[3], result5[3] / result5[3]));
+            perspectiva.push_back(new Point(result5[0] / result5[3], result5[1] / result5[3], result5[3] / result5[3]));
         }
         
         return perspectiva;
@@ -243,8 +243,8 @@ public:
     
 protected:
     const char* nome;
-    vector<Coordenada*> coordenadas;
-    vector<Coordenada*> normalizedCoordinates;
+    vector<Point*> coordenadas;
+    vector<Point*> normalizedCoordinates;
     
 };
 

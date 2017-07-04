@@ -1,42 +1,49 @@
-#ifndef _POINT_H_
-#define _POINT_H_
-
-#include "object.h"
-
-class Point : public Object{
+class Point {
     
-    private:
-	bool desenhar = true;
-        
-        public:
-            
-            Point(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
-            }
-            
-            void clipping(Window window, Viewport viewport) {
-                
-		if(normalizedCoordinates.at(0)->getX() > 0.9 || normalizedCoordinates.at(0)->getX() < -0.9 || normalizedCoordinates.at(0)->getY() > 0.9 || normalizedCoordinates.at(0)->getY() < -0.9){
-                    desenhar = false;	
-		}
-		
-            }
-            
-            // se for virtual, pode dar erro, verificar
-            void virtual draw(Viewport viewport, Window window, cairo_t *cr, int clippingType) {
-                normalizedCoordinates.clear();
-                drawNormalized(window);
-                desenhar = true;
-                clipping(window, viewport);
-                
-                if(desenhar) {
-                    int x = viewport.obterXdaViewport(normalizedCoordinates.at(0)->getX(), window.getXmin(), window.getXmax());
-                    int y = viewport.obterYdaViewport(normalizedCoordinates.at(0)->getY(), window.getYmin(), window.getYmax());
-                    
-                    cairo_arc(cr, x, y, 1, 0, 2*3.1415);
-                    cairo_stroke(cr);
-		}
-            }
-            
+public:
+    Point(float x, float y, float z) {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+    }
+    
+    float getX() {
+        return x;
+    }
+    
+    float getY() {
+        return y;
+    }
+    
+    float getZ() {
+        return z;
+    }
+    
+    void setX(float x) {
+        this->x = x;
+    }
+    
+    void setY(float y) {
+        this->y = y;
+    }
+    
+    void setZ(float z) {
+        this->z = z;
+    }
+    
+    void setCoordenada(float* coordenada) {
+        x = coordenada[0];
+        y = coordenada[1];
+        z = coordenada[2];
+    }
+    
+    bool operator==(const Point& c) {
+        return x == c.x && y == c.y && z == c.z;
+    }
+    
+private:
+    float x;
+    float y;
+    float z;
+    
 };
-
-#endif

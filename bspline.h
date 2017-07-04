@@ -5,7 +5,7 @@ class BSpline : public Object {
     
     public:
         
-        BSpline(const char* nome, vector<Coordenada*> coordenadas, vector<Coordenada*> userPoints) : Object(nome, coordenadas) {
+        BSpline(const char* nome, vector<Point*> coordenadas, vector<Point*> userPoints) : Object(nome, coordenadas) {
             this->userPoints = userPoints;
             float teta = 0.01;
             
@@ -36,10 +36,10 @@ class BSpline : public Object {
             float pontosFwdX[4], pontosFwdY[4], pontosFwdZ[4];
             
             for (int i = 0; i < userPoints.size() - 3; i++) {
-                Coordenada *p1 = userPoints.at(i);
-                Coordenada *p2 = userPoints.at(i+1);
-                Coordenada *p3 = userPoints.at(i+2);
-                Coordenada *p4 = userPoints.at(i+3);
+                Point *p1 = userPoints.at(i);
+                Point *p2 = userPoints.at(i+1);
+                Point *p3 = userPoints.at(i+2);
+                Point *p4 = userPoints.at(i+3);
                 
                 coeficienteX[0] = p1->getX();
                 coeficienteX[1] = p2->getX();
@@ -107,7 +107,7 @@ class BSpline : public Object {
             
             for (int i = 0; i < normalizedCoordinates.size() - 1; i++) {
                 
-                vector<Coordenada*> points;
+                vector<Point*> points;
                 points.push_back(coordenadas.at(i));
                 points.push_back(coordenadas.at(i+1));
                 const char* emptyName = "";
@@ -123,7 +123,7 @@ class BSpline : public Object {
             float yOld = pontosFwdY[0];
             float zOld = pontosFwdZ[0];
             
-            coordenadas.push_back(new Coordenada(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));
+            coordenadas.push_back(new Point(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));
             
             printf("%s\n\n", "Comecando foward differences");
             
@@ -140,7 +140,7 @@ class BSpline : public Object {
                 pontosFwdZ[1] += pontosFwdZ[2];
                 pontosFwdZ[2] += pontosFwdZ[3];
                 
-                coordenadas.push_back(new Coordenada(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));		
+                coordenadas.push_back(new Point(pontosFwdX[0], pontosFwdY[0], pontosFwdZ[0]));		
                 
                 xOld = pontosFwdX[0];
                 yOld = pontosFwdY[0];
@@ -154,7 +154,7 @@ class BSpline : public Object {
 	}
         
 	private:
-            std::vector<Coordenada*> userPoints;
+            std::vector<Point*> userPoints;
             std::vector<Line*> auxLines;
             float matrizTeta[4][4];
             

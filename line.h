@@ -12,7 +12,7 @@ private:
     
 public:
     
-    Line(const char* nome, vector<Coordenada*> coordenadas) : Object(nome, coordenadas) {
+    Line(const char* nome, vector<Point*> coordenadas) : Object(nome, coordenadas) {
     }
     
     void clipping (Window window, Viewport viewport) {
@@ -24,7 +24,7 @@ public:
         int rc2[4] = {0, 0, 0, 0};
         
         // Primeiro ponto
-        Coordenada* c1 = this->normalizedCoordinates.at(0);
+        Point* c1 = this->normalizedCoordinates.at(0);
         
         rc1[0] = c1->getY() <= 0.9 ? 0 : 1;
         rc1[1] = c1->getY() >= -0.9 ? 0 : 1;
@@ -32,7 +32,7 @@ public:
         rc1[3] = c1->getX() >= -0.9 ? 0 : 1;
         
         // Segundo ponto
-        Coordenada* c2 = this->normalizedCoordinates.at(1);
+        Point* c2 = this->normalizedCoordinates.at(1);
         
         rc2[0] = c2->getY() <= 0.9 ? 0 : 1;
         rc2[1] = c2->getY() >= -0.9 ? 0 : 1;
@@ -171,11 +171,11 @@ public:
     
     
     bool liang_barsky(Window window, Viewport viewport) {
-        Coordenada* pontoR1 = normalizedCoordinates.at(0);
-        Coordenada* pontoR2 = normalizedCoordinates.at(1);
+        Point* pontoR1 = normalizedCoordinates.at(0);
+        Point* pontoR2 = normalizedCoordinates.at(1);
 
         if (pontoR1->getX() > pontoR2->getX()) {
-            Coordenada* pontoAux = pontoR1;
+            Point* pontoAux = pontoR1;
             pontoR1 = pontoR2;
             pontoR2 = pontoAux;
         } 

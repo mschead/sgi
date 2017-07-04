@@ -6,8 +6,8 @@
 class SurfaceBezier : public Object {
     
     public:
-	SurfaceBezier(const char* nome, vector<Coordenada*> coordenadas, 
-		Coordenada *p11, Coordenada *p12, Coordenada *p13, Coordenada *p14, Coordenada *p21, Coordenada *p22,Coordenada *p23,Coordenada *p24,Coordenada *p31,Coordenada *p32,Coordenada *p33,Coordenada *p34,Coordenada *p41,Coordenada *p42, Coordenada *p43, Coordenada *p44) : Object(nome, coordenadas) {	
+	SurfaceBezier(const char* nome, vector<Point*> coordenadas, 
+		Point *p11, Point *p12, Point *p13, Point *p14, Point *p21, Point *p22,Point *p23,Point *p24,Point *p31,Point *p32,Point *p33,Point *p34,Point *p41,Point *p42, Point *p43, Point *p44) : Object(nome, coordenadas) {	
                     this->p11 = p11;
                     this->p12 = p12;
                     this->p13 = p13;
@@ -333,7 +333,7 @@ class SurfaceBezier : public Object {
                             
                             printf("\n\n %f   %f   %f   %f\n", x_final, y_final, z_final, t);
                             
-                            Coordenada* coordenadaNova = new Coordenada(x_final,y_final,z_final);
+                            Point* coordenadaNova = new Point(x_final,y_final,z_final);
                             this->coordenadas.push_back(coordenadaNova);
                             vetores[auxliarVetor].push_back(coordenadaNova);
                         }		
@@ -351,7 +351,7 @@ class SurfaceBezier : public Object {
                     
                     for(int i= 0; i<6; i++){ //( ligando pontos da esquerda pra direita)
 			for (int j= 0; j<5; j++){			
-                            vector<Coordenada*> points;
+                            vector<Point*> points;
                             /*printf("Ligando ponto %f %f %f \n", vetores[i].at(j)->getX(),  vetores[i].at(j)->getY(), vetores[i].at(j)->getZ());*/
                             points.push_back(vetores[i].at(j));
                             points.push_back(vetores[i].at(j+1));
@@ -362,7 +362,7 @@ class SurfaceBezier : public Object {
                     
                     for(int i= 0; i<6; i++){ //( ligando pontos de cima pra baixo)
 			for (int j= 0; j<5; j++){			
-                            vector<Coordenada*> points;
+                            vector<Point*> points;
                             points.push_back(vetores[j].at(i));
                             points.push_back(vetores[j+1].at(i));
                             Line* line = new Line("", points);
@@ -376,9 +376,9 @@ class SurfaceBezier : public Object {
 		}
                 
                 private:
-                    Coordenada *p11, *p12, *p13, *p14, *p21, *p22, *p23, *p24, *p31, *p32, *p33, *p34, *p41, *p42, *p43, *p44;
+                    Point *p11, *p12, *p13, *p14, *p21, *p22, *p23, *p24, *p31, *p32, *p33, *p34, *p41, *p42, *p43, *p44;
                     std::vector<Line*> auxLines;
-                    std::vector<Coordenada*> vetores[6];
+                    std::vector<Point*> vetores[6];
                     
                     
 };

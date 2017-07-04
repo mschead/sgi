@@ -1263,7 +1263,7 @@ Default</property>
             <signal name="clicked" handler="zoom_out" swapped="no"/>
           </object>
           <packing>
-            <property name="x">86</property>
+            <property name="x">93</property>
             <property name="y">253</property>
           </packing>
         </child>
@@ -1278,82 +1278,8 @@ Default</property>
             <signal name="clicked" handler="zoom_in" swapped="no"/>
           </object>
           <packing>
-            <property name="x">55</property>
-            <property name="y">253</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="right_button">
-            <property name="label" translatable="yes">right</property>
-            <property name="width_request">48</property>
-            <property name="height_request">30</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="right_window" swapped="no"/>
-          </object>
-          <packing>
-            <property name="x">117</property>
-            <property name="y">357</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="up_button">
-            <property name="label" translatable="yes">up</property>
-            <property name="width_request">40</property>
-            <property name="height_request">30</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="up_window" swapped="no"/>
-          </object>
-          <packing>
-            <property name="x">66</property>
-            <property name="y">325</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="down_button">
-            <property name="label" translatable="yes">down</property>
-            <property name="width_request">53</property>
-            <property name="height_request">30</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="down_window" swapped="no"/>
-          </object>
-          <packing>
             <property name="x">61</property>
-            <property name="y">357</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="left_button">
-            <property name="label" translatable="yes">left</property>
-            <property name="width_request">40</property>
-            <property name="height_request">29</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="left_window" swapped="no"/>
-          </object>
-          <packing>
-            <property name="x">20</property>
-            <property name="y">358</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="step_factor">
-            <property name="width_request">60</property>
-            <property name="height_request">29</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="width_chars">0</property>
-            <property name="placeholder_text" translatable="yes">factor</property>
-          </object>
-          <packing>
-            <property name="x">56</property>
-            <property name="y">293</property>
+            <property name="y">253</property>
           </packing>
         </child>
         <child>
@@ -1366,7 +1292,7 @@ Default</property>
             <property name="placeholder_text" translatable="yes">zoom</property>
           </object>
           <packing>
-            <property name="x">56</property>
+            <property name="x">62</property>
             <property name="y">222</property>
           </packing>
         </child>
@@ -1386,20 +1312,6 @@ Default</property>
           <packing>
             <property name="x">215</property>
             <property name="y">17</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTextView" id="console">
-            <property name="width_request">300</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="editable">False</property>
-            <property name="left_margin">3</property>
-          </object>
-          <packing>
-            <property name="x">215</property>
-            <property name="y">325</property>
           </packing>
         </child>
         <child>
@@ -1435,15 +1347,15 @@ Default</property>
         <child>
           <object class="GtkEntry" id="angle_window_x">
             <property name="width_request">50</property>
-            <property name="height_request">29</property>
+            <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="width_chars">0</property>
             <property name="placeholder_text" translatable="yes">x</property>
           </object>
           <packing>
-            <property name="x">19</property>
-            <property name="y">404</property>
+            <property name="x">11</property>
+            <property name="y">368</property>
           </packing>
         </child>
         <child>
@@ -1458,7 +1370,7 @@ Default</property>
           </object>
           <packing>
             <property name="x">61</property>
-            <property name="y">438</property>
+            <property name="y">407</property>
           </packing>
         </child>
         <child>
@@ -1472,36 +1384,36 @@ Default</property>
             <signal name="clicked" handler="create_window" swapped="no"/>
           </object>
           <packing>
-            <property name="x">222</property>
-            <property name="y">421</property>
+            <property name="x">214</property>
+            <property name="y">329</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="angle_window_y">
             <property name="width_request">50</property>
-            <property name="height_request">29</property>
+            <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="width_chars">0</property>
             <property name="placeholder_text" translatable="yes">y</property>
           </object>
           <packing>
-            <property name="x">73</property>
-            <property name="y">405</property>
+            <property name="x">66</property>
+            <property name="y">369</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="angle_window_z">
             <property name="width_request">50</property>
-            <property name="height_request">29</property>
+            <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="width_chars">0</property>
             <property name="placeholder_text" translatable="yes">z</property>
           </object>
           <packing>
-            <property name="x">128</property>
-            <property name="y">405</property>
+            <property name="x">121</property>
+            <property name="y">368</property>
           </packing>
         </child>
         <child>
@@ -1518,8 +1430,8 @@ Default</property>
             <signal name="toggled" handler="radio_clipping_event" swapped="no"/>
           </object>
           <packing>
-            <property name="x">349</property>
-            <property name="y">426</property>
+            <property name="x">334</property>
+            <property name="y">333</property>
           </packing>
         </child>
         <child>
@@ -1536,8 +1448,8 @@ Default</property>
             <property name="group">radio_cohen</property>
           </object>
           <packing>
-            <property name="x">424</property>
-            <property name="y">425</property>
+            <property name="x">405</property>
+            <property name="y">333</property>
           </packing>
         </child>
         <child>
@@ -1554,8 +1466,8 @@ Default</property>
             <property name="group">radio_ortogonal</property>
           </object>
           <packing>
-            <property name="x">353</property>
-            <property name="y">470</property>
+            <property name="x">340</property>
+            <property name="y">372</property>
           </packing>
         </child>
         <child>
@@ -1572,8 +1484,65 @@ Default</property>
             <signal name="toggled" handler="radio_projecao_event" swapped="no"/>
           </object>
           <packing>
-            <property name="x">238</property>
-            <property name="y">469</property>
+            <property name="x">227</property>
+            <property name="y">372</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button5">
+            <property name="label" translatable="yes">move</property>
+            <property name="width_request">51</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="move_window" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">65</property>
+            <property name="y">330</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="move_window_x">
+            <property name="width_request">50</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="placeholder_text" translatable="yes">x</property>
+          </object>
+          <packing>
+            <property name="x">13</property>
+            <property name="y">293</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="move_window_y">
+            <property name="width_request">50</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="placeholder_text" translatable="yes">y</property>
+          </object>
+          <packing>
+            <property name="x">66</property>
+            <property name="y">293</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="move_window_z">
+            <property name="width_request">50</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="placeholder_text" translatable="yes">z</property>
+          </object>
+          <packing>
+            <property name="x">120</property>
+            <property name="y">293</property>
           </packing>
         </child>
       </object>
