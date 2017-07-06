@@ -1,12 +1,12 @@
-#include <gtk/gtk.h>
+//#include <gtk/gtk.h>
 #include <iostream>
 
 #include <vector>
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
-#include "viewport.h"
-#include "window.h"
+//#include "viewport.h"
+//#include "window.h"
 #include "line.h"
 #include "dot.h"
 #include "polygon.h"
@@ -14,9 +14,9 @@
 #include "bspline.h"
 #include "canvas.h"
 #include "displayfile.h"
-#include "object3D.h"
-#include "bezierspline3D.h"
-#include "surfacesplineFD.h"
+#include "object3d.h"
+#include "bezierspline3d.h"
+#include "surfacesplinefd.h"
 #include "surfacespline.h"
 #include "surfacebezier.h"
 
