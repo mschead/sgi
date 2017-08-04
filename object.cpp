@@ -189,8 +189,8 @@ vector<Point*> Object::ortogonalize(Window window) {
     if (!window.getProjecaoType()) {
         translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0 * window.getZPos());
     } else {
-        translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -189.0 + window.getZPos());
-        projecao.setProjecaoPerspectiva(-189.0);
+        translateCenter.setTranslate(-1.0 * window.getXCenter(), -1.0 * window.getYCenter(), -1.0 * window.getCop() + window.getZPos());
+        projecao.setProjecaoPerspectiva(-1.0 * window.getCop());
     }
 
     rotateY.setRotateY(-1 * window.getAngleY());
@@ -207,7 +207,7 @@ vector<Point*> Object::ortogonalize(Window window) {
         float point[4] = {coordenada->getX(), coordenada->getY(), coordenada->getZ(), 1.0};
         m.multiplyPointToMatrix(point, result4, result5);
 
-        perspectiva.push_back(new Point(result5[0] / result5[3], result5[1] / result5[3], result5[3] / result5[3]));
+        perspectiva.push_back(new Point(result5[0] / result5[3], result5[1] / result5[3], result5[2] / result5[3]));
     }
 
     return perspectiva;

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
+#include <valarray>
 //#include "viewport.h"
 //#include "window.h"
 #include "line.h"
@@ -30,6 +31,9 @@ Displayfile displayFile;
 int clippingType = 0;
 
 static cairo_surface_t *surface = NULL;
+
+
+
 GtkWidget *drawing_area;
 GtkWidget *window_widget;
 
@@ -41,6 +45,8 @@ GtkToggleButton *radio_cohen;
 
 GtkToggleButton *radio_ortogonal;
 GtkToggleButton *radio_perspectiva;
+GtkScale *slider_perspectiva;
+GtkAdjustment *adjustment_perspectiva;
 
 GtkBuilder *gtkBuilder;
 GtkWidget *add_dialog;
@@ -237,6 +243,21 @@ extern "C" G_MODULE_EXPORT void radio_projecao_event() {
     gtk_widget_queue_draw (window_widget);
 }
 
+extern "C" G_MODULE_EXPORT void perspectiva_value_changed() {
+    
+    cairo_t *cr = cairo_create (surface);
+    clear_surface();
+    
+    int cop = gtk_adjustment_get_value(adjustment_perspectiva);  
+    window.setCop(cop);
+    
+    for (Object* object : displayFile.getObjects()) {
+        object->draw(viewport, window, cr, clippingType);
+    }
+    
+    gtk_widget_queue_draw (window_widget);
+    
+}
 
 extern "C" G_MODULE_EXPORT void move_window() {
     cairo_t *cr = cairo_create (surface);
@@ -722,6 +743,8 @@ void initializeGTKComponentes() {
     
     radio_ortogonal = GTK_TOGGLE_BUTTON( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_ortogonal") );
     radio_perspectiva = GTK_TOGGLE_BUTTON ( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "radio_perspectiva") );
+    slider_perspectiva = GTK_SCALE( gtk_builder_get_object( gtkBuilder, "slider_pespectiva" ) );
+    adjustment_perspectiva = GTK_ADJUSTMENT( gtk_builder_get_object( gtkBuilder, "adjustment_perspectiva" ) );
     
     window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "main_window") );
     drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );

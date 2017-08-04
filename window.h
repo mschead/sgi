@@ -118,9 +118,18 @@ public:
         return projecaoType;
     }
     
+    void setCop(int cop) {
+        this->cop = cop;
+    }
+    
+    int getCop() {
+        return cop;
+    }
+    
 private:
     float xmin, ymin, xmax, ymax;
     float xCenter, yCenter, zPos;
     float angleZ = 0, angleY = 0, angleX = 0;
     int projecaoType = 0;
+    int cop = -180;
 };
